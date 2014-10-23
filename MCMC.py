@@ -22,7 +22,7 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
   variances=[]
   k=1
   dimensionIter=range(dimension)
-  threshold = 150
+  threshold = 350
   
   # Some preparation
   directory = '{0}_{1}_{2}_{3}'.format(directoryName, string, dimension, numberOfSamples)
@@ -30,8 +30,8 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
  
   algo = Algo(string, dimension, 50)
   # Generate the proposal variances and scale them according to the dimension
-  helper=numpy.logspace(-2, 5, 50, True, 2.0) #RWM in 5D
-  #helper = numpy.logspace(-1, 4, 6, True, 2.0)
+  #helper=numpy.logspace(-2, 5, 50, True, 2.0) RWM in 5D
+  helper = numpy.logspace(-1, 4, 30, True, 2.0)
   for var in helper:
     variances.append(var/dimension)
   # Initialize the init value
@@ -54,7 +54,7 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
     print('Acceptance rate: {0}'.format(tmp))
     print('Integrated autocorrelation: {0}'.format(tmp2/dimension))
     print('-----------------------------------------------------------')
-    #algo.plotDistribution(result[1], 2)
+    #algo.plotDistribution(result[1], 1)
     if result[0]<0.02:
       break
   pylab.figure()
@@ -109,19 +109,26 @@ class Algo:
     y = numpy.zeros(dimension+1)
     # Mean of the proposals
     mean = [0.0 for i in range(dimension)]
+    # Flag for a simple analysis of only one dimension and the prefered dimension
+    analyseDim=0
+    simpleAnalysis=True
     # Some helpers
     tmp=[]
-    covarianceMatrixSum=[[0.0 for i in range(dimension)] for i in range(dimension)]
+    sampleMean=[0.0 for i in range(dimension)]
     covarianceMatrix=[[0.0 for i in range(dimension)] for i in range(dimension)]
+    if simpleAnalysis is False:
+      covarianceMatrixSum=[[0.0 for i in range(dimension)] for i in range(dimension)]
+      sampleMeanSum=[0.0 for i in range(dimension)]
+    else:
+      covarianceMatrixSum=0.0
+      sampleMeanSum=0.0
     temp=0.0
     temp2=0.0
     temp3=0.0
-    sampleMeanSum=[0.0 for i in range(dimension)]
-    sampleMean=[0.0 for i in range(dimension)]
-    
+       
     # Check dimensions and set initial sample
     if initialPosition and len(initialPosition) == dimension :
-      print('Start simulation with given initial value: {0}'.format(initialPosition))
+      #print('Start simulation with given initial value: {0}'.format(initialPosition))
       for dim in range(dimension):
         tmp = initialPosition[dim]
         x.append( tmp )
@@ -129,7 +136,7 @@ class Algo:
       x.append(False)
     # If not initialize, set all entries to zero
     elif not initialPosition:
-      print('Start simulation with initial value zero')
+      #print('Start simulation with initial value zero')
       for dim in range(dimension):
         x.append(0.0)
       # Last entry is for acceptance flag
@@ -162,7 +169,7 @@ class Algo:
         tmp = self.acceptanceStep(self.evaluateMultimodalGaussian, y, x)
         x[dim] = tmp[dim]
       acceptance=tmp[dimension]
-
+      
       # Count steps for the burn-in
       if flag is False:
         warmUp += 1
@@ -172,7 +179,7 @@ class Algo:
       # Reaching the burn-in, we start the counter and sample
       if flag:
         counter += 1
-        #print(counter)
+        #print(counter, end='\r')
           
       # Calculate acceptance rate
       if acceptance:
@@ -185,34 +192,52 @@ class Algo:
         for dim in range(dimension):
           samples[dim].append( x[dim] )
 
+      percentage = format(100*counter/numberOfSamples, '.0f')
+      print('Processing: {0}%'.format(percentage), end='\r')
+
       # Calculation of sample mean and sample variance of all steps and in addition the mean and covariance for each iteration to plot them at the end
       if analyseFlag is True and counter >= 1:
-        for dim in range(dimension):
-          # Add the new coordinate to the existent sum 
-          sampleMeanSum[dim] += x[dim]
-          # Divide by the number of added samples
-          if counter > 1:
-            sampleMean[dim] = sampleMeanSum[dim] / (counter-1)
-          elif counter == 1:
-            sampleMean[dim]=sampleMeanSum[dim]
-        # Use symmetry of covariance matrix (upper triangular matrix)
-        for dim1 in range(dimension):
-          for dim2 in range(dim1, dimension):
-            # sampled covariance matrix
-            covarianceMatrixSum[dim1][dim2]+=( x[dim1]-sampleMean[dim1] )*( x[dim2]-sampleMean[dim2] ) 
-            # Divide by (numberOfSamples-1) for an unbiased estimate.
+        if simpleAnalysis is False:
+          for dim in range(dimension):
+            # Add the new coordinate to the existent sum 
+            sampleMeanSum[dim] += x[dim]
+            # Divide by the number of added samples
             if counter > 1:
-              covarianceMatrix[dim1][dim2] = covarianceMatrixSum[dim1][dim2] / (counter -1)
+              sampleMean[dim] = sampleMeanSum[dim] / (counter-1)
             elif counter == 1:
-              covarianceMatrix[dim1][dim2] = covarianceMatrixSum[dim1][dim2]
-
+              sampleMean[dim] = sampleMeanSum[dim]
+        else:
+          sampleMeanSum = x[analyseDim]
+          if counter>1:
+            sampleMean[analyseDim] = sampleMeanSum / (counter -1)
+          else:
+            sampleMean[analyseDim] = sampleMeanSum
+        if simpleAnalysis is False:
+          # Use symmetry of covariance matrix (upper triangular matrix)
+          for dim1 in range(dimension):
+            for dim2 in range(dim1, dimension):
+              # sampled covariance matrix
+              covarianceMatrixSum[dim1][dim2]+=( x[dim1]-sampleMean[dim1] )*( x[dim2]-sampleMean[dim2] ) 
+              # Divide by (numberOfSamples-1) for an unbiased estimate.
+              if counter > 1:
+                covarianceMatrix[dim1][dim2] = covarianceMatrixSum[dim1][dim2] / (counter -1)
+              elif counter == 1:
+                covarianceMatrix[dim1][dim2] = covarianceMatrixSum[dim1][dim2]
+        else:
+          covarianceMatrixSum += (x[analyseDim]-sampleMean[analyseDim])**2
+          if counter>1:
+            covarianceMatrix[0][0] = (counter-1)**-1 * covarianceMatrixSum
+          else:
+            covarianceMatrix[0][0] = covarianceMatrixSum
+            
     print('Acceptance rate: {0}'.format(acceptRate))
           
     if analyseFlag is True:
-      #print('Sample variance: ', covarianceMatrix)
-      #print('Sample mean: ', sampleMean)
-      print('Sample mean of first dimension: {0}'.format(sampleMean[0]))
-      print('Sample variance of first dimension: {0}'.format(covarianceMatrix[0][0]))
+      #print('Sample variance: {0}'.format(covarianceMatrix))
+      #print('Sample mean: {0}'.format(sampleMean))
+      helperDim=analyseDim+1
+      print('Sample mean of dimension {1}: {0}'.format(sampleMean[analyseDim], helperDim))
+      print('Sample variance of dimension {1}: {0}'.format(covarianceMatrix[analyseDim][analyseDim], helperDim))
 
 
     if returnSamples:
@@ -302,7 +327,7 @@ class Algo:
       lag=range(maxS)
       pylab.subplot(211)
       pylab.bar(lag, autocor[:maxS], 0.01, label='Autocorrelation')
-      pylab.ylim([-0.1, 1.0])
+      pylab.ylim([-0.1, 1.1])
       #pylab.acorr(autocor)
       pylab.xlabel('lag')
       pylab.ylabel('ACF')
@@ -333,7 +358,7 @@ class Algo:
     
   def evaluateMultimodalGaussian(self, position=[]):
     """
-    Implement the taget distribution without normalization constants. 
+    Implement the target distribution without normalization constants. 
     Here we have the multimodal example of Roberts and Rosenthal (no product measure)
     """
     m = 3.0
