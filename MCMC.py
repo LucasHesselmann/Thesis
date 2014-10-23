@@ -380,7 +380,7 @@ class Algo:
     if not position or len(position) != self._dimension+1:
       raise RuntimeError('In calculateGradient: Empty argument or wrong dimension')
     else:
-      h = 1e-6
+      h = 1e-8
       grad = []
       shiftedpos1 = []
       shiftedpos2 = []
@@ -414,4 +414,3 @@ class Algo:
     else:
       position[self._dimension]=False
       return position
-      
