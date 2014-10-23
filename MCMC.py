@@ -30,8 +30,8 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
  
   algo = Algo(string, dimension, 50)
   # Generate the proposal variances and scale them according to the dimension
-  #helper=numpy.logspace(-2, 5, 50, True, 2.0) RWM in 5D
-  helper = numpy.logspace(-1, 4, 6, True, 2.0)
+  helper=numpy.logspace(-2, 5, 50, True, 2.0) #RWM in 5D
+  #helper = numpy.logspace(-1, 4, 6, True, 2.0)
   for var in helper:
     variances.append(var/dimension)
   # Initialize the init value
@@ -51,8 +51,8 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
       acceptRate.append(tmp)
       k+=1
     print('-----------------------------------------------------------')
-    print('Acceptance rate: ', tmp)
-    print('Integrated autocorrelation: ', tmp2/dimension)
+    print('Acceptance rate: {0}'.format(tmp))
+    print('Integrated autocorrelation: {0}'.format(tmp2/dimension))
     print('-----------------------------------------------------------')
     #algo.plotDistribution(result[1], 2)
     if result[0]<0.02:
@@ -121,7 +121,7 @@ class Algo:
     
     # Check dimensions and set initial sample
     if initialPosition and len(initialPosition) == dimension :
-      print('Start simulation with given initial value: ', initialPosition)
+      print('Start simulation with given initial value: {0}'.format(initialPosition))
       for dim in range(dimension):
         tmp = initialPosition[dim]
         x.append( tmp )
@@ -211,8 +211,8 @@ class Algo:
     if analyseFlag is True:
       #print('Sample variance: ', covarianceMatrix)
       #print('Sample mean: ', sampleMean)
-      print('Sample mean of first dimension: ', sampleMean[0])
-      print('Sample variance of first dimension: ', covarianceMatrix[0][0])
+      print('Sample mean of first dimension: {0}'.format(sampleMean[0]))
+      print('Sample variance of first dimension: {0}'.format(covarianceMatrix[0][0]))
 
 
     if returnSamples:
@@ -289,10 +289,10 @@ class Algo:
     # Normalizing autocor[0]
     autocor[0] = 0
 
-    print('Modified sample variance: ', msvar)   
-    print('Standard Error of the Mean: ', sem)   
-    print('AutoCorrelation Time: ', act)   
-    print('Effective Sample Size: ', ess)   
+    print('Modified sample variance: {0}'.format(msvar))   
+    print('Standard Error of the Mean: {0}'.format(sem))   
+    print('AutoCorrelation Time: {0}'.format(act))   
+    print('Effective Sample Size: {0}'.format(ess))   
 
     if maxS>50:
       maxS=50
