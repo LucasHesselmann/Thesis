@@ -206,7 +206,7 @@ class Algo:
             elif counter == 1:
               covarianceMatrix[dim1][dim2] = covarianceMatrixSum[dim1][dim2]
 
-    print('Acceptance rate: ', acceptRate)
+    print('Acceptance rate: {0}'.format(acceptRate))
           
     if analyseFlag is True:
       #print('Sample variance: ', covarianceMatrix)
