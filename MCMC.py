@@ -7,6 +7,8 @@ import pylab
 import random
 import math
 from mpl_toolkits.mplot3d import Axes3D
+#from mpl_toolkits import mplot3d
+
 
 def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
   """
@@ -28,7 +30,8 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
  
   algo = Algo(string, dimension, 50)
   # Generate the proposal variances and scale them according to the dimension
-  helper=numpy.logspace(-2, 5, 100, True, 2.0)
+  #helper=numpy.logspace(-2, 5, 50, True, 2.0) RWM in 5D
+  helper = numpy.logspace(-1, 4, 6, True, 2.0)
   for var in helper:
     variances.append(var/dimension)
   # Initialize the init value
@@ -40,7 +43,7 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
     tmp = format(result[0], '.2f')
     if result[0]>0.79:
       continue
-    fileName=os.path.join(directory, '{0}_{1}.png'.format(k, tmp))
+    fileName=os.path.join(directory, '{0}_{1}_{2}.png'.format(string, k, tmp))
     #print('Filename: ', fileName)
     tmp2=algo.analyseData(result[1],[0], result[3], fileName)  
     if tmp2/dimension < threshold:
@@ -51,6 +54,7 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
     print('Acceptance rate: ', tmp)
     print('Integrated autocorrelation: ', tmp2/dimension)
     print('-----------------------------------------------------------')
+    #algo.plotDistribution(result[1], 2)
     if result[0]<0.02:
       break
   pylab.figure()
@@ -58,7 +62,7 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
   pylab.ylabel('convergence time')
   pylab.xlabel('acceptance rate')
   pylab.grid(True)
-  fileName1=os.path.join(directory, '{0}.png'.format(resultName))
+  fileName1=os.path.join(directory, '{0}_{1}_Dim{2}.png'.format(string, resultName, dimension))
   pylab.savefig(fileName1) 
   pylab.clf()
                           
@@ -202,7 +206,7 @@ class Algo:
             elif counter == 1:
               covarianceMatrix[dim1][dim2] = covarianceMatrixSum[dim1][dim2]
 
-    #print('Acceptance rate: ', acceptRate)
+    print('Acceptance rate: ', acceptRate)
           
     if analyseFlag is True:
       #print('Sample variance: ', covarianceMatrix)
@@ -290,14 +294,15 @@ class Algo:
     print('AutoCorrelation Time: ', act)   
     print('Effective Sample Size: ', ess)   
 
-    if maxS>100:
-      maxS=100
+    if maxS>50:
+      maxS=50
 
     #Print some results if possible
     if True:
       lag=range(maxS)
       pylab.subplot(211)
       pylab.bar(lag, autocor[:maxS], 0.01, label='Autocorrelation')
+      pylab.ylim([-0.1, 1.0])
       #pylab.acorr(autocor)
       pylab.xlabel('lag')
       pylab.ylabel('ACF')
@@ -414,3 +419,31 @@ class Algo:
     else:
       position[self._dimension]=False
       return position
+
+  def plotDistribution(self, samples, dimension):
+    """
+    Plot the results in 1D and 2D.
+    """
+    if dimension == 2:
+      fig=pylab.figure()
+      ax = Axes3D(fig)
+      #ax = fig.add_subplot(111, projection='3d')
+      x = samples[0]
+      y = samples[1]
+      hist, xedges, yedges = numpy.histogram2d(x, y, bins=40)
+      elements = (len(xedges) - 1) * (len(yedges) - 1)
+      xpos, ypos = numpy.meshgrid(xedges[:-1]+0.1, yedges[:-1]+0.1)
+      xpos = xpos.flatten()
+      ypos = ypos.flatten()
+      zpos = numpy.zeros(elements)
+      dx = 0.5 * numpy.ones_like(zpos)
+      dy = dx.copy()
+      dz = hist.flatten()
+      ax.bar3d(xpos, ypos, zpos, dx, dy, dz, color='b', zsort='average')
+      pylab.show()
+      #pylab.clf()
+    if (dimension == 1):
+      #pylab.figure()
+      pylab.hist(samples[0], bins=300, normed=True)
+      pylab.show()
+      #pylab.clf()
