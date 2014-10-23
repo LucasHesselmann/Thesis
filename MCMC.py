@@ -13,51 +13,54 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
   Make a diagramm to show behavior of the algo depending on the scaling of the variance.
   """
   result=[]
-  intAutocor=[]
+  autocor=[]
   acceptRate=[]
   steps=[]
   init=[]
   variances=[]
   k=1
   dimensionIter=range(dimension)
+  threshold = 150
   
   # Some preparation
   directory = '{0}_{1}_{2}_{3}'.format(directoryName, string, dimension, numberOfSamples)
   os.makedirs(directory) 
  
-  algo = Algo(string, dimension)
+  algo = Algo(string, dimension, 50)
   # Generate the proposal variances and scale them according to the dimension
-  helper=numpy.linspace(0.01, 30, 50)
+  helper=numpy.logspace(-2, 5, 100, True, 2.0)
   for var in helper:
     variances.append(var/dimension)
   # Initialize the init value
   for dim in dimensionIter:
-    init.append(random.gauss(-3.0, 1.0))
+    init.append(random.gauss(0.0, 0.2))
   # Simulate for each variance in variances.
   for var in variances:
     result=algo.simulation(numberOfSamples, var, False, True, True, init)
     tmp = format(result[0], '.2f')
-    if result[0]>0.90:
+    if result[0]>0.79:
       continue
-    acceptRate.append(tmp)
     fileName=os.path.join(directory, '{0}_{1}.png'.format(k, tmp))
     #print('Filename: ', fileName)
-    tmp2=algo.analyseData(result[1],-3, fileName)  
-    intAutocor.append(tmp2)
-    k+=1
+    tmp2=algo.analyseData(result[1],[0], result[3], fileName)  
+    if tmp2/dimension < threshold:
+      autocor.append(tmp2/dimension)
+      acceptRate.append(tmp)
+      k+=1
     print('-----------------------------------------------------------')
-    print('Integrated autocorrelation: ', tmp2)
     print('Acceptance rate: ', tmp)
+    print('Integrated autocorrelation: ', tmp2/dimension)
     print('-----------------------------------------------------------')
-    if result[0]<0.05:
+    if result[0]<0.02:
       break
   pylab.figure()
-  pylab.plot(acceptRate, intAutocor, 'ro', label='Convergence time')
+  pylab.plot(acceptRate, autocor, 'ro', label='Convergence time')
   pylab.ylabel('convergence time')
   pylab.xlabel('acceptance rate')
   pylab.grid(True)
   fileName1=os.path.join(directory, '{0}.png'.format(resultName))
-  pylab.savefig(fileName1)   
+  pylab.savefig(fileName1) 
+  pylab.clf()
                           
   
 class Algo:
@@ -77,7 +80,7 @@ class Algo:
     self.setDimension( dimension )
 
       
-  def simulation(self, numberOfSamples, variance, analyticGradient=False, analyseFlag=True, returnSamples=False, initialPosition=[], printName=None):
+  def simulation(self, numberOfSamples, variance, analyticGradient=False, analyseFlag=True, returnSamples=False, initialPosition=[]):
     """
     Main simulation.
     """
@@ -101,24 +104,17 @@ class Algo:
     # Proposals
     y = numpy.zeros(dimension+1)
     # Mean of the proposals
-    mean = []
+    mean = [0.0 for i in range(dimension)]
     # Some helpers
     tmp=[]
+    covarianceMatrixSum=[[0.0 for i in range(dimension)] for i in range(dimension)]
     covarianceMatrix=[[0.0 for i in range(dimension)] for i in range(dimension)]
-    covarianceMatrix2=[[0.0 for i in range(dimension)] for i in range(dimension)]
     temp=0.0
     temp2=0.0
     temp3=0.0
-    sampleMeanNorm=0.0
-    sampleMeanNormVec=[]
-    meanNorm=0.0
-    meanNormVec=[]
-    varianceVec=[]
-    varianceVec2=[]
     sampleMeanSum=[0.0 for i in range(dimension)]
     sampleMean=[0.0 for i in range(dimension)]
-
-
+    
     # Check dimensions and set initial sample
     if initialPosition and len(initialPosition) == dimension :
       print('Start simulation with given initial value: ', initialPosition)
@@ -131,34 +127,35 @@ class Algo:
     elif not initialPosition:
       print('Start simulation with initial value zero')
       for dim in range(dimension):
-        x.append(0.)
+        x.append(0.0)
       # Last entry is for acceptance flag
       x.append(False)
     else:
       raise RuntimeError('Dimension of initial value do not correspond to dimension of the MCMC method')
-                
+    
     # Repeat generating new samples
-    print('Generate a sample of size:', numberOfSamples)
+    print('Generate a sample of size: {0} and dimension: {1} with MCMC-type: {2}'.format(numberOfSamples, dimension, algoType))
     while sampleCounter < numberOfSamples:
       # Calculate the mean of your proposal
       if algoType in ['RWM']:
         for dim in range(dimension):
-          mean.append(x[dim])
+          mean[dim] = x[dim]
       elif algoType in ['MALA']:
         if analyticGradient is True:
           grad = self.evaluateGradientOfMultimodalGaussian(self.evaluateMultimodalGaussian, x)
         else:
-          grad = self.calculateGradient( self.evaluateGaussian, x )
+          grad = self.calculateGradient( self.evaluateMultimodalGaussian, x )
         for dim in range(dimension):
-          mean.append(x[dim] + 0.5*variance*grad[dim] )
-            
+          mean[dim] = x[dim] + 0.5*variance*grad[dim]
+        
       # Generate the proposal
       for dim in range(dimension):
-        y[dim]=( self.generateGaussian(mean[dim], variance) )
- 
+        y[dim]=  self.generateGaussian(mean[dim], variance)
+          
+          
       # Accept or reject
       for dim in range(dimension):
-        tmp = self.acceptanceStep(self.evaluateGaussian, y, x)
+        tmp = self.acceptanceStep(self.evaluateMultimodalGaussian, y, x)
         x[dim] = tmp[dim]
       acceptance=tmp[dimension]
 
@@ -172,7 +169,7 @@ class Algo:
       if flag:
         counter += 1
         #print(counter)
-
+          
       # Calculate acceptance rate
       if acceptance:
         acceptCounter += 1
@@ -186,199 +183,136 @@ class Algo:
 
       # Calculation of sample mean and sample variance of all steps and in addition the mean and covariance for each iteration to plot them at the end
       if analyseFlag is True and counter >= 1:
-        if counter == 1:
-          for dim in range(dimension):
-            # Take the sum of each coordinate for each dimension
-            sampleMeanSum[dim]=x[dim]
-            # In the first step: the coordinate is the mean
+        for dim in range(dimension):
+          # Add the new coordinate to the existent sum 
+          sampleMeanSum[dim] += x[dim]
+          # Divide by the number of added samples
+          if counter > 1:
+            sampleMean[dim] = sampleMeanSum[dim] / (counter-1)
+          elif counter == 1:
             sampleMean[dim]=sampleMeanSum[dim]
-        elif counter > 1:
-          for dim in range(dimension):
-            # Add the new coordinate to the existent sum 
-            sampleMeanSum[dim]= x[dim] + sampleMeanSum[dim]
-            # Divide by the number of added samples
-            sampleMean[dim]= sampleMeanSum[dim] /(counter-1)
-        # Calculate the norm of the sample mean and the actual norm of each sample and calculate the covariance matrix
-        sampleMeanNorm=0.0
-        meanNorm=0.0
-        # Use symmetry of covariance matrix
+        # Use symmetry of covariance matrix (upper triangular matrix)
         for dim1 in range(dimension):
           for dim2 in range(dim1, dimension):
             # sampled covariance matrix
-            covarianceMatrix[dim1][dim2]+=( x[dim1]-sampleMean[dim1] )*( x[dim2]-sampleMean[dim2] ) 
-            # covariance matrix for each sample
-            covarianceMatrix2[dim1][dim2]=( x[dim1]-sampleMean[dim1] )*( x[dim2]-sampleMean[dim2] ) 
-          sampleMeanNorm+=sampleMean[dim1]**2
-          meanNorm+=x[dim1]**2
-        sampleMeanNormVec.append( math.sqrt( sampleMeanNorm ) )
-        meanNormVec.append( math.sqrt( meanNorm ) )
-        #Calculate Frobenius-norm of covariance matrix (use symmetry of covariance matrix)
-        temp=0.0
-        temp2=0.0
-        for dim1 in range(dimension):
-          for dim2 in range(dim1, dimension):
-            if dim1==dim2:
-              temp += math.fabs(covarianceMatrix[dim1][dim2])**2
-              temp2 += math.fabs(covarianceMatrix2[dim1][dim2])**2
-            elif dim2 > dim1:
-              temp += 2*math.fabs(covarianceMatrix[dim1][dim2])**2
-              temp2 += 2*math.fabs(covarianceMatrix2[dim1][dim2])**2
-        if counter == 1:
-          varianceVec.append( math.sqrt( temp ) )
-          varianceVec2.append( math.sqrt( temp2 ) )
-        elif counter > 1:
-          varianceVec.append( (counter-1)**-1 *math.sqrt( temp ) )
-          varianceVec2.append( math.sqrt( temp2 ) )
+            covarianceMatrixSum[dim1][dim2]+=( x[dim1]-sampleMean[dim1] )*( x[dim2]-sampleMean[dim2] ) 
+            # Divide by (numberOfSamples-1) for an unbiased estimate.
+            if counter > 1:
+              covarianceMatrix[dim1][dim2] = covarianceMatrixSum[dim1][dim2] / (counter -1)
+            elif counter == 1:
+              covarianceMatrix[dim1][dim2] = covarianceMatrixSum[dim1][dim2]
 
-    print('The variance for the proposals: ', variance)
     #print('Acceptance rate: ', acceptRate)
-
+          
     if analyseFlag is True:
-      print('Sample mean (norm): ', sampleMeanNormVec[numberOfSamples-1])
+      #print('Sample variance: ', covarianceMatrix)
+      #print('Sample mean: ', sampleMean)
       print('Sample mean of first dimension: ', sampleMean[0])
-      #print('Sample covariance (norm): ', varianceVec[numberOfSamples-1])
-    if printMean is True and analyseFlag is True:
-      # Plot mean and covariance
-      iterations=range(numberOfSamples)
-      # A histogram is only possible in 1D and 2D
-      if dimension == 2:
-        fig=pylab.figure()
-        ax = fig.add_subplot(111, projection='3d')
-        x = samples[0]
-        y = samples[1]
-        hist, xedges, yedges = numpy.histogram2d(x, y, bins=40)
-        elements = (len(xedges) - 1) * (len(yedges) - 1)
-        xpos, ypos = numpy.meshgrid(xedges[:-1]+0.1, yedges[:-1]+0.1)
-        xpos = xpos.flatten()
-        ypos = ypos.flatten()
-        zpos = numpy.zeros(elements)
-        dx = 0.5 * numpy.ones_like(zpos)
-        dy = dx.copy()
-        dz = hist.flatten()
-        ax.bar3d(xpos, ypos, zpos, dx, dy, dz, color='b', zsort='average')
-        pylab.show()
-      pylab.figure()
-      if (dimension == 1):
-        pylab.hist(samples, bins=300, normed=True)
-        pylab.show()
-      pylab.subplot(211)
-      pylab.plot(iterations, sampleMeanNormVec, label='Sample mean')
-      pylab.grid(True)
-      pylab.plot(iterations, meanNormVec, label='Mean')
-      pylab.ylabel('Mean')
-      pylab.grid(True)
-      #pylab.legend()
-      pylab.subplot(212)      
-      pylab.plot(iterations, varianceVec , label='Sample variance')
-      pylab.grid(True)
-      pylab.plot(iterations, varianceVec2, label='Variance')
-      pylab.grid(True)
-      pylab.ylabel('Covariance')
-      #pylab.legend()
-      helper=format(acceptRate, '.2f')
-      if printName is None:
-        printName = algoType + '_' + str(dimension) + '_' + str(numberOfSamples) + '_' +  str(helper) + '.png'
-      pylab.savefig(printName)
+      print('Sample variance of first dimension: ', covarianceMatrix[0][0])
+
 
     if returnSamples:
       returnValue=[]
       returnValue.append(acceptRate)
       returnValue.append(samples)
-      returnValue.append(sampleMean[0])
+      returnValue.append(sampleMean)
+      returnValue.append(covarianceMatrix)
       return returnValue
     
-  def analyseData(self, samples, mean, printName):
-
+  def analyseData(self, samples, mean, variance, printName):
+    """
+    Here we analyse only the first component (for the sake of simplicity)
+    """
+          
     print('Analysing sampled data...')
 
     helper=numpy.shape(samples)
     dimension=helper[0]
     numberOfSamples=helper[1]
-    #print('dimension: ', dimension)
-    #print('numberOfSamples: ', numberOfSamples)
+    # Analyse the first component!
+    dim=0
+    # Maximal number of lag_k autocorrelations
+    if int((numberOfSamples-1)/3) > 2000:
+      maxS=2000
+    else:
+      maxS=int((numberOfSamples-1)/3)
     # lag_k autocorrelation
-    autocor = [0.0 for i in range(int((numberOfSamples-1)/3))]
-    autocor[0]=1.0
-    intAutocor=[]
-    intAutocor.append(0.0)
+    autocor = [0.0 for i in range(maxS)]
+    autocor[0]=variance[dim][dim]
+    # sample frequency
+    m=1
+    # modified sample variance = autocor[0] + 2 sum_{i}(autocor[i])
+    msvar=0.0
+    # SEM = sqrt( msvar/numberOfSamples )
+    sem=0.0
+    # ACT = m * msvar / autocor[0]
+    act=0.0
+    # ESS = m * numberOfSamples / act
+    ess=0.0
+          
     temp=0.0
     temp2=0.0
-    temp3=0.0
-    c=8.0
-    window=-1.
-    M=-1
-    MWindow=[]
-    flag=True
-    calceffectiveSize=True
-    calcintAutocor=False
 
-    evaluation = range( int((numberOfSamples-1)/4) )
+    flagSEM=True
+    flagACT=True
+    flagESS=True
+
+    # Calculate lag_k for following k's
+    evaluation = range( maxS )
     evaluation = evaluation[1:]
-    # Calculate the effective sample size by the lag-1 autocorrelations.
-    if calceffectiveSize is True:
-      
-    
-    # Calculate the autocorrelation and integrated autocorrelation time for the first component (dim=0)
-    # Only evaluate the autocorrelation function for lag < numberOfSamples / 4
-    dim=0
-    if calcintAutocor is True:
-      temp2=0.0
-      for sample in range(numberOfSamples):
-        temp2+=(samples[dim][sample]-mean)**2
-      for lag in evaluation:
-        temp=0.0
-        for lag2 in range(numberOfSamples-lag):
-          temp+= (samples[dim][lag2]-mean)*(samples[dim][lag2+lag]-mean)
-        autocor[lag]=temp/temp2
-        # Calculate the integrated autocorrelation time
-        temp3+=autocor[lag]
-        if flag is True:
-          intAutocor.append((0.5+temp3))
-          if (float(lag/c) > intAutocor[lag]):
-            window = intAutocor[lag]
-            M=lag
-            flag=False
-            break
-      if flag is True:
-        M = evaluation[-1]
-        window = intAutocor[-1]
-      if M > 100:
-        autocorcounter=100
-      else:
-        autocorcounter=M
-      #estimator= ( -1 ) / ( math.log( math.fabs( (2*intAutocor[evaluation[-1]]-1)/(2*intAutocor[evaluation[-1]]+1)  ) ) )
-      #print('The estimated convergence time: ', estimator)
-      #print('The integrated autocorrelation: ', intAutocor[evaluation[-1]])
-      print('The integrated autocorrelation with window algorithm: ', window, ' with a window: ', M)
+    for lag in evaluation:
+      tmp=0.0
+      for lag2 in evaluation[:-lag]:
+        tmp += (samples[dim][lag2]-mean[dim])*(samples[dim][lag2+lag]-mean[dim])
+      autocor[lag] = (numberOfSamples-lag)**-1 * tmp
+      if (autocor[lag-1]+autocor[lag])<=0.0:
+        maxS = lag
+        break
+    # Calculate the modified sample variance
+    evaluation = range( maxS-1 )
+    evaluation = evaluation[1:]
+    for lag in evaluation:
+      msvar += 2*autocor[lag]
+      # Calculate the autocovariance function by dividing by variance and multiplying a factor
+      autocor[lag] = autocor[lag]/autocor[0]
+    msvar += autocor[0]
+    # Standard Error of the Mean
+    sem = math.sqrt(msvar/numberOfSamples)
+    # AutoCorrelation Time
+    act = m*msvar/autocor[0]
+    # Effective Sample Size
+    ess = m*numberOfSamples/act
+    # Normalizing autocor[0]
+    autocor[0] = 0
+
+    print('Modified sample variance: ', msvar)   
+    print('Standard Error of the Mean: ', sem)   
+    print('AutoCorrelation Time: ', act)   
+    print('Effective Sample Size: ', ess)   
+
+    if maxS>100:
+      maxS=100
 
     #Print some results if possible
-    if calcintAutocor is True:
-      lag=range(autocorcounter)
-      pylab.subplot(311)
-      pylab.plot(lag, autocor[:autocorcounter], label='Autocorrelation')
+    if True:
+      lag=range(maxS)
+      pylab.subplot(211)
+      pylab.bar(lag, autocor[:maxS], 0.01, label='Autocorrelation')
+      #pylab.acorr(autocor)
       pylab.xlabel('lag')
       pylab.ylabel('ACF')
       pylab.grid(True)
-      #pylab.legend()
-      MWindow=range(M)
-      pylab.subplot(312)
-      pylab.plot(MWindow, intAutocor[:M], label='Integrated autocorrelation')
-      pylab.xlabel('Iterations')
-      pylab.ylabel('IACF')
-      pylab.grid(True)
-      #pylab.legend()
       iterations=range(numberOfSamples)
-      pylab.subplot(313)
+      pylab.subplot(212)
       pylab.plot(iterations, samples[dim], label='First dimension of samples')
       pylab.xlabel('Iterations')
       pylab.ylabel('First dim of samples')
       pylab.grid(True)
       pylab.savefig(printName)
+      pylab.clf()
       #pylab.show()
 
-    return window/dimension
-
-
+    return act
       
   def setAlgoType(self, Algo):
     self._algoType = Algo
@@ -387,7 +321,7 @@ class Algo:
     if BurnIn is not None:
       self._burnIn = BurnIn
     else:
-      self._burnIn = 1000
+      self._burnIn = 10000
       
   def setDimension(self, dimension):
     self._dimension = dimension
@@ -397,7 +331,7 @@ class Algo:
     Implement the taget distribution without normalization constants. 
     Here we have the multimodal example of Roberts and Rosenthal (no product measure)
     """
-    m = 0.0
+    m = 3.0
     tmp = []
     for dim in range( self._dimension ):
       tmp.append( position[dim]**2 )
@@ -408,7 +342,7 @@ class Algo:
     """
     Calculates the analytical gradient
     """
-    m=0.0
+    m=3.0
     tmp=[]
     grad=[]
     interval=range( self._dimension )
@@ -427,16 +361,16 @@ class Algo:
     """
     Simple multi-dimensional Gaussian
     """
-    mean1=-3.0
+    mean1=-.5
     mean2=1.0
     variance1=2.0
-    variance2=5.0
+    variance2=1.0
     tmp=[]
     tmp2=[]
     for dim in range(self._dimension):
       tmp.append( (position[dim]-mean1)**2 )
       #tmp2.append( (position[dim]-mean2)**2 )
-    return math.exp( -0.5*math.fsum(tmp)*variance1**-1 )# + math.exp( -0.5*math.fsum(tmp2)*variance2**-1 )
+    return math.exp( -0.5*math.fsum(tmp)*variance1**-1 ) #+ math.exp( -0.5*math.fsum(tmp2)*variance2**-1 )
       
   def calculateGradient(self, evaluateTargetDistribution, position):
     """
@@ -446,21 +380,19 @@ class Algo:
     if not position or len(position) != self._dimension+1:
       raise RuntimeError('In calculateGradient: Empty argument or wrong dimension')
     else:
-      h = 1e-5
+      h = 1e-6
       grad = []
       shiftedpos1 = []
       shiftedpos2 = []
-      shiftvector = []
       for dim in range(self._dimension):
         shiftedpos1.append( position[dim] )
         shiftedpos2.append( position[dim] )
       for dim in range(self._dimension):
         shiftedpos1[dim] += h
         shiftedpos2[dim] -= h
-        grad.append(2.0* h**-1 * ( math.log(evaluateTargetDistribution(shiftedpos1))-math.log(evaluateTargetDistribution(shiftedpos2)) ))
+        grad.append(0.5 * h**-1 * ( math.log(evaluateTargetDistribution(shiftedpos1))-math.log(evaluateTargetDistribution(shiftedpos2)) ))
         shiftedpos1[dim] -= h
         shiftedpos2[dim] += h
-      #print(grad)
       return grad
         
   def generateGaussian(self, mean, variance):
