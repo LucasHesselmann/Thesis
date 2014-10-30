@@ -30,8 +30,8 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
  
   algo = Algo(string, dimension, 50)
   # Generate the proposal variances and scale them according to the dimension
-  #helper=numpy.logspace(-2, 5, 50, True, 2.0) RWM in 5D
-  helper = numpy.logspace(-1, 4, 30, True, 2.0)
+  #helper=numpy.logspace(-2, 5, 50, True, 2.0)#RWM in 5D
+  helper = numpy.logspace(-1, 4, 100, True, 2.0)# RWM in 50D
   for var in helper:
     variances.append(var/dimension)
   # Initialize the init value
@@ -41,7 +41,7 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
   for var in variances:
     result=algo.simulation(numberOfSamples, var, False, True, True, init)
     tmp = format(result[0], '.2f')
-    if result[0]>0.79:
+    if result[0]>0.82:
       continue
     fileName=os.path.join(directory, '{0}_{1}_{2}.png'.format(string, k, tmp))
     #print('Filename: ', fileName)
