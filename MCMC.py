@@ -20,9 +20,11 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
   steps=[]
   init=[]
   variances=[]
+  tmpVec = numpy.array([0.0 for i in range(6)])
+  tmpVec2 = numpy.array([0.0 for i in range(6)])
   k=1
   dimensionIter=range(dimension)
-  threshold = 350
+  threshold = 1500
   
   # Some preparation
   directory = '{0}_{1}_{2}_{3}'.format(directoryName, string, dimension, numberOfSamples)
@@ -30,32 +32,53 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
  
   algo = Algo(string, dimension, 50)
   # Generate the proposal variances and scale them according to the dimension
-  #helper=numpy.logspace(-2, 5, 50, True, 2.0)#RWM in 5D
-  helper = numpy.logspace(-1, 4, 100, True, 2.0)# RWM in 50D
+  #helper=numpy.logspace(-1, 6, 30, True, 2.0) #MALA in 2D
+  #helper=numpy.logspace(-1, 8, 10, True, 2.0) #MALA in 1D
+  helper=numpy.logspace(-1, 12, 36, True, 2.0) #RWM in 1D
+  #helper=numpy.logspace(-1, 5, 10, True, 2.0) #MALA in 5D
+  #helper=numpy.logspace(-1.2, 5, 30, True, 2.0) #RWM in 5D
+  #helper = numpy.logspace(-1, 4, 36, True, 2.0) #RWM in 50D
+  #helper = numpy.logspace(-1, 8, 30, True, 2.0) #RWM in 2D
   for var in helper:
     variances.append(var/dimension)
   # Initialize the init value
-  for dim in dimensionIter:
-    init.append(random.gauss(0.0, 0.2))
+  init.append(random.gauss(-1.5, 0.2))
+  for dim in dimensionIter[1:]:
+    init.append(random.gauss(1.5, 0.2))
   # Simulate for each variance in variances.
   for var in variances:
-    result=algo.simulation(numberOfSamples, var, False, True, True, init)
-    tmp = format(result[0], '.2f')
-    if result[0]>0.82:
+    for i in range(6):
+      result=algo.simulation(numberOfSamples, var, False, True, True, init)
+      tmp = format(result[0], '.2f')
+      if result[0]>0.80:
+        tmpVec2[i]=tmp
+        tmpVec[i]=threshold+1
+        continue
+      fileName=os.path.join(directory, '{0}_{1}-{2}_{3}.png'.format(string, k, i, tmp))
+      #print('Filename: ', fileName)
+      tmp2=algo.analyseData(result[1], result[2], result[3], fileName)  
+      tmpVec[i] = (tmp2/dimension)
+      tmpVec2[i] = (tmp)
+      print('-----------------------------------------------------------')
+      print('Round {0}'.format(i))
+      print('Acceptance rate: {0}'.format(tmp))
+      print('Integrated autocorrelation: {0}'.format(tmp2/dimension))
+      print('-----------------------------------------------------------')
+    # Take the median of acceptance rate and convergence time
+    tmp2=numpy.median(tmpVec2)
+    if tmp2 > 0.80:
       continue
-    fileName=os.path.join(directory, '{0}_{1}_{2}.png'.format(string, k, tmp))
-    #print('Filename: ', fileName)
-    tmp2=algo.analyseData(result[1],[0], result[3], fileName)  
-    if tmp2/dimension < threshold:
-      autocor.append(tmp2/dimension)
-      acceptRate.append(tmp)
+    tmp=numpy.median(tmpVec)
+    if tmp < threshold:
+      acceptRate.append(tmp2)
+      autocor.append(tmp)
+      print('-----------------------------------------------------------')
+      print('The median of round {0}'.format(k))
+      print('Acceptance rate: {0}'.format(tmp2))
+      print('Integrated autocorrelation: {0}'.format(tmp))
+      print('-----------------------------------------------------------')
       k+=1
-    print('-----------------------------------------------------------')
-    print('Acceptance rate: {0}'.format(tmp))
-    print('Integrated autocorrelation: {0}'.format(tmp2/dimension))
-    print('-----------------------------------------------------------')
-    #algo.plotDistribution(result[1], 1)
-    if result[0]<0.02:
+    if tmp2<0.01:
       break
   pylab.figure()
   pylab.plot(acceptRate, autocor, 'ro', label='Convergence time')
@@ -96,7 +119,6 @@ class Algo:
     samples = [[] for i in range(dimension) ]
     acceptRate = 0.
     acceptCounter = 0
-    sampleCounter = 0
     # BurnIn flag
     flag = False
     #Acceptance flag
@@ -146,7 +168,7 @@ class Algo:
     
     # Repeat generating new samples
     print('Generate a sample of size: {0} and dimension: {1} with MCMC-type: {2}'.format(numberOfSamples, dimension, algoType))
-    while sampleCounter < numberOfSamples:
+    while counter < numberOfSamples+1:
       # Calculate the mean of your proposal
       if algoType in ['RWM']:
         for dim in range(dimension):
@@ -182,13 +204,13 @@ class Algo:
         #print(counter, end='\r')
           
       # Calculate acceptance rate
-      if acceptance:
+      if acceptance and flag:
         acceptCounter += 1
-      acceptRate = float(acceptCounter) / float(warmUp+counter)
+      if flag:
+        acceptRate = float(acceptCounter) / float(counter)
 
       # Sample only  after the burn-in
       if flag:
-        sampleCounter += 1
         for dim in range(dimension):
           samples[dim].append( x[dim] )
 
@@ -207,7 +229,7 @@ class Algo:
             elif counter == 1:
               sampleMean[dim] = sampleMeanSum[dim]
         else:
-          sampleMeanSum = x[analyseDim]
+          sampleMeanSum += x[analyseDim]
           if counter>1:
             sampleMean[analyseDim] = sampleMeanSum / (counter -1)
           else:
@@ -224,7 +246,7 @@ class Algo:
               elif counter == 1:
                 covarianceMatrix[dim1][dim2] = covarianceMatrixSum[dim1][dim2]
         else:
-          covarianceMatrixSum += (x[analyseDim]-sampleMean[analyseDim])**2
+          covarianceMatrixSum += (x[analyseDim]- 0.0)**2#sampleMean[analyseDim])**2
           if counter>1:
             covarianceMatrix[0][0] = (counter-1)**-1 * covarianceMatrixSum
           else:
@@ -289,9 +311,10 @@ class Algo:
     # Calculate lag_k for following k's
     evaluation = range( maxS )
     evaluation = evaluation[1:]
+    evaluation2 = range(numberOfSamples)
     for lag in evaluation:
       tmp=0.0
-      for lag2 in evaluation[:-lag]:
+      for lag2 in evaluation2[:-lag]:
         tmp += (samples[dim][lag2]-mean[dim])*(samples[dim][lag2+lag]-mean[dim])
       autocor[lag] = (numberOfSamples-lag)**-1 * tmp
       if (autocor[lag-1]+autocor[lag])<=0.0:
@@ -319,15 +342,15 @@ class Algo:
     print('AutoCorrelation Time: {0}'.format(act))   
     print('Effective Sample Size: {0}'.format(ess))   
 
-    if maxS>50:
-      maxS=50
+    if maxS>100:
+      maxS=100
 
     #Print some results if possible
     if True:
       lag=range(maxS)
       pylab.subplot(211)
       pylab.bar(lag, autocor[:maxS], 0.01, label='Autocorrelation')
-      pylab.ylim([-0.1, 1.1])
+      #pylab.ylim([-0.1, 1.1])
       #pylab.acorr(autocor)
       pylab.xlabel('lag')
       pylab.ylabel('ACF')
