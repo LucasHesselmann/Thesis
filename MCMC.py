@@ -10,6 +10,44 @@ from mpl_toolkits.mplot3d import Axes3D
 #from mpl_toolkits import mplot3d
 
 
+def multiDimDiagramm(string, numberOfSamples, directoryName, resultName):
+  """
+  Plot the convergence time for several dimensions.
+  """
+  result=[]
+  acceptRate=[]
+  autocor=[]
+  colours=['r','g','b','k','y']
+  k=0
+
+  # Some preparation
+  directory = '{0}_{1}_{2}'.format(directoryName, string, numberOfSamples)
+  os.makedirs(directory) 
+  
+  pylab.figure()
+  # Make diagramm for dimension 10, 15, 20, 30
+  dimensions=[10, 15, 20, 30]
+  for dim in dimensions:
+    result=makeDiagramm(string, dim, numberOfSamples, directoryName, resultName)
+    acceptRate.append(result[0])
+    autocor.append(result[1])
+    pylab.plot(result[0], result[1], colours[k], label='Convergence time')
+    pylab.ylabel('convergence time')
+    pylab.xlabel('acceptance rate')
+    pylab.grid(True)
+    fileName1=os.path.join(directory, '{0}_{1}_Dim{2}.png'.format(string, resultName, dim))
+    pylab.savefig(fileName1) 
+    k+=1
+  pylab.plot(acceptRate[0], autocor[0], colours[0], acceptRate[1], autocor[1], colours[1], acceptRate[2], autocor[2], colours[2], acceptRate[3], autocor[3], colours[3], label='Convergence time')
+  pylab.ylabel('convergence time')
+  pylab.xlabel('acceptance rate')
+  pylab.grid(True)
+  fileName1=os.path.join(directory, '{0}_{1}.png'.format(string, resultName))
+  pylab.savefig(fileName1) 
+  pylab.clf()
+                          
+
+ 
 def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
   """
   Make a diagramm to show behavior of the algo depending on the scaling of the variance.
@@ -20,11 +58,14 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
   steps=[]
   init=[]
   variances=[]
-  tmpVec = numpy.array([0.0 for i in range(6)])
-  tmpVec2 = numpy.array([0.0 for i in range(6)])
+  # Number of repititions of simulations for each variance, we take the median of the acceptance rates and autocorrelation times. 
+  repitition = 6
+  tmpVec = numpy.array([0.0 for i in range(repitition)])
+  tmpVec2 = numpy.array([0.0 for i in range(repitition)])
   k=1
   dimensionIter=range(dimension)
-  threshold = 1500
+  # Simulations with a higher value as autocorrelation time are neglected.
+  threshold = 400
   
   # Some preparation
   directory = '{0}_{1}_{2}_{3}'.format(directoryName, string, dimension, numberOfSamples)
@@ -32,22 +73,49 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
  
   algo = Algo(string, dimension, 50)
   # Generate the proposal variances and scale them according to the dimension
-  #helper=numpy.logspace(-1, 6, 30, True, 2.0) #MALA in 2D
-  #helper=numpy.logspace(-1, 8, 10, True, 2.0) #MALA in 1D
-  helper=numpy.logspace(-1, 12, 36, True, 2.0) #RWM in 1D
-  #helper=numpy.logspace(-1, 5, 10, True, 2.0) #MALA in 5D
-  #helper=numpy.logspace(-1.2, 5, 30, True, 2.0) #RWM in 5D
-  #helper = numpy.logspace(-1, 4, 36, True, 2.0) #RWM in 50D
-  #helper = numpy.logspace(-1, 8, 30, True, 2.0) #RWM in 2D
+  if string in ['MALA']:
+    if dimension == 1:
+      helper=numpy.logspace(0.05, 3.9, 20, True, 2.0) #MALA in 1D
+    elif dimension == 2:
+      helper=numpy.logspace(0.15, 3.5, 20, True, 2.0) #MALA in 2D
+    elif dimension == 5:
+      helper=numpy.logspace(0.2, 4.7, 20, True, 2.0) #MALA in 5D
+    elif dimension == 10:
+      helper=numpy.logspace(0.3, 4.7, 20, True, 2.0) #MALA in 10D
+    elif dimension == 15:
+      helper=numpy.logspace(0.3, 4.7, 20, True, 2.0) #MALA in 15D
+    elif dimension == 20:
+      helper=numpy.logspace(0.3, 4.7, 20, True, 2.0) #MALA in 20D
+    else:
+      helper=numpy.logspace(0.0, 5.0, 12, True, 2.0)
+  elif string in ['RWM']:
+    if dimension == 1:
+      helper=numpy.logspace(-0.8, 15, 25, True, 2.0) #RWM in 1D
+    elif dimension == 2:
+      helper=numpy.logspace(-0.7, 8, 25, True, 2.0) #RWM in 2D
+    elif dimension == 5:
+      helper=numpy.logspace(-0.6, 5, 25, True, 2.0) #RWM in 5D
+    elif dimension == 10:
+      helper=numpy.logspace(-0.6, 5, 20, True, 2.0) #RWM in 10D
+    elif dimension == 15:
+      helper=numpy.logspace(-0.5, 4.6, 20, True, 2.0) #RWM in 15D
+    elif dimension == 20:
+      helper=numpy.logspace(-0.4, 4.5, 20, True, 2.0) #RWM in 20D
+    elif dimension == 30:
+      helper=numpy.logspace(-0.3, 4.4, 20, True, 2.0) #RWM in 30D
+    elif dimension == 50:
+      helper=numpy.logspace(-0.3, 4.2, 15, True, 2.0) #RWM in 50D
+    else:
+      helper=numpy.logspace(-1, 9, 11, True, 2.0)
   for var in helper:
     variances.append(var/dimension)
   # Initialize the init value
-  init.append(random.gauss(-1.5, 0.2))
+  init.append(random.gauss(-2.0, 0.2))
   for dim in dimensionIter[1:]:
-    init.append(random.gauss(1.5, 0.2))
+    init.append(random.gauss(1.0, 0.2))
   # Simulate for each variance in variances.
   for var in variances:
-    for i in range(6):
+    for i in range(repitition):
       result=algo.simulation(numberOfSamples, var, False, True, True, init)
       tmp = format(result[0], '.2f')
       if result[0]>0.80:
@@ -55,8 +123,7 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
         tmpVec[i]=threshold+1
         continue
       fileName=os.path.join(directory, '{0}_{1}-{2}_{3}.png'.format(string, k, i, tmp))
-      #print('Filename: ', fileName)
-      tmp2=algo.analyseData(result[1], result[2], result[3], fileName)  
+      tmp2=algo.analyseData(result[1], [0], result[3], fileName)  
       tmpVec[i] = (tmp2/dimension)
       tmpVec2[i] = (tmp)
       print('-----------------------------------------------------------')
@@ -80,14 +147,18 @@ def makeDiagramm(string, dimension, numberOfSamples, directoryName, resultName):
       k+=1
     if tmp2<0.01:
       break
-  pylab.figure()
-  pylab.plot(acceptRate, autocor, 'ro', label='Convergence time')
-  pylab.ylabel('convergence time')
-  pylab.xlabel('acceptance rate')
-  pylab.grid(True)
-  fileName1=os.path.join(directory, '{0}_{1}_Dim{2}.png'.format(string, resultName, dimension))
-  pylab.savefig(fileName1) 
-  pylab.clf()
+  #pylab.figure()
+  #pylab.plot(acceptRate, autocor, 'ro', label='Convergence time')
+  #pylab.ylabel('convergence time')
+  #pylab.xlabel('acceptance rate')
+  #pylab.grid(True)
+  #fileName1=os.path.join(directory, '{0}_{1}_Dim{2}.png'.format(string, resultName, dimension))
+  #pylab.savefig(fileName1) 
+  #pylab.clf()
+  returnValue=[]
+  returnValue.append(acceptRate)
+  returnValue.append(autocor)
+  return returnValue
                           
   
 class Algo:
@@ -320,6 +391,9 @@ class Algo:
       if (autocor[lag-1]+autocor[lag])<=0.0:
         maxS = lag
         break
+      percentage = format(100*lag/maxS, '.0f')
+      print('Processing: {0}%'.format(percentage), end='\r')
+
     # Calculate the modified sample variance
     evaluation = range( maxS-1 )
     evaluation = evaluation[1:]
@@ -349,7 +423,7 @@ class Algo:
     if True:
       lag=range(maxS)
       pylab.subplot(211)
-      pylab.bar(lag, autocor[:maxS], 0.01, label='Autocorrelation')
+      pylab.bar(lag, autocor[:maxS], 0.001, label='Autocorrelation')
       #pylab.ylim([-0.1, 1.1])
       #pylab.acorr(autocor)
       pylab.xlabel('lag')
