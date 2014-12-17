@@ -10,6 +10,7 @@ import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 
 
+
 def multiDimDiagramm(string, numberOfSamples, directoryName, resultName):
   """
   Plot the convergence time for several dimensions.
