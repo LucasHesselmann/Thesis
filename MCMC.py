@@ -8,7 +8,8 @@ import random
 import math
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
-
+from mpl_toolkits.mplot3d import Axes3D
+import multiprocessing as mp
 
 
 def multiDimDiagramm(string, numberOfSamples, directoryName, resultName):
@@ -323,7 +324,7 @@ class Algo:
           samples[dim].append( x[dim] )
 
       percentage = format(100*counter/numberOfSamples, '.1f')
-      #print('Processing: {0}%'.format(percentage), end='\r')
+      print('Processing: {0}%'.format(percentage), end='\r')
 
       # Calculation of sample mean and sample variance of all steps and in addition the mean and covariance for each iteration to plot them at the end
       if analyseFlag is True and counter >= 1:
@@ -388,6 +389,9 @@ class Algo:
     helper=numpy.shape(samples)
     dimension=helper[0]
     numberOfSamples=helper[1]
+    # For parallelization (number of processors)
+    procs = 2
+    results = numpy.array([0.0 for i in range(procs)])
     # Analyse the first component!
     dim=0
     # Maximal number of lag_k autocorrelations
@@ -414,19 +418,34 @@ class Algo:
     flagESS=True
 
     # Calculate lag_k for following k's
-    evaluation = range( maxS )
+    evaluation = numpy.arange( maxS )
     evaluation = evaluation[1:]
-    evaluation2 = range(numberOfSamples)
+    evaluation2 = numpy.arange(numberOfSamples)
     for lag in evaluation:
-      tmp=0.0
-      for lag2 in evaluation2[:-lag]:
-        tmp += (samples[dim][lag2]-mean[dim])*(samples[dim][lag2+lag]-mean[dim])
+
+      evaluation2 = evaluation2[:-lag]
+      # Do this expensive calculation parallel
+      output = mp.Queue()
+      morsel = numpy.array_split(evaluation2, procs)
+      processes =  []
+      for i in range(procs):
+        processes.append( mp.Process(target = self.calculateACF, args = (samples[dim], mean[dim], lag, morsel[i], output, ) ) )
+      for p in processes:
+        p.start()
+      for p in processes:
+        p.join()
+      results = [output.get() for p in processes]
+      tmp = numpy.sum(results)
+      #tmp=0.0
+      #for lag2 in evaluation2:
+      #  tmp += (samples[dim][lag2]-mean[dim])*(samples[dim][lag2+lag]-mean[dim])
+
       autocor[lag] = (numberOfSamples-lag)**-1 * tmp
       if (autocor[lag-1]+autocor[lag])<=0.00:
         maxS = lag
         break
       percentage = format(100*lag/maxS, '.2f')
-      #print('Processing: {0}%'.format(percentage), end='\r')
+      print('Processing: {0}%'.format(percentage), end='\r')
 
     # Calculate the modified sample variance
     evaluation = range( maxS-1 )
@@ -470,7 +489,7 @@ class Algo:
       num_bins=100
       n, bins, patches=pylab.hist(samples[dim], num_bins, normed=1, facecolor='green', alpha=0.5, label='Histogram of the first dimension')
       # add a 'best fit' line
-      y = 0.5 * mlab.normpdf(bins, -2.0, 1) + 0.5 * mlab.normpdf(bins, 2.0, 1)
+      y = 0.5 * mlab.normpdf(bins, -3.0, 1) + 0.5 * mlab.normpdf(bins, 3.0, 1)
       #y = 0.5 * mlab.normpdf(bins, -1.0, 0.5) + 0.5 * mlab.normpdf(bins, 1.0, 0.8)
       plt.plot(bins, y, 'r--')
       pylab.xlabel('First dimension of samples', fontsize=10)
@@ -478,9 +497,21 @@ class Algo:
       pylab.grid(True)
       pylab.savefig(printName)
       pylab.clf()
+      newPrintName = printName.replace(".png", "ScatterPlot.png")
+      #print(newPrintName)
+      self.scatterPlot3D(samples, newPrintName)
       #pylab.show()
 
     return act
+
+  def calculateACF(self,samples, mean, lag, array, output):
+    """
+    A helper function to calculate the autocorrelation coefficient parallel
+    """
+    tmp=0.0
+    for lag2 in array:
+      tmp += (samples[lag2]-mean)*(samples[lag2+lag]-mean)
+    output.put(tmp)
       
   def setAlgoType(self, Algo):
     self._algoType = Algo
@@ -499,7 +530,7 @@ class Algo:
     Implement the target distribution without normalization constants. 
     Here we have the multimodal example of Roberts and Rosenthal (no product measure)
     """
-    m = 2.0
+    m = 3.0
     tmp = []
     for dim in range( self._dimension ):
       tmp.append( position[dim]**2 )
@@ -510,7 +541,7 @@ class Algo:
     """
     Calculates the analytical gradient
     """
-    m=2.0
+    m=3.0
     tmp=[]
     grad=[]
     interval=range( self._dimension )
@@ -603,5 +634,83 @@ class Algo:
       position[self._dimension]=False
       return position
 
+  def scatterPlot3D(self, samples, printName):
+   """
+   Plot samples in 3D as cloud.
+   """
+   vec = [ [ [],[],[] ] for i in range(5) ] 
+   xs = []
+   ys = []
+   zs = []
+   
+   fig = plt.figure()
+   ax = fig.add_subplot(111, projection='3d')
+
+   # Control number and dimension of samples
+   helper=numpy.shape(samples)
+   dimension=helper[0]
+   numberOfSamples=helper[1]
+   if numberOfSamples < 5000:
+     return 0
+     
+   #print(samples)
+   #print(numberOfSamples)
+   #print(dimension)
+   
+   # Sort your samples
+   for it in range(numberOfSamples):
+     if (it < 1000):
+       vec[0][0].append(samples[0][it])
+       vec[0][1].append(samples[1][it])
+       vec[0][2].append(samples[2][it])
+     elif (it >= 1000 and it < 2000):
+       vec[1][0].append(samples[0][it])
+       vec[1][1].append(samples[1][it])
+       vec[1][2].append(samples[2][it])
+     elif (it >= 2000 and it < 3000):
+       vec[2][0].append(samples[0][it])
+       vec[2][1].append(samples[1][it])
+       vec[2][2].append(samples[2][it])
+     elif (it >= 3000 and it < 4000):
+       vec[3][0].append(samples[0][it])
+       vec[3][1].append(samples[1][it])
+       vec[3][2].append(samples[2][it])
+     elif (it >= 4000 and it < 5000):
+       vec[4][0].append(samples[0][it])
+       vec[4][1].append(samples[1][it])
+       vec[4][2].append(samples[2][it])
+     else:
+       break
+       
+   #ax.scatter(samples[0], samples[1], samples[2], 'b', marker='.')
+   ax.set_xlabel('X Label')
+   ax.set_ylabel('Y Label')
+   ax.set_zlabel('Z Label')
+     
+   #plt.show()
+   # Define some colors
+   #color = ['r', 'y', 'g', 'c', 'b']
+  
+   # Make scatterplots
+   for c, sample in [('r', vec[0]), ('y', vec[1]), ('g', vec[2]), ('c', vec[3]), ('b', vec[4])]:
+     xs = sample[0]
+     ys = sample[1]
+     zs = sample[2]
+     ax.scatter(xs, ys, zs, c=c, marker='o')
+     
+   ax.set_xlabel('X ')
+   ax.set_ylabel('Y ')
+   ax.set_zlabel('Z ')
+   pylab.savefig(printName, dpi=200)
+   #plt.show()
+   pylab.clf()
+
+
+     
+  
+   
 	
 #makeDiagramm('MALA', 10, 1000, 'GEANY01', 'ACT')
+#algo=Algo('RWM', 3)
+#samples=algo.simulation(10000, 2.2, analyticGradient=False, analyseFlag=False, returnSamples=True)
+#algo.scatterPlot3D(samples[1])
