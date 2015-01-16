@@ -1,0 +1,59 @@
+\begin{thebibliography}{10}
+
+\bibitem{Anderson-Orey}
+R.~F. Anderson and S.~Orey.
+\newblock Small random perturbations of dynamical systems with reflecting
+  boundary.
+\newblock {\em Nagoya Math.}, J. 60:189--216, 1976.
+
+\bibitem{Andres-Diplom}
+S.~Andres.
+\newblock Pathwise differentiability for stochastic differential equations with
+  reflection.
+\newblock {\em Diploma Thesis}, Technische Universität Berlin, 2006.
+
+\bibitem{Bass-Hsu}
+R.~F. Bass and P.~Hsu.
+\newblock Some potential theory for reflecting brownian motion in hölder and
+  lipschitz domains.
+\newblock {\em Ann. Probab.}, vol. 19(no. 2):486--508, 1991.
+
+\bibitem{Engel-Nagel}
+K.-J. Engel and R.~Nagel.
+\newblock {\em One Parameter Semigroups for Linear Evolution Equations}.
+\newblock Springer, Berlin, 2000.
+
+\bibitem{Fukushima}
+M.~Fukushima, Y.~Oshima, and M.~Takeda.
+\newblock {\em Dirichlet Forms and Symmetric Markov Processes}.
+\newblock de Gruyter, Berlin, 1994.
+
+\bibitem{Gilbarg-Trudinger}
+D.~Gilbarg and N.~S. Trudinger.
+\newblock {\em Elliptic Partial Differential Equations of Second Order}.
+\newblock Springer, New York, 1983.
+
+\bibitem{Hsu}
+P.~Hsu.
+\newblock On excursions of reflecting brownian motion.
+\newblock {\em Amer. Math. Society}, vol. 296(no. 1):239--264, July 1986.
+
+\bibitem{Jerison-Kenig}
+D.~S. Jerison and C.~E. Kenig.
+\newblock Boundary value problems in lipschitz domains.
+\newblock In W.~Littmann, editor, {\em Studies in Partial Differential
+  Equations}. Math. Assoc. Amer., Washington, 1982.
+
+\bibitem{Lions-Sznitman}
+P.~L. Lions and A.~S. Sznitman.
+\newblock Stochastic differential equations with reflecting boundary
+  conditions.
+\newblock {\em Comm. Pure Appl. Math.}, vol. 37:511 -- 537, 1984.
+
+\bibitem{Tanaka}
+H.~Tanaka.
+\newblock Stochastic differential equations with reflecting boundary conditions
+  in convex regions.
+\newblock {\em Hiroshima Math.}, J.9:163--177, 1979.
+
+\end{thebibliography}

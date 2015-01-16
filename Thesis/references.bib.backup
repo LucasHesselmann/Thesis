@@ -1,0 +1,21 @@
+@book{Knuth:TeXbook,
+  title =	{The TeXbook},
+  author =	{Donald E. Knuth},
+  date =	{1986-05},
+  publisher =	{Addison-Wesley},
+}
+
+@article{pillai2012,
+author = 	"Pillai, Natesh S. and Stuart, Andrew M. and Thiéry, Alexandre H.",
+doi = 		"10.1214/11-AAP828",
+fjournal = 	"The Annals of Applied Probability",
+journal = 	"Ann. Appl. Probab.",
+month = 	"12",
+number = 	"6",
+pages = 	"2320--2356",
+publisher = 	"The Institute of Mathematical Statistics",
+title = 	"Optimal scaling and diffusion limits for the Langevin algorithm in high dimensions",
+url = 		"http://dx.doi.org/10.1214/11-AAP828",
+volume = 	"22",
+year = 		"2012"
+}
