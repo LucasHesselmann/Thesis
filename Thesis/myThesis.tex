@@ -1,4 +1,4 @@
-\documentclass[10pt, a4paper, UKenglish, twoside, final]{article}
+\documentclass[10pt, a4paper, openright, twoside, final]{scrreprt}
 
 \usepackage[UKenglish]{babel}
 \usepackage{MA_Titlepage}
@@ -16,10 +16,15 @@
 %für mathematische Formeln
 \usepackage{latexsym}
 \usepackage{amsfonts}
+\usepackage{amssymb}
 %für die Aufzählungszeichen
 \usepackage{paralist}
 %für Gleichungen
 \usepackage{amsmath}
+%Numbering according to sections
+\numberwithin{equation}{section}
+%fuer Algorithmen
+\usepackage[boxed,lined,linesnumbered]{algorithm2e}
 %für newtheorem
 \usepackage{amsthm}
 %für Skriptbuchstaben
@@ -32,15 +37,22 @@
 \usepackage{subcaption}
 
 %Headers and footers
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhead{} % clear all header fields
-\fancyfoot{} % clear all footer fields
-\renewcommand{\headrulewidth}{0.0pt}
+\usepackage{scrlayer-scrpage}
 \renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}{}} % redefine sectionmark
-\fancyhead[RO,LE]{\thepage}
-\fancyhead[LO]{\rightmark}
-\fancyhead[RE]{Optimal Scaling of Metropolis-Hastings algorithms}
+\lohead{\leftmark}
+\lehead{Optimal Scaling of Metropolis-Hastings algorithms}
+% \rohead{\thepage}
+% \lehead{\thepage}
+\pagestyle{scrheadings}
+% \usepackage{fancyhdr}
+% \pagestyle{fancy}
+% \fancyhead{} % clear all header fields
+% \fancyfoot{} % clear all footer fields
+% \renewcommand{\headrulewidth}{0.0pt}
+% \renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}{}} % redefine sectionmark
+% \fancyhead[RO,LE]{\thepage}
+% \fancyhead[LO]{\rightmark}
+% \fancyhead[RE]{Optimal Scaling of Metropolis-Hastings algorithms}
 
 %Literaturverzeichnis
 \usepackage[
@@ -59,6 +71,9 @@
 	linkcolor=blue,
 	citecolor=green
 ]{hyperref}
+
+%Set length for new paragraph
+\setlength{\parskip}{0em}
 
 
 %Name of the author of the thesis 
@@ -81,14 +96,28 @@
 %Do not change!
 \ausarbeitungstyp{Master's Thesis  Mathematics}
 
+%Theoremstyles
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{prop}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{claim}{Claim}
 
+\theoremstyle{definition}
+\newtheorem{defin}{Definition}
 
+\theoremstyle{remark}
+\newtheorem{rem}{Remark}
+
+\renewcommand{\sc}{\textsc}
 
 \begin{document}
 
+\pagestyle{empty} %get rid of header/footer for toc page
+
 \maketitle
 
-\pagestyle{empty} %get rid of header/footer for toc page
+\pagestyle{plain}
 
 \input{abstract} %abstract
 
@@ -97,27 +126,25 @@
 \tableofcontents %put toc in
 
 \cleardoublepage %start new page
-\pagestyle{fancy} % put headers/footers back on
+
+\pagestyle{scrheadings} % put headers/footers back on
 \pagenumbering{arabic}
+
 \setcounter{page}{1} %reset the page counter
 
 % Include the content separately
 
 \input{introduction} %introduction
 
-\clearpage{\pagestyle{empty}\cleardoublepage} %begin next section at odd page and set remove header/footer
 
 \input{Metropolis-HastingsAlgorithm}
 
-\clearpage{\pagestyle{empty}\cleardoublepage} %begin next section at odd page and set remove header/footer
 
-\section[Lorem ipsum]{Lorem ipsum - Testparagraph}
+\input{Complexity}
 
-Lorem ipsum \autocite{Knuth:TeXbook} dolor sit amet, consetetur \autocite{pillai2012} sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat \autocite{roberts1997} , sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   
 
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.   
+\input{invariancePrinciple}
 
-\clearpage{\pagestyle{empty}\cleardoublepage} %begin next section at odd page and set remove header/footer
 
 \appendix
 \printbibliography

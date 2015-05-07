@@ -1,12 +1,306 @@
+\chapter{The Metropolis-Hastings method}
+\label{sec:Metropolis-HastingsMethod}
+
+
+This chapter is devoted to introduce the Metropolis-Hastings method. In Section \ref{MH-MCMCPrinciple} we will give an overview on the fundamental methodology and the historic motivation of the Metropolis-Hastings method and some remarks on the Markov chain Monte Carlo methods in general. The general Metropolis-Hastings algorithm is stated in Section \ref{MH-TheMetropolis-HastingsAlgo}. To show well-posedness of the Metropolis-Hastings algorithm, i.e., convergence to an equilibrium, the generated Markov chain has to fulfill some convergence properties (see Section \ref{MH-ConvergenceProperties}). The heart of the Metropolis-Hastings algorithm is the choice of the proposals. In this work we consider the random walk proposals (see Section \ref{MH-RWM}) and the Langevin proposals (see Section \ref{MH-MALA}) leading to the random walk Metropolis (RWM) algorithm and the Metropolis-adjusted Langevin algorithm (MALA), respectively.
+
+
+\section{The Markov chain Monte Carlo principle}
+\label{MH-MCMCPrinciple}
+
+Markov chain Monte Carlo (MCMC) methods are a class of algorithms for sampling from probability distributions by constructing a Markov chain which has the desired target distribution as its equilibrium distribution.
+
+The basic working principle underlying the MCMC methods is to generate an ergodic Markov chain with invariant distribution equal to the target distribution. This can be expressed as follows: For an arbitrary starting value $x^0$, a chain $ \{ x^{k} \}_{k \geq 0} $ is generated using a transition kernel with the target distribution as stationary distribution, which ensures the convergence in distribution of $ \{ x^{k} \}_{k \geq 0} $ to a random variable from the target distribution.
+
+The principle of MCMC methods originated with the classic paper of Nicholas Metropolis, Arianna W.\,Rosenbluth, Marshall N.\,Rosenbluth, Augusta H.\,Teller and Edward Teller \autocite{Metropolis1953} in 1953. It was used to simulate the configuration of states for a system of idealized particles. The so-called Metropolis algorithm, introduced in this paper, formed the basis for statistical mechanics simulations of large atomic and molecular systems which are useful in describing the properties of gases, fluids, mixtures of fluids, solids, and even the interior of stars. Theses expensive calculations became feasible through the invention of computers like the MANIAC at Los Alamos National Lab where the Metropolis algorithm was run for the first time \autocites{MCAtWork1987, UlamNeumannMC1987}. 
+The key contribution of Metropolis et al.\,was a change in the methodology: instead of choosing configurations randomly, then weighting them according to the Boltzman distribution, they choosed configurations with a probability according to the Boltzman distribution and weighted them evenly. This change set the sampling focus on the low-energy configurations, which contribute the most to the Boltzman average which resulted in inproved convergence of the simulation for the specific case of the canonical ensemble. In 1970, W.\,K.\,Hastings extended this methodology to general probability distributions \autocite{Hastings1970}. Further MCMC methods are the Gibbs sampler, the slice sampler or the reversible jump MCMC method (see \autocite{Robert2005}).
+
+In the sequel, we introduce the Metropolis-Hastings algorithm where the transition kernel used for the generation of the Markov chain is realized by a proposal and accept-reject step. This combination of proposing a suitable candidate and prefering good candidates but not excluding the other ones, gives the recipe for an ergodic Markov chain under suitable assumptions on the proposals.
+
 \section{The Metropolis-Hastings algorithm}
-\label{sec:Metropolis-HastingsAlgo}
+\label{MH-TheMetropolis-HastingsAlgo}
 
-\subsection{The MCMC Principle}
+The Metropolis-Hastings algorithm is a rather general algorithm as no specific proposals are given. This will be done later by introducing two different types of more or less naives proposals: RWM and MALA. Nevertheless, we first adress the important issue of theoretical validity for all types of Metropolis-Hastings algorithms. For a more detailed introduction see \autocite{Robert2005}.
 
-\subsection{The Metropolis-Hastings algorithm}
+Let $ \left( E, \mathcal{B}(E) \right) $ be a measurable space equipped with the Borel-$\sigma$-algebra where $ E \subset \mathbb{R}^{N} $ and the densities are taken with respect to the $N$-dimensional Lebesgue measure $\lambda^{N}(dx)$. Let $ \pi^{N}(dx) $ be the $N$-dimensional (target) distribution on $ E $ which is absolute continuous with respect to the Lebesgue measure, i.e., $ \pi^{N}(dx) \varpropto \pi^{N}(x) \; \lambda^{N}(dx) $ and let $ Q : E \times \mathcal{B}(E) $ be an arbitrary transition kernel on $\left( E, \mathcal{B}(E) \right) $ satisfying for any $ x \in E $ and $ A \in \mathcal{B}(E) $
+\begin{equation}
+ Q(x,A) \geq 0, \quad Q(x, E) = 1,
+\end{equation}
+which generates potential transitions for a discrete time Markov chain evolving on $ E $.  We will assume that $ Q(x, \, \cdot \,) $ is absolutely continuous, with density $ q(x,y) $  with respect to the Lebesgue measure $ \lambda^{N}$.
 
-\subsubsection{Convergence Properties}
+The Metropolis-Hastings algorithm proceeds as follows. Starting from an initial state $ x^{0,N} \in E $, for every current state $x$ proposals $y$ are generated according to the transition kernel $ q (x, y) $ and in a second step accepted or rejected such that the resulting Markov chain $ x^{N} := \{ x^{k,N} \}_{k} $ has the target $ \pi^{N} $ as invariant distribution.
 
-\subsubsection{The Random Walk Metropolis-Hastings algorithm}
 
-\subsubsection{The Metropolis adjusted Langevin algorithm}
+\IncMargin{1em}
+\begin{algorithm}
+\TitleOfAlgo{Metropolis-Hastings}
+\DontPrintSemicolon
+
+\KwData{Initial state $ x^{0,N} $, proposal kernel $ q(x,y) $ and \mbox{number of iterations $ M > 0 $}}
+\KwResult{$\pi^{N}$-invariant Markov chain $ \{ x^{k,N} \}_{0 \leq k \leq M} $}
+
+\BlankLine
+
+\For{$ k \leftarrow 1 $ \KwTo $M$}
+{
+  Generate proposal: $ y^{k,N} \stackrel{D}{\thicksim} q(x^{k,N}, \cdot \;) $\;
+  Set acceptance probability:
+  \begin{equation*}
+   \alpha^{N} ( x^{k,N}, y^{k,N} ) := 1 \wedge \dfrac{\pi^{N}(y^{k,N}) q(y^{k,N},x^{k,N}) }{\pi^{N}(x^{k,N}) q(x^{k,N},y^{k,N})}.    
+  \end{equation*}\label{MHAlgo-AcceptanceProba}
+  \emph{Acceptance-rejection step}\;
+  Generate $ U \stackrel{D}{\thicksim} \text{Unif}(0,1) $\;
+  \If { $ U < \alpha^{N} ( x^{k,N}, y^{k,N} ) $ }{ accept and set $ x^{k+1,N} = y^{k,N} $}
+  \Else {reject and set $ x^{k+1,N} = x^{k,N} $}
+
+}
+\caption{Metropolis-Hastings algorithm with general proposals}\label{Algo-MH}
+\end{algorithm}\DecMargin{1em}
+
+The distribution $ Q(x,dy) $ is called the proposal distribution and the probability $ \alpha^{N}(x,y) $ the Metropolis-Hastings acceptance probability. This algorithm always accepts proposals $y$ such that the ratio $ \pi^{N}(y) / q(x,y) $ is increased, compared with the current state ratio $ \pi^{N}(x) / q(y,x) $. An important feature of the Metropolis-Hastings algorithm is that it may accept proposals $y$ such that this ratio is decreased.
+
+\begin{rem}
+\label{Rem-Omitting constants in densities}
+ Note that neither the target disribution $ \pi^{N}(dx) $ nor the proposal transition kernel $ Q(x,dy) $ have to be normalised as we take the ratio of densities in step \ref{MHAlgo-AcceptanceProba} of the Metropolis-Hastings Algorithm \ref{Algo-MH}. Every normalising constant will be cancelled out. Since the calculation of such normalising constants corresponds to calculating high-dimensional integrals, e.g. by Monte Carlo integration, this is a real advantage of Algorithm \ref{Algo-MH}. For the sake of simplicity, we will assume that $ \pi^{N}(dx) $ and $ Q(x,dy) $ are normalized.
+\end{rem}
+
+To avoid theoretical difficulties, we make the convention that the acceptance probability $ \alpha^{N}(x,y) $ is equal to 0 when either $ \pi^{N}(x) $ or $ \pi^{N}(y) $ are null.
+
+\begin{rem}
+\label{Rem-SupportOfProposals}
+However it is necessary, that every area in the support of the target distribution $ \pi^{N} $ can be reached by the proposal transition kernel $ Q(x,dy) $, i.e.,
+\begin{equation*}
+ \text{supp} (\pi^{N}) \subset \bigcup_{x \in \text{supp} (\pi^{N}) } \text{supp} (Q(x, \, \cdot \,)).
+\end{equation*}
+This is a minimal necessary condition for reaching the target distribution.
+
+Moreover it is easier for the Metropolis-Hastings algorithm if the support of the target distribution $ \pi^{N} $ is connected. In the case of an unconnected support, one has to verify that the different connected components of the support of $ \pi^{N} $ are linked by the proposal kernel. We thus assume for the sakeof simplicity that the support of the target distribution is connected.
+ 
+\end{rem}
+
+
+We claimed that the Markov chain $ x^{N} $ has the target distribution $ \pi^{N} $ as invariant distribution. Therefore we introduce the transition kernel of $ x^{N} $ denoted by
+\begin{align}
+\label{MH-TransitionKernelOfMHChain}
+ P^{N}(x,dy) & \; = \alpha^{N}(x,y) Q(x, dy) + r^{N}(x)\delta_{x}(dy) \\
+ & \; = \alpha^{N}(x,y) q(x,y) \; \lambda^{N}(dy) + r^{N}(x)\delta_{x}(dy),
+\end{align}
+
+where $ r^{N}(x):= \int_{E} \left( 1 - \alpha^{N}(x,y) \right) q(x,y) \; \lambda^{N}(dx) $ represents the probability to stay at the current position.
+
+By a straight forward calculation, one can see, that the Metropolis-Hastings Algorithm \ref{Algo-MH} produces a Markov chain $ x^{N} $ which fulfills the \emph{detailed balance condition} with respect to $ \pi^{N} $, i.e.,
+\begin{equation}
+ \pi^{N}(dx) P^{N}(x,dy) = \pi^{N}(dy) P^{N}(y,dx).
+\end{equation}
+
+\begin{proof}
+ Let $ x, y \in E $ and $ x \ne y $, then
+ \begin{align*}
+  \pi^{N}(dx) P^{N}(x,dy) & \; = \left( \pi^{N}(x) \, \lambda^{N}(dx) \right)  \left( \alpha^{N}(x,y) q(x,y) \, \lambda^{N}(dy) \right) \\
+  & \; = \pi^{N}(x)  q(x,y) \left( 1 \wedge \dfrac{\pi^{N}(y) q(y,x) }{\pi^{N}(x) q(x,y)} \right) \, \lambda^{N}(dx) \lambda^{N}(dy) \\
+  & \; = \left( \pi^{N}(x)  q(x,y) \wedge \pi^{N}(y) q(y,x) \right) \, \lambda^{N}(dx) \lambda^{N}(dy),
+ \end{align*}
+ which is symmetric in $x$ and $y$.
+
+\end{proof}
+
+Hence, the Markov chain $ x^{N} $ generated by the Metropolis-Hastings Algorithm \ref{Algo-MH} is $ \pi^{N} $-invariant, i.e.,
+
+\begin{equation}
+ \pi^{N} (A) = \int_{E} P^{N}(x,A) \pi^{N}(dx)
+\end{equation}
+for any $ A \in \mathcal{B}(E) $.
+
+
+
+\subsection{Convergence and ergodicity properties}
+\label{MH-ConvergenceProperties}
+
+
+Until now we have shown that the Metropolis-Hastings algorithm with general proposal kernels $q(x,y)$ generates a $ \pi^{N} $-invariant Markov chain. However, this does not imply the convergence of the generated Markov chain towards the invariant target distribution. Hence, we now turn to summarizing sufficient conditions on the Metropolis-Hastings Markov chain to be asymptotically distributed according to $ \pi^{N} $. The presented results are due to Robert and Casella \autocite{Robert2005} and Roberts and Rosenthal \autocite{Rosenthal2004}. 
+
+We begin by stating the main result due to Robert and Casella (Theorem 7.4, \autocite{Robert2005}): The convergence and ergodicity result for Metropolis-Hastings Markov chains.
+
+\begin{thm}
+\label{Theorem-Ergodicity}
+ Suppose that the Metropolis-Hastings Markov chain $ \{ x^{k,N} \}_{k} $ is  $ \pi^{N} $-irreducible.
+ \begin{enumerate}
+  \item If $ f \in L^1( \pi^{N} ) $, then
+  \begin{equation}
+  \label{Theorem-Ergodicity-Statement1}
+   \lim_{K \to \infty} \frac{1}{K} \sum_{k = 1}^{K} f \left( x^{k,N} \right) = \int_E f(x) \; \pi^{N}(dx) \qquad \pi^{N}-a.e
+  \end{equation}
+  
+  \item If in addition, $ \{ x^{k,N} \}_{k} $ is aperiodic, then
+  \begin{equation}
+  \label{Theorem-Ergodicity-Statement2}
+   \lim_{n \to \infty} \left\| \int_E \left( P^{N} \right)^n (x, \, \cdot \, ) \mu(dx) -  \pi^{N}   \right\|_{TV} = 0
+  \end{equation}
+  for every initial distribution $\mu$, where $ \left( P^{N} \right)^n (x, \, \cdot \, ) $ denotes the kernel for $n$ transitions, as in equation \ref{MH-TransitionKernelOfMHChain}.
+
+ \end{enumerate}
+  
+\end{thm}
+
+Here, we used the notion of total variation norm to measure the difference between two measures or the distance to stationarity.
+
+\begin{defin}
+ Let $\mu$ and $\nu$ be two probability measures on the measurable space $ \left( S, \mathcal{S} \right) $. The total variation distance between $\mu$ and $\nu$ is:
+ \begin{equation}
+  \left\| \mu - \nu \right\|_{TV} := \sup_{A \in \mathcal{S}} \left| \mu(A) - \nu(A) \right|.
+ \end{equation}
+
+\end{defin}
+
+The assertion of the Theorem \ref{Theorem-Ergodicity} is two-folded. The first statement (\ref{Theorem-Ergodicity-Statement1}) justifies the convergence of the empirical average to the integral with respect to the target distribution. Hence, the Metropolis-Hastings method can be used as a simulation-based approach to the approximation of complex integrals. The second inference (\ref{Theorem-Ergodicity-Statement2}), which is in the sequel more important, states that the distribution of the Metropolis-Hastings Markov chain converges to the target distribution. Thus the Metropolis-Hastings algorithm is well-posed. 
+
+In more details, the $ \pi^{N} $-irreducibility and aperiodicity of the transition kernels of the Metropolis-Hastings chain imply its Harris recurrence (see Lemma 7.3 in \autocite{Robert2005}) due to the characterization of Harris recurrence via harmonic functions and the explicite definition of the transition kernels and for aperiodic, Harris recurrent Markov chains with invariant distribution, a ergodic and covergence result apply. It rests to show $ \pi^{N} $-irreducibility and aperiodicity of the transition kernels of the chain.
+
+
+As a key property, we introduce the notion of ''irreducibility`` for the locally compact state space $ \left( E, \mathcal{B}(E) \right) $ equipped with the Lebesgue measure $ \lambda^{N} $. Let $ \nu $ be a positive measure on $ \left( E, \mathcal{B}(E) \right) $ with full support, i.e., $ \nu(B) > 0 $ for any non-empty open set $ B \subset E $.
+
+\begin{defin}[$ \nu $-irreducibility]
+ The transition kernel $ P $ is called $ \nu $-irreducible if and only if for any $ x \in E $ and for any $ A \in \mathcal{B}(E) $ with $ \nu(A) > 0 $, there exists $ n \in \mathbb{Z}_{+} $ such that $ P^{n} (x,A) > 0 $.
+\end{defin}
+
+In contrast to the classical notion of ''irreducibility`` for countable state spaces $E$ which states that the transtion kernel has to have positive probability of eventually reaching any state from any other state, the notion of $ \nu $-irreducibility is weaker. Here, we want that any subset $B \in \mathcal{B}(E) $ with positive measure under $ \nu $ is eventually reachable with positive probability from any state $ x \in E $.
+
+Similary, the notion of ''aperiodicity'' of irreducibile transition kernels can be generalized to $ \nu $-irreducible transition kernels (see Chapter 6 of \autocite{Robert2005}).
+
+Therefore, we can state the following assumptions on the proposal kernel and the target distribution to obtain
+
+Assume that there exist positive numbers $ \varepsilon $ and $ \delta $ such that
+\begin{equation}
+\label{MH-Convergence-Properties: Assumptions on q}
+  q(x,y) > \varepsilon \quad \text{ if } \; | x - y | < \delta,
+\end{equation}
+and that $ \pi^{N} $ is bounded and positive on every compact set of its support
+
+
+
+
+
+
+The existence of an invariant distribution $ \pi^{N} $ makes that distribution a natural candidate for the limiting distribution. Two problems may occur: $ \pi^{N} $ has not to be the unique invariant distribution and the Markov chain $ x^{N} $ has not to converge to $ \pi^{N} $. Hence, we want to give a short overview on the assumptions on the Markov chain $ x^{N} $, and therefore on the proposal kernels $ Q(x,dy) $ to obtain asymptotic convergence to the invariant distribution $ \pi^{N} $. In other words we will claim that the Markov chain generated by the general Metropolis-Hastings algorithm is ergodic. 
+
+The following presentation of the ergodicity of these Markov chains generated by the Algorithm \ref{Algo-MH} is taken from \autocite{Robert2005} and \autocite{Rosenthal2004}. For a more detailed discussion of these convergence properties see \autocite{Meyn2009, Robert2005, Rosenthal2004}. The aim of this section is only to sum up some assumptions to provide a simple convergence result. The analysis of further ergodicity results or quantitative convergence rates goes far beyond this thesis (see \autocite{Meyn2009}).
+
+
+
+
+
+
+\begin{claim}
+ The Metropolis-Hastings chain $ x^{N} = \{ x^{k,N} \}_{k} $ is $ \pi^{N} $-irreducible.
+\end{claim}
+
+\begin{proof}
+ Indeed, let $ \pi^{N}(A) > 0 $. Then there exists $ r > 0 $ such that $ \pi^{N}(A_r) > 0 $, where $ A_r := A \cap B_r(0) $ and $ B_r(x) := \{ y \in \mathbb{R}^{N} : |x-y| < r \}  $. Then by continuity of $q(\cdot,\cdot)$, for any $ x \in \mathbb{R}^{N} $, $ \inf_{y \in A_r} \min \{ q(x,y), q(y,x) \} \geq \varepsilon $ for some $ \varepsilon > 0 $, and thus we obtain
+ \begin{equation}
+  P^{N}(x,A) \geq P^{N}(x, A_r)
+ \end{equation}
+
+\end{proof}
+
+
+
+
+
+
+\subsection{The Random Walk Metropolis-Hastings algorithm}
+\label{MH-RWM}
+
+A quite natural approach for the practical construction of a Metropolis-Hastings algorithm are random walk proposals: taking the previously simulated state to generate the following. In other words, the algorithm explores the local neighborhood of the current state to find the next proposal and therefore possible next state of the Markov chain.
+
+The proposal kernel $Q$ with density $ q(x,y) $ in algorithm \ref{Algo-MH} is allowed to depend on the current state $x$. Thus, a first choice to consider is to simulate the new proposal $ y $ by perturbating the current state, i.e.,
+\begin{equation}
+ \label{MH-RWM:RWM-proposals, First choice}
+ y = x + \xi,
+\end{equation}
+where $ \xi $ is a random pertubation independent from $ x $. This means in terms of the Metropolis-Hastings algorithm, that the proposal density $ q(x,y) $ is now of the form $ q(y-x) $, i.e., the transition from $x$ to $y$ depends only on the difference of these two states. Without the Metropolizing acceptance and rejecting step in algorithm \ref{Algo-MH}, the Markov chain associated with $q(x-y)$ is a random walk.
+
+
+The convergence and ergodicity results of Section \ref{MH-ConvergenceProperties} naturally apply in this particular setup. Considering the assumption in equation \ref{MH-Convergence-Properties: Assumptions on q}, if the distribution of the pertubations $q$ is positive in a neighborhood of 0, the generated Metropolis-Hastings Markov chain $ x^{N} = \{ x^{k,N} \}_{k} $ is $ \pi^{N} $-irreducible and aperiodic, and therefore ergodic. A widely used and important choice for the distribution of pertubations and therefore the proposal distribution $ q(x,y) $ are the normal distributions. Hence, we will consider in the sequel that the proposal kernel is given by
+\begin{equation}
+ Q(x. \, \cdot \,) := \mathcal{N}(x, \sigma^2 I_{N} ),
+\end{equation}
+where $ \mathcal{N}(x, \sigma^2 I_{N} ) $ denotes the $N$-dimensional normal (or Gaussian) distribution with mean $x \in E$ and covariance matrix $ \sigma^2 I_{N} $ with $ \sigma^2 > 0 $ and $ I_{N} $ the $N$-dimensional identity matrix. We can express the proposal density $ q(x,y) $ by:
+\begin{equation}
+ q(x,y) = q(y-x) \varpropto  \exp{ \left( - \frac{ \| y-x \|^2 }{2 \sigma^2} \right) }.
+\end{equation}
+
+Recall as mentioned in Remark \ref{Rem-Omitting constants in densities} that the Metropolis-Hastings algorithm only considers ratios of densities. Thus normalizing constants like $ \left( (2 \pi)^{N} N \sigma^2 \right)^{-1/2} $ in the case of the multivariate normal distribution are omitted. Note, that in this particular case $\pi$ denotes the mathematical constant.
+
+It can be easily seen, that these proposal densities are positive in a neighborhood of 0 for any $ \sigma^2 > 0 $. Moreover, $ q(x,y) $ is symmetric in $x$ and $y$ as it only depends on the squared distance of $x$ and $y$. This leads to a slightly simpler formulation of the Metropolis-Hastings algorithm, the random walk Metropolis (RWM) algorithm \ref{Algo-RWM}.
+
+
+\IncMargin{1em}
+\begin{algorithm}
+\TitleOfAlgo{Random walk Metropolis}
+\DontPrintSemicolon
+
+\KwData{Initial state $ x^{0,N} $, proposal variance $ \sigma^2 $ and \mbox{number of iterations $ M > 0 $}}
+\KwResult{$\pi^{N}$-invariant Markov chain $ \{ x^{k,N} \}_{0 \leq k \leq M} $}
+
+\BlankLine
+
+\For{$ k \leftarrow 1 $ \KwTo $M$}
+{
+  Generate proposal: $ y^{k,N} \stackrel{D}{\thicksim} \mathcal{N}\left(x^{k,N}, \; \sigma^2 I_N\right) $\;
+  Set acceptance probability:
+  \begin{equation*}
+   \alpha^{N} ( x^{k,N}, y^{k,N} ) := 1 \wedge \dfrac{\pi^{N}(y^{k,N}) }{\pi^{N}(x^{k,N})}.    
+  \end{equation*}\label{RWMAlgo-AcceptanceProba}
+  Generate $ U \stackrel{D}{\thicksim} \text{Unif}(0,1) $\;
+  \If { $ U < \alpha^{N} ( x^{k,N}, y^{k,N} ) $ }{ accept and set $ x^{k+1,N} = y^{k,N} $}
+  \Else {reject and set $ x^{k+1,N} = x^{k,N} $}
+
+}
+\caption{Random walk Metropolis algorithm with Gaussian proposals}\label{Algo-RWM}
+\end{algorithm}\DecMargin{1em}
+
+
+Note for the following discussion, that we do not have fixed a proposal variance $ \sigma^2 > 0 $. An appropriate choice of $ \sigma^2 $ will be the key in the optimal scaling of RWM. See Section ???.
+
+
+?Remark? RWM proposal is a discretized Brownian motion?
+
+ 
+
+\subsection{The Metropolis adjusted Langevin algorithm}
+\label{MH-MALA}
+
+An alternative and more sophisticated proposal for the Metropolis-Hastings algorithm can be derived from diffusion theory.
+
+Choose proposals according to Langevin diffusion; why is it a good proposal?. Normaldistribution with proposal variance  $ \delta $ and current state $ x^{k,N} $ plus gradient correction of the target distribution as mean.
+
+Repeat algorithm.
+
+Prove assumptions for well-definedness.
+
+\IncMargin{1em}
+\begin{algorithm}
+\TitleOfAlgo{Metropolis adjusted Langevin}
+\DontPrintSemicolon
+
+\KwData{Initial state $ x^{0,N} $, proposal variance $ \sigma^2 $ and \mbox{number of iterations $ M > 0 $}}
+\KwResult{$\pi^{N}$-invariant Markov chain $ \{ x^{k,N} \}_{0 \leq k \leq M} $}
+
+\BlankLine
+
+\For{$ k \leftarrow 1 $ \KwTo $M$}
+{
+  Generate proposal: $ y^{k,N} \stackrel{D}{\thicksim} \mathcal{N}\left(x^{k,N} + \frac{\sigma^2}{2} \nabla \log \pi^{N}(x^{k,N}), \; \sigma^2 I_N\right) $\;
+  Set acceptance probability:
+  \begin{align*}
+   \alpha^{N} & ( x^{k,N}, y^{k,N} )  := \\ 
+   & 1 \wedge  \dfrac{\pi^{N}(y^{k,N}) }{\pi^{N}(x^{k,N})} \cdot
+    \dfrac{ \exp{\left( - \frac{1}{2\sigma^2} \left\| y^{k,N} - x^{k,N} - \frac{\sigma^2}{2} \nabla \log \pi^{N}(x^{k,N}) \right\|^2 \right)} }{ \exp{\left( - \frac{1}{2\sigma^2} \left\| x^{k,N} - y^{k,N} - \frac{\sigma^2}{2} \nabla \log \pi^{N}(y^{k,N}) \right\|^2 \right)} }.    
+  \end{align*}\label{MALAAlgo-AcceptanceProba}
+  Generate $ U \stackrel{D}{\thicksim} \text{Unif}(0,1) $\;
+  \If { $ U < \alpha^{N} ( x^{k,N}, y^{k,N} ) $ }{ accept and set $ x^{k+1,N} = y^{k,N} $}
+  \Else {reject and set $ x^{k+1,N} = x^{k,N} $}
+
+}
+\caption{Metropolis adjusted Langevin algorithm}\label{Algo-MALA}
+\end{algorithm}\DecMargin{1em}
