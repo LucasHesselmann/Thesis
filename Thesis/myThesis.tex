@@ -1,6 +1,6 @@
-\documentclass[10pt, a4paper, openright, twoside, final]{scrreprt}
+\documentclass[10pt, a4paper, openright, twoside, final, DIV10, BCOR8.25mm ]{scrreprt}
 
-\usepackage[UKenglish]{babel}
+\usepackage[USenglish]{babel}
 \usepackage{MA_Titlepage}
 
 %europäischer Zeichensatz/Silbentrennung
@@ -32,7 +32,7 @@
 % for graphics
 \usepackage{graphicx} 
 %no indentation
-\parindent0pt 
+%\parindent0pt 
 % for subcaptions
 \usepackage{subcaption}
 
@@ -57,10 +57,11 @@
 %Literaturverzeichnis
 \usepackage[
 	babel, 
-	english=british
+	english=american
 ]{csquotes}
 \usepackage[
-	backend=biber
+	backend=biber,
+	style=alphabetic
 ]{biblatex}
 \bibliography{references}
 
@@ -79,7 +80,7 @@
 %Name of the author of the thesis 
 \authornew{Lucas Frederic Marcus Hesselmann}
 %Date of birth of the Author
-\geburtsdatum{10th August 1988}
+\geburtsdatum{August 10, 1988}
 %Place of Birth
 \geburtsort{Osnabrück, Germany}
 %Date of submission of the thesis
@@ -143,11 +144,23 @@
 \input{Complexity}
 
 
-\input{invariancePrinciple}
+\input{Application}
+
+
+\input{Diffusion}
+
+
+\input{Numerical}
+
+
+%\input{invariancePrinciple}
 
 
 \appendix
+
 \printbibliography
+
+%\input{appendix}
 
 %\clearpage
 
