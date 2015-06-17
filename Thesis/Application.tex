@@ -1,0 +1,61 @@
+\chapter{Application and Motivation}
+\label{Application}
+
+
+Applications are the origin of motivation, especially in applied mathematics. For this reason, two widely used applications of Metropolis-Hastings methods are described in this chapter: conditioned diffusions and the Bayesian approach to inverse problems. In the case of additive noise (conditioned diffusion) or Gaussian priors (Bayesian nonparametric inversion problems) both ideas have a common structure; the desired target measure is obtained by a change of measure from a Gaussian measure on a infinite dimensional Hilbert space (function space). To give a better understanding of the usability of the results in the sequel, we want to give two examples. For more information on possible applications see~\autocite{Beskos2009, Beskos2008, Dashti2012, Dashti2013, Delyon2006, Hairer2011, Stuart2010}.
+
+\section{Conditioned Diffusion}
+
+Our motivation is that simulation of conditioned diffusions plays a fundamental role in simulation-based likelihood inference (including Bayesian inference) for discretely sampled diffusion processes and other diffusion-type processes like stochastic volatility models. What are a conditioned diffusions?  Roughly, the setting is summarized in the following way, we have discrete observations of a continuous diffusion process and we want to generate a trajectory going through these observations according to the underlying diffusion process. Since the start and end point are given and we want to simulate the diffusion between these two points, conditioned diffusions are often called \textit{diffusion bridges}.
+
+Consider the following (general) example. Assume, that the dynamics of the diffusion are determined by the SDE
+\begin{equation}
+ \label{Application:Diffusion bridge SDE}
+ \frac{dX}{dt} = AX + f(X) + B \frac{d\mathcal{W}}{dt}, \qquad t \in [0,1],
+\end{equation}
+with
+\begin{equation}
+ \label{Application:Diffusion bridge drift}
+ f = - B B^T \nabla V
+\end{equation}
+for some $V: \mathbb{R}^N \to \mathbb{R}$. Also $A \in \mathbb{R}^{N \times N}, B \in \mathbb{R}^{N \times N}$ is invertible, and $\mathcal{W}$ is a standard $N$-dimensional Wiener process in $\mathbb{R}^N$. The drif~$f$ in gradient form introduces the nonlinearity in the apart from that linear SDE. Generating numerical approximations for this unconditioned diffusion $X$ is relatively straight forward (e.g., Milstein scheme, see \autocite{Kloeden1992}). It is, however, harder to sample from the conditioned laws of Equation~(\ref{Application:Diffusion bridge SDE}) such as 
+\begin{equation}
+ X(0) = x^-, \qquad X(1) = x^+
+\end{equation}
+for arbitrary~$x^-, x^+ \in \mathbb{R}^N$. To apply Metropolis-Hastings methods now, we denote by $\pi$ the distribution of the conditioned target bridge and by $\pi_0$ the Gaussian distribution of the corresponding bridge for vanishing nonlinear term~$f \equiv 0$. Under standard regularity conditions, $\pi$ and $\pi_0$ are equivalent with a density provided by Girsanov's Theorem~(\autocite{Oksendal2003}). The gradient form of the drift in Equation~(\ref{Application:Diffusion bridge drift}) and It\={o}'s Lemma provide the following expression for $\pi$:
+\begin{equation}
+ \frac{d\pi}{d\pi_0} (x) \varpropto \exp (- \langle 1, \Phi (x(\cdot)) \rangle ), \qquad x \in \mathcal{H},
+\end{equation}
+where $\langle \cdot, \cdot \rangle$ is the inner product on the Hilbert space $\mathcal{H} = L^2 ([0,1]; \mathbb{R}^N)$ and $\Phi: \mathbb{R}^N \to \mathbb{R}$ is given by 
+\begin{equation}
+ \Phi(z) = |B^{-1}f(z)|^2 /2 + div f(z) /2 + f(z)^T ( B B^T)^{-1} Az, \qquad z \in \mathbb{R}^N.
+\end{equation}
+
+Hence, we obtain the law of the conditioned diffusion, which is our target distribution, by a change of measure from a Gaussian law on an infinite dimensional Hilbert space via the functional~$\Psi: \mathcal{H} \to \mathbb{R}$ defined by $\Psi (x) := \langle 1, \Phi(x(\cdot)) \rangle $. Such a general structure for diffusion bridges occurs usually in applications as molecular dynamics or signal processing~\autocite{Beskos2008, Beskos2009, Hairer2011}.
+
+
+\section{Bayesian Inversion}
+
+The Bayesian approach to inverse problems is natural in many situations where data and model must be integrated with one another to provide maximal information about the system. The basic idea is to treat all quantities as random variables and to model missing information like noise via its statistical properties. In many applications our object of interest is a function, like an initial velocity field or a time-depending signal. However, when the object of interest is a function then the posterior measure from Bayes’s formula is a measure on a function space. Hence, we are in a similar setting as for diffusion bridges as we are dealing with measures on infinite Hilbert spaces.  In the following, we want to give more details on the Bayesian approach to have a better intuition.
+
+
+Consider the inverse problem of estimating an unknown function $u$ in a Hilbert space~$\mathcal{H}$, from a given observation~$y \in \mathbb{R}^J$, where
+ \begin{equation}
+  \label{Application: Bayesian inversion pertubated problem}
+  y = \mathcal{G}(u) + \eta,
+\end{equation}
+here $\mathcal{G}: \mathcal{H} \to \mathbb{R}^J$ is a possibly nonlinear operator, and the additive noise $\eta$ is a realization of an $\mathbb{R}^J$-valued Gaussian random variable with known covariance matrix $\Gamma$. We specify a \textit{prior} probability measure $\mu_0$  on $u$, which is assumed to be a Gaussian measure $ \mathcal{N}(0, \mathcal{C}) $ on the (infinite-dimensional) Hilbert space $\mathcal{H}$. Moreover, the \textit{posterior} probability measure~$\mu^y$ for $u$ given $y$ is determined by equation~(\ref{Application: Bayesian inversion pertubated problem}), with $\eta$ assumed independent of $u$. Under appropriate conditions on $\mu_0$ and $\mathcal{G}$, the informal application of Bayes theorem leads us to expect that the Radon-Nikodym derivative of the posterior distribution~$\mu^y$ with respect to $\mu_0$ is
+\begin{equation}
+ \frac{d \mu^y}{d \mu_0}(u) \varpropto \exp (- \Psi(u; y))
+\end{equation}
+where
+\begin{equation}
+ \Psi (u;y) := \frac{1}{2} \left| \Gamma^{-1/2} (y- \mathcal{G}(u)) \right|^2.
+\end{equation}
+
+The operator $\mathcal{G}$, which we basically want to invert, is determined by concrete applications and usually given by a differential operator (e.g., Laplace or Stokes operator). Accordingly, the Hilbert space~$\mathcal{H}$ and the covariance operator~$\mathcal{C}$ of the prior Gaussian measure are choosen. The functional~$\Psi$ may be restricted to a smaller subset~$X \subset \mathcal{H}$ such that $\Psi$ fulfills some regularity conditions to better control the change of measure. To control the change of measure can be interesting, as Gaussian measures induces subtle structures which can be transfered to the target measure~$\pi$ via the functional~$\Psi$.
+
+Such a general structure with Gaussian priors occurs usually in applications as geophysics, data assimilation and fluid dynamics~\autocite{Beskos2009, Dashti2012, Stuart2010}.
+\newline
+
+In the end, both applications, conditioned diffusions and Bayesian inversion problems, introduce a similar setting, where the target measure of interest is defined via a change of measure from a Gaussian measure on a infinite-dimensional Hilbert space. These target measures do not have a product form as in the sense of Equation~(\ref{CC:iid product targets}) or~(\ref{CC:Scaled product targets}). Therefore, the scaling results presented in Chapter~\ref{CC:Existing results} do not apply and we have to approach this problem differently. This will be done in the following Chapter~\ref{Diffusion Limit Results}.
