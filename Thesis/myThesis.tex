@@ -35,6 +35,8 @@
 %\parindent0pt 
 % for subcaptions
 \usepackage{subcaption}
+% for left indices
+\usepackage{leftidx}% http://ctan.org/pkg/leftidx
 
 %Headers and footers
 \usepackage{scrlayer-scrpage}
@@ -99,18 +101,18 @@
 
 %Theoremstyles
 \theoremstyle{plain}
-\newtheorem{thm}{Theorem}
-\newtheorem{prop}{Proposition}
-\newtheorem{lemma}{Lemma}
-\newtheorem{claim}{Claim}
-\newtheorem{cor}{Corollary}
+\newtheorem{thm}{Theorem}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{claim}{Claim}[chapter]
+\newtheorem{cor}{Corollary}[chapter]
 
 \theoremstyle{definition}
-\newtheorem{defin}{Definition}
-\newtheorem{assum}{Assumption}
+\newtheorem{defin}{Definition}[chapter]
+\newtheorem{assum}{Assumption}[chapter]
 
 \theoremstyle{remark}
-\newtheorem{rem}{Remark}
+\newtheorem{rem}{Remark}[chapter]
 
 \renewcommand{\sc}{\textsc}
 
