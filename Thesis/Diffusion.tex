@@ -1,7 +1,7 @@
 \chapter{Diffusion Limit Results}
 \label{Diffusion Limit Results}
 
-The following chapter approaches the issue of complexity of Metropolis-Hastings~(MH) methods for a class of target distributions obtained by a change of measure from a Gaussian measure on an infinite dimensional Hilbert space. This Hilbert setting is widely used in applications as diffusion bridges and Bayesian inverse problems, see Chapter~\ref{Application}. Mattingly, Pillai and Stuart~\autocite{Mattingly2010} and Pillai, Stuart and Thi\'{e}ry~\autocite{Pillai2012} proved that under certain conditions on the regularity of the change of measure and the decay of eigenvalues of the Gaussian covariance operator, a diffusion limit process exists for a suitable scaled version of the MH Markov chain. Hence, according to the research programm initiated by Roberts and coworkers in the pair of papers~\autocite{Roberts1997, Roberts1998} and presented in Chapter~\ref{CC:Optimality and Diffusion Limits}, a computational complexity of $\mathcal{O}(N)$ for the Random Walk Metropolis~(RWM) (introduced in Chapter~\ref{MH-RWM}) and of $\mathcal{O}(N^{1/3})$ for the Metropolis Adjusted Langevin Algorithm~(MALA) (introduced in Chapter~\ref{MH-MALA}) is achieved with dimension~$N$ going to infinity.
+The following chapter approaches the issue of the complexity of Metropolis-Hastings~(MH) methods for a class of target distributions obtained by a change of measure from a Gaussian measure on an infinite dimensional Hilbert space. This Hilbert space setting is widely used in applications as conditioned diffusions and Bayesian inverse problems, see Chapter~\ref{Application}. Mattingly, Pillai and Stuart~\autocite{Mattingly2010} and Pillai, Stuart and Thi\'{e}ry~\autocite{Pillai2012} proved that under certain conditions on the regularity of the change of measure and the decay of eigenvalues of the Gaussian covariance operator, a diffusion limit process exists for a suitable scaled version of the MH Markov chain. Hence, according to the research programm initiated by Roberts and coworkers in the pair of papers~\autocite{Roberts1997, Roberts1998} and presented in Chapter~\ref{CC:Optimality and Diffusion Limits}, a computational complexity of $\mathcal{O}(N)$ for the Random Walk Metropolis~(RWM) (introduced in Chapter~\ref{MH-RWM}) and of $\mathcal{O}(N^{1/3})$ for the Metropolis-Adjusted Langevin Algorithm~(MALA) (introduced in Chapter~\ref{MH-MALA}) is achieved with dimension~$N$ tending to infinity.
 
 This elaboration follows the structure of the the two main references of Mattingly, Pillai and Stuart~\autocite{Mattingly2010} and Pillai, Stuart and Thi\'{e}ry~\autocite{Pillai2012}. Most statements and proofs are taken from these two papers. Since it is our goal to point out a common structure in this two proofs to restate the two main diffusion limit results as one theorem, we will refer to the original papers~\autocite{Mattingly2010, Pillai2012} for several technical estimates.
 
@@ -19,7 +19,7 @@ for a real-valued $\pi_0$-measurable functional~$\Psi$ on the Hilbert space and 
 
 First, the theory of Gaussian measures on infinite dimensional Hilbert spaces~$\mathcal{H}$ introduces the possibility to represent~$\mathcal{H}$ via an orthonormal basis of eigenvectors of~$\mathcal{C}$ with~$\mathcal{C}$ as the convariance operator of the Gaussian measure. This representation combined with the Karhunen-Lo\`{e}ve expansion allows us to express any element of~$\mathcal{H}$ distributed according to the reference measure~$\pi_0$ as a possible infinite sum of independent Gaussian random variables. Under certain regularity conditions on~$\Psi$, this subtle product structure is transfered to the target measure corresponding to the change of measure represented by~$\Psi$. This Gaussian embedding is the is the main reason for the working approximation estimates in Chapter~\ref{sec:DLR-Estimates}.
 
-The second aspect of this inherent mathematical structure is the existence of a putative limit diffusion process. In order to prove a limit result as desired, a diffusion candidate is needed, i.e. a diffusion process which is invariant with respect to~$\pi$. In the abstract infinite dimensional Hilbert space setting, linear stochastic partial differential equations~(SPDE) are well understood, e.g. \autocite{DaPrato1992, Hairer2005, Hairer2007}. In the case of linear SPDEs  of the form
+The second aspect of this inherent mathematical structure is the existence of a putative limit diffusion process. In order to prove a limit result as desired, a diffusion candidate is needed, i.e., a diffusion process which is invariant with respect to~$\pi$. In the abstract infinite dimensional Hilbert space setting, linear stochastic partial differential equations~(SPDE) are well understood, e.g. \autocite{DaPrato1992, Hairer2005, Hairer2007}. In the case of linear SPDEs  of the form
 \begin{equation}
  dx =  \mathcal{A} x dt + \sqrt{2} \, d \mathcal{W}(t) \qquad x(0)  =0,
 \end{equation}
@@ -37,7 +37,7 @@ with $\nu = \mathcal{N}(0, - \mathcal{A}^{-1})$. Taking $U = - \Psi$, $\mathcal{
 \label{DLR-limit diffusion candidate}
  dz = - ( z + \mathcal{C} \nabla \Psi (z) ) dt + \sqrt{2} \mathcal{C}^{1/2} d \mathcal{W}(t), \quad z(0) = z_0,
 \end{equation}
-where $ \mathcal{W}(t) $ is a cylindrical Wiener process in $\mathcal{H}$ and the invariant measure is of the form of $\pi$ as given in Equation~(\ref{DLR-Radon Nikodym derivative}). Moreover, it is shown, that Equation~(\ref{DLR- preconditioned semilinear SPDE - langevin}) has a unique strong and continuous solution. Thus, we have a natural candidate for the infinite dimensional limit diffusion process~\autocite[Theorem 3.6]{Hairer2007}.
+where $ \mathcal{W}(t) $ is a cylindrical Wiener process in $\mathcal{H}$ and the invariant measure is of the form of $\pi$ as given in Equation~(\ref{DLR-Radon Nikodym derivative}). Moreover, it has been shown, that Equation~(\ref{DLR- preconditioned semilinear SPDE - langevin}) has a unique strong and continuous solution. Thus, we have a natural candidate for the infinite dimensional limit diffusion process~\autocite[Theorem 3.6]{Hairer2007}.
 \newline
 
 In this setup, our perspective is to apply MCMC methods to finite approximations of the measure~$\pi$ found by projecting onto the first $N$ eigenfunctions of the covariance operator~$\mathcal{C}$ of the Gaussian reference measure~$\pi_0$. These projections allow us to hope for a consistent definition of the finite dimensional approximations. In the following section, we will define this setting rigorously so that we will be enabled to define the RWM- and MALA-type algorithms and so that we will be able to state the diffusion limit result precisely.
@@ -46,25 +46,23 @@ In this setup, our perspective is to apply MCMC methods to finite approximations
 \section{Hilbert Space Setting, Assumptions, Projections - Preliminaries}
 \label{sec:DLR-Preliminaries}
 
-This section is devoted to stating the setting of the main theorem. As suggested in Chapter~\ref{Application}, the considered setting is complex, and we develop it in a step-by-step fashion. We first introduce the Gaussian reference measure~$\pi_0$ and the change of measure which induces a genuinely nonproduct structure. We then describe a finite dimensional approximation of the measure, enabling us to define a RWM- and MALA-type algorithm.
+This section is devoted to stating the setting of the main theorem. As suggested in Chapter~\ref{Application}, the considered setting is complex, and so we develop it in a step-by-step fashion. We first introduce the Gaussian reference measure~$\pi_0$ and the change of measure which induces a genuinely non-product structure. We then describe a finite dimensional approximation of the measure, enabling us to define a RWM- and MALA-type algorithm.
 
-The structure and most definitions are taken from~\autocite[Section 2]{Pillai2012}. At some passages, we amended it. References for this additonal work will be explicitely given in the text.
+The structure and most definitions are taken from~\autocite[Section 2]{Pillai2012}. At some passages, we tried to improve the comprehension by filling minor gaps in the argumentation and reorganizing and adding some statements. References for this additonal work will be explicitely given in the text.
 
 \subsubsection{Gaussian Reference Measure}
 
-Let $\mathcal{H}$ be a separable Hilbert space of real-valued functions with inner-product denoted by $\langle \cdot, \cdot \rangle$ and associated norm $\|x\|^2 = \langle x, x \rangle$. Consider a (non-degenrated) Gaussian measure~$\pi_0$ on $(\mathcal{H}, \|\cdot\|)$ with covariance operator~$\mathcal{C}$. According to the general theory of Gaussian measures~\autocite[Chapter I]{DaPrato1992}, $\mathcal{C}$ is a self-adjoint and positive trace class operator on $\mathcal{H}$. Although the concept of Gaussian measures on (infinite dimensional) Hilbert spaces should be familiar to the reader, we briefly recall the definitions of the mean and the covariance of Gaussian measures in Hilbert spaces and the definition of \textit{trace class} operators, since this point is crucial for the understanding.
-
-We start with the definition of Gaussian measures on Hilbert spaces, taken from~\autocite[Section 2.3.2]{DaPrato1992}.
+Let $\mathcal{H}$ be a separable Hilbert space of real-valued functions with inner-product denoted by $\langle \cdot, \cdot \rangle$ and associated norm $\|x\|^2 = \langle x, x \rangle$. Consider a (non-degenerated) Gaussian measure~$\pi_0$ on $(\mathcal{H}, \|\cdot\|)$ with covariance operator~$\mathcal{C}$. According to the general theory of Gaussian measures~\autocite[Chapter I]{DaPrato1992}, $\mathcal{C}$ is a self-adjoint and positive trace class operator on $\mathcal{H}$. Although the concept of Gaussian measures on (infinite dimensional) Hilbert spaces should be familiar to the reader, we briefly recall the definitions of the mean and the covariance of Gaussian measures in Hilbert spaces and the definition of \textit{trace class} operators, since this point is crucial for the further understanding. We start with the definition of Gaussian measures on Hilbert spaces, taken from~\autocite[Section 2.3.2]{DaPrato1992}.
 
 \begin{defin}
 \label{DLR-Setting: Definition Gaussian measure}
- Let $(\mathcal{H}, \|\cdot\|)$ be a Hilbert space with inner-product denoted by $\langle \cdot, \cdot \rangle$, a probability measure~$\mu$ on $\mathcal{H}$ is called Gaussian if for arbitrary $y \in \mathcal{H}$ there exist $a \in \mathbb{R}^1, q \geq 0$, such that,
+ Let $(\mathcal{H}, \|\cdot\|)$ be a Hilbert space with inner-product denoted by $\langle \cdot, \cdot \rangle$. Then a probability measure~$\mu$ on $\mathcal{H}$ is called Gaussian if for arbitrary $y \in \mathcal{H}$ there exist $a \in \mathbb{R}^1$ and $ q \geq 0$, such that,
  \begin{equation*}
-  \mu \{ x \in \mathcal{H}: \langle y, x \rangle \in D \} = \mathcal{N}(a, q) (D), \qquad D \in \mathcal{B}(\mathbb{R}^1).
+   \mu \{ x \in \mathcal{H}: \langle y, x \rangle \in D \} = \mathcal{N}(a, q) (D), \qquad \text{ for all } D \in \mathcal{B}(\mathbb{R}^1).
  \end{equation*}
 \end{defin}
 
- In particular, if $\mu$ is Gaussian, then there exist an element $m \in \mathcal{H}$ and a self-adjoint, positive and continuous operator $\mathcal{C}$ such that:
+ In particular, if $\mu$ is Gaussian, then there exist an element $m \in \mathcal{H}$ and a self-adjoint, positive and continuous operator $\mathcal{C}$ such that
  \begin{align}
   \int_{\mathcal{H}} \langle y, x \rangle \mu (dx) = \langle m, y \rangle, \qquad \forall y \in \mathcal{H}, \\
   \int_{\mathcal{H}} \langle y, x - m \rangle \langle z, x - m \rangle \mu (dx) = \langle \mathcal{C}y, z \rangle, \qquad \forall y, z \in \mathcal{H}.
@@ -87,15 +85,15 @@ The covariance operator~$\mathcal{C}$ has some further properties, it turns out 
  \begin{equation*}
   \sum_{j \in I} \| a_j \| \| b_j \| < + \infty.
  \end{equation*}
- If an operator~$\mathcal{A}$ is of trace class then its trace, $\text{Tr}_{\mathcal{H}}\mathcal{A}$, is defined by the formula
+ If an operator~$\mathcal{A}$ is of trace class then its trace, $\text{Tr}_{\mathcal{H}}(\mathcal{A})$, is defined by the formula
  \begin{equation}
   \text{Tr}_{\mathcal{H}}(\mathcal{A}) := \sum_{j \in I} \langle e_j, \mathcal{A} e_j \rangle,
  \end{equation}
- where~$\{ e_j : j \in I \}$  is an orthonormal and complete basis on $\mathcal{H}$.
+ where~$\{ e_j : j \in I \}$  is an orthonormal and complete basis of $\mathcal{H}$.
 
 \end{defin}
 
-Trace class operators have some useful properties. First, note that the definition of the trace is independent of the orthonormal basis~\autocite[Proposition C.1]{DaPrato1992}. More important is the second fact: if $\mathcal{A}$ is a positive and self-adjoint trace class operator (like the covariance operator~$\mathcal{C}$) then it is diagonizable (being a bounded trace class operator implies that it is compact): there is an orthonormal basis~$\{ e_j : j \in I \}$ for $\mathcal{H}$ consisting of eigenvectors of $\mathcal{A}$ such that $\mathcal{A} e_j = \eta_j e_j $ and $\eta_j > 0, \sum_{j \in I} \eta_j < + \infty$; see~\autocite[Lemma 6.32]{Dashti2014} and~\autocite[Proposition 3.15]{Hairer2009}. Thus, a given Gaussian measure introduces a lot of structure in form of a complete eigenbasis to the underlying Hilbert space. This subtle structure is essential for proving the diffusion limit result.
+Trace class operators have some useful properties. First, note that the definition of the trace is independent of the orthonormal basis~\autocite[Proposition C.1]{DaPrato1992}. More important is the second fact: if $\mathcal{A}$ is a positive and self-adjoint trace class operator (like the covariance operator~$\mathcal{C}$) then it is diagonizable (being a bounded trace class operator implies that it is compact): there is an orthonormal basis~$\{ e_j : j \in I \}$ for $\mathcal{H}$ consisting of eigenvectors of $\mathcal{A}$ such that $\mathcal{A} e_j = \eta_j e_j $ and $\eta_j > 0, \sum_{j \in I} \eta_j < + \infty$; see~\autocite[Lemma 6.32]{Dashti2014} and~\autocite[Proposition 3.15]{Hairer2009}. Thus, a given Gaussian measure introduces a structure in form of a complete eigenbasis to the underlying Hilbert space. This subtle structure is essential for proving the diffusion limit result.
 
 
 Therefore, let $\{ \varphi_j, \lambda_j^2 \}_{j \geq 1}$ be the eigenfunctions and eigenvalues of the covariance operator~$\mathcal{C}$ of the Gaussian measure~$\pi_0$:
@@ -108,13 +106,13 @@ We assume a normalization under which $\{ \varphi_j \}_{j \geq 1}$ forms a compl
 \label{DLR-Setting: karhunen-loeve representation}
  x = \sum_{j = 0}^{\infty} x_j \varphi_j, \qquad x_j := \langle x, \varphi_j \rangle.
 \end{equation}
-It will often be helpful, to identify the function~$x$ with its coordinates~$\{ x_j \}_{j=1}^{\infty} \in l^2$ in the eigenbasis and vice versa, where $l^2$ denotes the sequence space of square summable sequences. By the Karhunen-L\`{e}ve or white noise expansion~\autocite[Section 2.2.3]{DaPrato1992}, a realization~$x$ from the Gaussian reference measure~$\pi_0$ can be expressed by allowing the coordinates~$\{x_j\}_{j \geq 1}$ to be independent Gaussian random variables distributed according $\mathcal{N}(0, \lambda_j^2)$ in $\mathbb{R}$. Thus, the Gaussian reference measure~$\pi_0$ possesses a product structure in the coordinate-representation.
+It will often be helpful, to identify the function~$x$ with its coordinates~$\{ x_j \}_{j=1}^{\infty} \in \ell^2$ in the eigenbasis and vice versa, where $\ell^2$ denotes the sequence space of square summable sequences. By the Karhunen-L\`{e}ve or white noise expansion~\autocite[Section 2.2.3]{DaPrato1992}, a realization~$x$ from the Gaussian reference measure~$\pi_0$ can be expressed by allowing the coordinates~$\{x_j\}_{j \geq 1}$ to be independent Gaussian random variables distributed according to $\mathcal{N}(0, \lambda_j^2)$ in $\mathbb{R}$. Thus, the Gaussian reference measure~$\pi_0$ possesses a product structure in the coordinate-representation.
 
 
 Frequently in applications, the functional~$\Psi$ in Equation~(\ref{DLR-Radon Nikodym derivative}) may not be well-defined on all of $\mathcal{H}$, in the sense that some regularity conditions on $\Psi$ hold only on a subset $\mathcal{H}^r \subset \mathcal{H}$ for some exponent~$r > 0$. For instance, if $ \mathcal{H}= L^2([0,1]) $, the functional~$\Psi$ might only act well on continuous functions, in which case it is natural to define~$\Psi$ on some Sobolev-like space~$\mathcal{H}^r([0,1])$ for $r > \tfrac{1}{2}$. In such a situation, we can revert to  Sobolev embeddings~\autocite[Theorem 6.3]{Hairer2009}.
 
 
-To follow this purpose, we now define Sobolev-like spaces~$\mathcal{H}^r , r \in \mathbb{R}$, also called Hilbert scale spaces. Given a Hilbert space~$ (\mathcal{H}, \langle \cdot, \cdot \rangle, \| \cdot \|) $ of real-valued functions, and  $\{ \varphi_j \}_{j \geq 1}$ an orthonormal basis for~$\mathcal{H}$, for any $x \in \mathcal{H}$ the representation in Equation~(\ref{DLR-Setting: karhunen-loeve representation}) holds. Thus, we can define
+To follow this purpose, we now define Sobolev-like spaces~$\mathcal{H}^r , r \in \mathbb{R}$, also called Hilbert scale spaces. Given a Hilbert space~$ (\mathcal{H}, \langle \cdot, \cdot \rangle, \| \cdot \|) $ of real-valued functions, and  $\{ \varphi_j \}_{j \geq 1}$ an orthonormal basis for~$\mathcal{H}$, the representation in Equation~(\ref{DLR-Setting: karhunen-loeve representation}) holds for any $x \in \mathcal{H}$. Thus, we can define
 \begin{equation}
  \mathcal{H}^r := \left\{ x \in \mathcal{H}: \| x \|_r^2 < \infty \right\}
 \end{equation}
@@ -129,7 +127,7 @@ In fact $\mathcal{H}^r$ is a Hilbert space: for $ y_j = \langle y, \varphi_j \ra
 \end{equation}
 For any $r>0$, the Hilbert space~$ (\mathcal{H}^r, \langle \cdot, \cdot \rangle_r, \| \cdot \|_r) $ is a subset of the original Hilbert space~$\mathcal{H}$; for $r<0$ the spaces are defined by duality and are supersets of $\mathcal{H}$. These spaces are again separable Hilbert spaces for any $r \in \mathbb{R}$ as they are linked to the sequence space~$l^2$ with weights~$\omega_j = j^{2r}$ which are separable~\autocite[Section 6.1.3]{Dashti2014}.
 
-For $x,y \in \mathcal{H}^r$, the outer product operator in $\mathcal{H}^r$ is the operator~$ x \otimes_{\mathcal{H}^r} y : \mathcal{H}^r \to \mathcal{H}^r $ defined by $ (x \otimes_{\mathcal{H}^r} y) z := \langle y, z \rangle_r x $ for every $ z \in \mathcal{H}^r$. Moreover, we want to transfer the covariance operator~$\mathcal{C}$ to $\mathcal{H}^r$. For $r \in \mathbb{R}$, let $B_r: \mathcal{H} \to \mathcal{H}$ denote the operator which is diagonal in the basis~$\{ \varphi_j \}_{j \geq 1}$ with diagonal entries~$j^{2r}$ so that $B_r^{1/2} \varphi_j = j^{r} \varphi_j$. The operator~$B_r$ lets us alternate between $\mathcal{H}$ and $\mathcal{H}^r$ by the following identity $ \langle x, y \rangle_r = \langle B_r^{1/2} x, B_r^{1/2} y \rangle$. Since $B_r^{-1/2} $ is an isometry, the family~$\{ \phi_j \}_{j \geq 1}$ forms a complete orthonormal basis for~$\mathcal{H}^r$ with $ \phi_j(r) := B_r^{-1/2} \varphi_j$. Similar to Definition~\ref{DLR-Setting: Definition trace class}, we can define the trace on $\mathcal{H}^r$ by
+For $x,y \in \mathcal{H}^r$, the outer product operator in $\mathcal{H}^r$ is the operator~$ x \otimes_{\mathcal{H}^r} y : \mathcal{H}^r \to \mathcal{H}^r $ defined by $ (x \otimes_{\mathcal{H}^r} y) z := \langle y, z \rangle_r x $ for every $ z \in \mathcal{H}^r$. Moreover, we want to transfer the covariance operator~$\mathcal{C}$ to $\mathcal{H}^r$. For $r \in \mathbb{R}$, let $B_r: \mathcal{H} \to \mathcal{H}$ denote the operator which is diagonal in the basis~$\{ \varphi_j \}_{j \geq 1}$ with diagonal entries~$j^{2r}$ such that $B_r^{1/2} \varphi_j = j^{r} \varphi_j$. The operator~$B_r$ lets us alternate between $\mathcal{H}$ and $\mathcal{H}^r$ by the following identity $ \langle x, y \rangle_r = \langle B_r^{1/2} x, B_r^{1/2} y \rangle$. Since $B_r^{-1/2} $ is an isometry, the family~$\{ \phi_j \}_{j \geq 1}$ forms a complete orthonormal basis for~$\mathcal{H}^r$ with $ \phi_j(r) := B_r^{-1/2} \varphi_j$. Similar to Definition~\ref{DLR-Setting: Definition trace class}, we can define the trace on $\mathcal{H}^r$ by
 \begin{equation}
  \label{DLR-Setting: Trace on H^s}
  \text{Tr}_{\mathcal{H}^r}(\mathcal{A}) := \sum_{j=1}^{\infty} \langle (B_r^{-1/2}\varphi_j ), \mathcal{A}( B_r^{-1/2}\varphi_j) \rangle_r.
@@ -139,7 +137,7 @@ For a positive and bounded operator~$\mathcal{A}$ it suffices to show that the t
 \label{DLR-Setting: Gaussian measure on H^r condition}
  \text{Tr}_{\mathcal{H}^r}(\mathcal{C}_r) < \infty,
 \end{equation}
-we can conclude that the positive and self-adjoint operator~$\mathcal{C}_r$ is of trace class and therefore a Gaussian measure on~$\mathcal{H}^r$ with covariance operator~$\mathcal{C}_r$ exists~\autocite[Proposition 2.18]{DaPrato1992}. This Gaussian measure on~$\mathcal{H}^r$ is induced by the reference measure~$\pi_0$ on~$\mathcal{H}$, and $ \pi_0(\mathcal{H}^r ) =1$, if the condition in Equation~(\ref{DLR-Setting: Gaussian measure on H^r condition}) holds. Indeed, we claim that $\mathcal{C}_r$ is the covariance operator of the Gaussian measure~$\pi_0$ on $\mathcal{H}^r$ by verifying the definitions; see~\autocite[Chapter 2.3]{DaPrato1992} for an introduction to Gaussian measures on Hilbert spaces.
+we can conclude that the positive and self-adjoint operator~$\mathcal{C}_r$ is of trace class and therefore a Gaussian measure on~$\mathcal{H}^r$ with covariance operator~$\mathcal{C}_r$ exists~\autocite[Proposition 2.18]{DaPrato1992}. This Gaussian measure on~$\mathcal{H}^r$ is induced by the reference measure~$\pi_0$ on~$\mathcal{H}$, and $ \pi_0(\mathcal{H}^r ) =1$, if the condition in Equation~(\ref{DLR-Setting: Gaussian measure on H^r condition}) holds. Indeed, we claim that if the trace condition is satisfied, $\mathcal{C}_r$ is the covariance operator of the Gaussian measure~$\pi_0$ on $\mathcal{H}^r$ by verifying the definitions; see~\autocite[Chapter 2.3]{DaPrato1992} for an introduction to Gaussian measures on Hilbert spaces.
 
 \begin{proposition}
 \label{DLR-Setting: Proposition Gaussian measure}
@@ -154,7 +152,7 @@ we can conclude that the positive and self-adjoint operator~$\mathcal{C}_r$ is o
   & \; = \langle  B_r u , \mathcal{C}_r v \rangle \\	
   & \; = \langle  B_r^{1/2} u , B_r^{1/2} \mathcal{C}_r v \rangle = \langle u, \mathcal{C}_r v \rangle_r.
  \end{align*}
- We used the self-adjointness of $\mathcal{C}$ and $B_r$. Similarly, we can conclude for the mean.
+ Here, we used the self-adjointness of $\mathcal{C}$ and $B_r$. Similarly, we can conclude for the mean.
 
 \end{proof}
 
@@ -173,7 +171,7 @@ Additionally, we claim that if $\text{Tr}_{\mathcal{H}^r}(\mathcal{C}_r)$ is fin
   & \; = \sum_{j=1}^{\infty} j^{2r} (   \langle \mathcal{C} \varphi_j, \varphi_j \rangle   )    \\
   & \; = \sum_{j=1}^{\infty} j^{2r} \lambda_j^2 < \infty.
  \end{align*}
- The first and second identy follows from the representation of the $\mathcal{H}^r$-norm in Equation~(\ref{DLR-Setting: H^r norm}) and the Karhunen-Lo\'{e}ve representation in Equation~(\ref{DLR-Setting: karhunen-loeve representation}). As stated in Equation~(\ref{DLR-Setting: Eigefunctions}), $\{  \varphi_j \}_{j \geq 1}$ are eigenfunctions of $\mathcal{C}$ and $\text{Tr}_{\mathcal{H}^r}(\mathcal{C}_r) < \infty$ as assumed. Thus, we finish the proof.
+ The first and second identiy follow from the representation of the $\mathcal{H}^r$-norm in Equation~(\ref{DLR-Setting: H^r norm}) and the Karhunen-Lo\'{e}ve representation in Equation~(\ref{DLR-Setting: karhunen-loeve representation}). As stated in Equation~(\ref{DLR-Setting: Eigefunctions}), $\{  \varphi_j \}_{j \geq 1}$ are eigenfunctions of $\mathcal{C}$ and $\text{Tr}_{\mathcal{H}^r}(\mathcal{C}_r) < \infty$ as assumed. Thus, we finish the proof.
 
 \end{proof}
 
@@ -208,9 +206,9 @@ On $\mathcal{H}^s$ we will consider the positive, self-adjoint trace-class opera
 
 \subsubsection{Change of Measure}
 
-The target measure of interest, $\pi$, from which we want to sample is defined through the change of measure defined in Equation~(\ref{DLR-Radon Nikodym derivative}) via the functional~$\Psi$. As the measure~$\pi_0$ has full support on~$\mathcal{H}^s$, if $\text{Tr}_{\mathcal{H}^r}(\mathcal{C}_r) < \infty$, the functional~$\Psi$ needs only to be defined on $\mathcal{H}^s$ such that the Radon-Nikodym derivative of the change of measure is well-defined.
+The target measure of interest, $\pi$, from which we want to sample is defined through the change of measure defined in Equation~(\ref{DLR-Radon Nikodym derivative}) via the functional~$\Psi$. As the measure~$\pi_0$ has full support on~$\mathcal{H}^r$, if $\text{Tr}_{\mathcal{H}^r}(\mathcal{C}_r) < \infty$, the functional~$\Psi$ needs only to be defined on $\mathcal{H}^r$ such that the Radon-Nikodym derivative of the change of measure is well-defined.
 
-We will give assumptions on the decay of eigenvalues of the covariance operator~$\mathcal{C}$ of~$\pi_0$ in order to ensure the existence of a real number~$s > 0$ such that Equation~(\ref{DLR-Setting: Gaussian measure on H^r condition}) is fulfilled and $\pi_0$ has full support on $\mathcal{H}^s$. Furthermore, we impose regularity conditions on the functional~$\Psi$. These assumptions shall ensure that the target measure~$\pi$ is not too different from the Gaussian measure~$\pi_0$ such that we can ascribe further properties of the Gaussian measure~$\pi_0$ to $\pi$~(see Lemma~\ref{DLR-Proof: Lemma Convergence of pi^N to pi} and Remark~\ref{DLR: Remark Fernique's theorem}). These assumptions can be summarized as follows: the functional~$\Psi$ has to be quadratically bounded, with first derivative linearly bounded, and the second derivative globally bounded. By using the identification of the dual spaces for Hilbert spaces, we can formulate our assumptions precisely. See~\autocite[Assumption 2.1]{Pillai2012} for further details.
+We will give assumptions on the decay of eigenvalues of the covariance operator~$\mathcal{C}$ of~$\pi_0$ in order to ensure the existence of a real number~$s > 0$ such that Equation~(\ref{DLR-Setting: Gaussian measure on H^r condition}) is fulfilled and $\pi_0$ has full support on $\mathcal{H}^s$. Furthermore, we impose regularity conditions on the functional~$\Psi$. These assumptions shall ensure that the target measure~$\pi$ is not too different from the Gaussian measure~$\pi_0$ such that we can transfer further properties of the Gaussian measure~$\pi_0$ to $\pi$~(see Lemma~\ref{DLR-Proof: Lemma Convergence of pi^N to pi} and Remark~\ref{DLR: Remark Fernique's theorem}). These assumptions can be summarized as follows: the functional~$\Psi$ has to be quadratically bounded, with first derivative linearly bounded, and the second derivative globally bounded. By using the identification of the dual spaces for Hilbert spaces, we can formulate our assumptions precisely. See~\autocite[Assumption 2.1]{Pillai2012} for further details.
 
 \begin{assum}
  \label{DLR-Setting: Assumptions on C and Psi}
@@ -226,9 +224,9 @@ We will give assumptions on the decay of eigenvalues of the covariance operator~
  \label{DLR-Setting: Assumption on Psi 1}
   M_1 & \; \leq \Psi(x) \leq M_2 (1+ \| x \|_s^2), \\
   \label{DLR-Setting: Assumption on Psi 2}
-  \| \nabla \Psi (x) \|_{-s} & \; \leq M_3 (1+\| x\|_s), \\
+  \| \nabla \Psi (x) \|_{s} & \; \leq M_3 (1+\| x\|_s), \\
   \label{DLR-Setting: Assumption on Psi 3}
-  \| \partial^2 \Psi (x) \|_{\mathcal{L}(\mathcal{H}^s, \mathcal{H}^{-s})} & \; \leq M_4.
+  \| \partial^2 \Psi (x) \|_{\mathcal{L}(\mathcal{H}^s, \mathcal{H}^{s})} & \; \leq M_4.
  \end{align}
  \end{enumerate}
 \end{assum}
@@ -236,11 +234,11 @@ We will give assumptions on the decay of eigenvalues of the covariance operator~
 Here we used the following notation. Two sequences $\{\alpha_n\}$ and $\{\beta_n\}$ satisfy $\alpha_n \lesssim  \beta_n$ if there exists a constant~$M>0$ such that $\alpha_n \leq M \; \beta_n$ for all $n \leq 0$. The notation~$\alpha_n \asymp \beta_n$ means that $\alpha_n \lesssim  \beta_n $ and $ \beta_n \lesssim  \alpha_n$~\autocite{Pillai2012}.
 
 \begin{rem}
- The growth condition~$\kappa > \tfrac{1}{2}$ ensures that the covariance operator~$\mathcal{C}$ of~$\pi_0$ is of trace class as $\text{Tr}_{\mathcal{H}}(\mathcal{C}) = \sum_{j=1}^{\infty} \lambda_j^2$. In fact, the condition on the trace of~$\mathcal{C}_r$ in Equation~(\ref{DLR-Setting: Gaussian measure on H^r condition}) is satistied if and only if $r < \kappa - \tfrac{1}{2}$. Indeed, under Assumption~\ref{DLR-Setting: Assumptions on C and Psi}, we calculate
+ The growth condition~$\kappa > \tfrac{1}{2}$ ensures that the covariance operator~$\mathcal{C}$ of~$\pi_0$ is of trace class as $\text{Tr}_{\mathcal{H}}(\mathcal{C}) = \sum_{j=1}^{\infty} \lambda_j^2$. In fact, the condition on the trace of~$\mathcal{C}_r$ in Equation~(\ref{DLR-Setting: Gaussian measure on H^r condition}) is satisfied if and only if $r < \kappa - \tfrac{1}{2}$. Indeed, under Assumption~\ref{DLR-Setting: Assumptions on C and Psi}, we calculate
  \begin{equation*}
   \text{Tr}_{\mathcal{H}^r}(\mathcal{C}_r) = \sum_{j=1}^{\infty} \lambda_j^2 j^{2r}  \asymp \sum_{j=1}^{\infty} j^{2(r-\kappa)} < \infty, \qquad \text{for } \; r < \kappa - \tfrac{1}{2}.
  \end{equation*}
- We choose now and for the rest of this chapter, $s \in [0, \kappa - \tfrac{1}{2})$. We define the Sobolev space~$\mathcal{H}^s$ and the reference Gaussian measure~$\pi_0$ has full support on~$\mathcal{H}^s$ as the condition in Equation~(\ref{DLR-Setting: Gaussian measure on H^r condition}) is fulfilled. Thus, the Radon-Nikodym derivative of $\pi$ in Equation~(\ref{DLR-Radon Nikodym derivative}) is well-defined with the change of measure~$\Psi$. Indeed, all regularity assumptions on~$\Psi$ given in Assumption~\ref{DLR-Setting: Assumptions on C and Psi} are defined on $\mathcal{H}^s$ a subset of $\mathcal{H}$ with full measure under~$\pi_0$. These assumptions ensure $\Psi$ to be Lipschitz-continuous on $\mathcal{H}^s$ and therefore it is $\pi_0$-measurable. 
+ We choose now and for the rest of this chapter, $s \in [0, \kappa - \tfrac{1}{2})$. We define the Sobolev space~$\mathcal{H}^s$ and hence the reference Gaussian measure~$\pi_0$ has full support on~$\mathcal{H}^s$ as the condition in Equation~(\ref{DLR-Setting: Gaussian measure on H^r condition}) is fulfilled. Thus, the Radon-Nikodym derivative of $\pi$ in Equation~(\ref{DLR-Radon Nikodym derivative}) is well-defined with the change of measure~$\Psi$. Indeed, all regularity assumptions on~$\Psi$ given in Assumption~\ref{DLR-Setting: Assumptions on C and Psi} are defined on $\mathcal{H}^s$, a subset of $\mathcal{H}$ with full measure under~$\pi_0$. These assumptions ensure $\Psi$ to be Lipschitz-continuous on $\mathcal{H}^s$ and therefore $\pi_0$-measurable. 
 
 \end{rem}
 
@@ -279,7 +277,7 @@ The assumptions given on the decay of eigenvalues of $\mathcal{C}$ given in Equa
 
 \subsubsection{Finite Dimensional Approximation}
 
-In order to sample from the target probability distribution~$\pi$, we are interested in its finite dimensional approximations to apply a Metropolis-Hastings method. Therefore, we introduce the vector space spanned by the first~$N$ eigenfunctions of the covariance operator~$\mathcal{C}_s$,
+In order to sample from the target probability distribution~$\pi$, we are interested in its finite dimensional approximations in order to apply a Metropolis-Hastings method. Therefore, we introduce the vector space spanned by the first~$N$ eigenfunctions of the covariance operator~$\mathcal{C}_s$,
 \begin{equation}
  X^N := \text{span} \{ \phi_1, \phi_2, \dots , \phi_N \},
 \end{equation}
@@ -303,7 +301,7 @@ The approximation of the reference measure~$\pi_0$ is the Gaussian measure on $X
 \begin{equation*}
  \pi^N_0 \stackrel{D}{\sim} \sum_{j=1}^{N} \lambda_j \xi_j \phi_j = (\mathcal{C}^N_s)^{1/2} \xi^N, 
 \end{equation*}
-where $\xi^N = \sum_{j=1}^{N} \xi_j \phi_j$ denotes a $N$-dimensional Gaussian in $X^N$ with $\xi_j$ are i.i.d.\,standard Gaussian random variables and  $\mathcal{C}_s^N :=P^N \circ \mathcal{C}_s \circ P^N $. Consequently, we have $\pi_0^N = \mathcal{N}(0, \mathcal{C}_s^N)$ with
+where $\xi^N = \sum_{j=1}^{N} \xi_j \phi_j$ denotes a $N$-dimensional Gaussian in $X^N$ with $\xi_j$ i.i.d.\,standard Gaussian random variables and  $\mathcal{C}_s^N :=P^N \circ \mathcal{C}_s \circ P^N $. Consequently, we have $\pi_0^N = \mathcal{N}(0, \mathcal{C}_s^N)$ with
 \begin{equation*}
  \pi_0^N (x) \varpropto \exp (- \tfrac{1}{2} \langle x, (\mathcal{C}^N_s)^{-1} x \rangle).
 \end{equation*}
@@ -317,15 +315,15 @@ The constant~$M_{\Psi^N}$ is chosen such that $\pi^N (\mathcal{H}^s) =1$. As $X^
 \label{DLR-Setting: Definition finite dim target measure pi^N}
  \pi^N (x) \varpropto \exp (-\tfrac{1}{2} \| x \|^2_{\mathcal{C}_s^N} - \Psi^N (x)).
 \end{equation}
-The Hilbert-Schmidt norm  $ \| \cdot \|_{\mathcal{C}_s^{N}} $ on $X^{N}$ associated to the operator~$\mathcal{C}^N$ is given by the scalar product $ \langle u, v \rangle_{\mathcal{C}_s^{N}} := \langle u, ( \mathcal{C}_s^{N} )^{-1} v \rangle_s $ for all $ u,v \in X^{N} $. Since the eigenvalues of $ \mathcal{C} $ are assumed to be strictly positive, the operator $ \mathcal{C}_s^{N} $ is invertible on $X^{N}$. Under the assumption that the functionals~$\Psi^N$ satisfy the same conditons as $\Psi$ given in Assumption~\ref{DLR-Setting: Assumptions on C and Psi}, it is straight forward to show the the sequence of measures~$\{ \pi^N \}_N$ converges to $\pi$ in the Hellinger metric. See~\autocite[Theorem 2.6]{Cotter2010} and note that due to the regularity assumptions on~$\Psi$, for any $R>0$, there exists a constant $K=K(R)>0$ such that, for all $x\in \mathcal{H}^s$ with $\|x\|_s < R$,
+The Hilbert-Schmidt norm  $ \| \cdot \|_{\mathcal{C}_s^{N}} $ on $X^{N}$ associated to the operator~$\mathcal{C}^N$ is given by the scalar product $ \langle u, v \rangle_{\mathcal{C}_s^{N}} := \langle u, ( \mathcal{C}_s^{N} )^{-1} v \rangle_s $ for all $ u,v \in X^{N} $. Since the eigenvalues of $ \mathcal{C} $ are assumed to be strictly positive, the operator $ \mathcal{C}_s^{N} $ is invertible on $X^{N}$. Under the assumption that the functionals~$\Psi^N$ satisfy the same conditons as $\Psi$ given in Assumption~\ref{DLR-Setting: Assumptions on C and Psi}, it is straight forward to show that the sequence of measures~$\{ \pi^N \}_N$ converges to $\pi$ in the Hellinger metric. Indeed, note that due to the regularity assumptions on~$\Psi$, for any $R>0$, there exists a constant $K=K(R)>0$ such that, for all $x\in \mathcal{H}^s$ with $\|x\|_s < R$,
 \begin{equation*}
  | \Psi (x) - \Psi^N (x) | \leq K \psi(N) 
 \end{equation*}
-holds with $\psi(N) := \| \text{Id} - P^N \|_{\mathcal{L}(\mathcal{H}^s, \mathcal{H}^s)} \to 0$ for $N \to \infty$. Hence, the measures~$\{ \pi^N \}_N$ are good candidates for finite dimensional approximations of~$\pi$. Similar to general case in Equation~(\ref{DLR- preconditioned semilinear SPDE - langevin}), there exists a Langevin diffusion on~$\mathcal{H}^s$ defined by
+holds with $\psi(N) := \| \text{Id} - P^N \|_{\mathcal{L}(\mathcal{H}^s, \mathcal{H}^s)} \to 0$ for $N \to \infty$. Thus, we can apply~\autocite[Theorem 2.6]{Cotter2010} and conclude the desired convergence of~$\pi^N$ to~$\pi$ in te Hellinger metric. Hence, the measures~$\{ \pi^N \}_N$ are good candidates for finite dimensional approximations of~$\pi$. Similar to the general case in Equation~(\ref{DLR- preconditioned semilinear SPDE - langevin}), there exists a Langevin diffusion on~$\mathcal{H}^s$ defined by
 \begin{equation}
  d \tilde{z} = - ( \tilde{z} + \mathcal{C}_s^N \nabla \Psi^N (\tilde{z}) ) dt + \sqrt{2} (\mathcal{C}_s^N)^{1/2} d \mathcal{W}(t), \quad \tilde{z}(0) = \tilde{z}_0,
 \end{equation}
-which  leaves $ \pi^{N} $ invariant, where $\mathcal{W}(t)$ is a cylindrical Wiener process. We define the drift~$\mu^N: \mathcal{H}^s \to \mathcal{H}^2$ of this SDE to be
+which  leaves $ \pi^{N} $ invariant, where $\mathcal{W}(t)$ is a cylindrical Wiener process on~$\mathcal{H}^s$. We define the drift~$\mu^N: \mathcal{H}^s \to \mathcal{H}^s$ of this SDE to be
 \begin{equation}
 \label{DLR-Setting: Definition aproximated drift mu^N}
  \mu^N (x) := - \left(  P^N x + \mathcal{C}_s^N \nabla \Psi^N (x)  \right)
@@ -337,20 +335,20 @@ which is $ \mathcal{C}_s^{N} \nabla \log \pi^{N} (x) $, up to an additive consta
 \end{equation}
 This is the drift of the Langevin diffusion in Equation~(\ref{DLR- preconditioned semilinear SPDE - langevin}) and can informally be seen as  $ \mathcal{C}_s \nabla \log \pi^{N} (x) $, up to an additive constant. In what follows, we will show that the approximated drift~$\mu^N(x)$ converges to $\mu(x)$, see Lemma~\ref{DLR-Proof: Lemma Convergence of pi^N to pi}.
 
-These definitions enable us to summarize various regularity results on the functionals~$\Psi$ and~$\Psi^N$.
+These definitions enable us to summarize various regularity results on the functionals~$\Psi$ and~$\Psi^N$ which will be crucial in the derivation of the approximation result, i.e., Proposition~\ref{DLR-Proof: Proposition General diffusion approximation}.
 
 \begin{lemma}\autocite[Lemma 2.4]{Pillai2012}
 \label{DLR-Seeting: Lemma: Properties of Psi and Psi^N}
- Let the functional~$\Psi$ satisfy Assumption~\ref{DLR-Setting: Assumptions on C and Psi} and consider the functional~$\Psi^N$ defined by Equation~(\ref{DLR-Setting: Definition Psi^N}). The following etsimates hold:
+ Let the functional~$\Psi$ satisfy Assumption~\ref{DLR-Setting: Assumptions on C and Psi} and consider the functional~$\Psi^N$ defined by Equation~(\ref{DLR-Setting: Definition Psi^N}). The following estimates hold:
  \begin{enumerate}
   \item[(1)] The functionals~$\Psi^N : \mathcal{H}^s \to \mathbb{R}$ satisfy the same conditions imposed on $\Psi$ given by Equations~(\ref{DLR-Setting: Assumption on Psi 1}), (\ref{DLR-Setting: Assumption on Psi 2}) and~(\ref{DLR-Setting: Assumption on Psi 3}) with a constant independent of~$N$.
-  \item[(2)]  The functional~$\Psi: \mathcal{H}^s \to \mathbb{R}$ satisfies a second order Taylor formula. There exists a constant$M_6 >0$ such that
+  \item[(2)]  The functional~$\Psi: \mathcal{H}^s \to \mathbb{R}$ satisfies a second order Taylor formula. There exists a constan $M_5 >0$ such that
   \begin{equation}
   \label{DLR-Setting: Psi Taylor formula}
    \Psi(y) - \left( \Psi(x) + \langle \nabla \Psi(x), y-x \rangle \right) \leq M_5 \|x-y\|_s^2 \qquad \forall x,y \in \mathcal{H}^s. 
   \end{equation}
-  Furthermore, the functionals~$\Psi^N$ also satisfies this estimate with a constant independently of~$N$.
-  \item[(3)] The functions~$\nabla \Psi: \mathcal{H}^s \to \mathcal{H}^s$ and $\mathcal{C}_s\nabla \Psi: \mathcal{H}^s \to \mathcal{H}^s$ are globally Lipschitz on $\mathcal{H}^s$: there exists a constant~$M_5>0$ such that
+  Furthermore, the functionals~$\Psi^N$ also satisfy this estimate with a constant independently of~$N$.
+  \item[(3)] The functions~$\nabla \Psi: \mathcal{H}^s \to \mathcal{H}^s$ and $\mathcal{C}_s\nabla \Psi: \mathcal{H}^s \to \mathcal{H}^s$ are globally Lipschitz on $\mathcal{H}^s$: there exist  constants~$M_6>0$ and~$M_7 > 0$ such that
   \begin{equation*}
     \begin{split}
       \|\nabla \Psi (x) - \nabla \Psi (y) \|_s & \; \leq M_6 \|x - y \|_s \qquad \forall x,y \in \mathcal{H}^s, \\
@@ -363,7 +361,7 @@ These definitions enable us to summarize various regularity results on the funct
 \end{lemma}
 
 \begin{proof}\autocite{Mattingly2010}(Outline)
- As the family~$\{ P^N: \mathcal{H}^s \to X^N \subset \mathcal{H}^s \}$ consists of ortogonal projections with $\| P^N \|_{\mathcal{L}(\mathcal{H}^s, \mathcal{H}^s)} \leq 1$ independently of dimension~$N$, all properties and assumptions on~$\Psi$ extend naturally to its approximation~$\Psi^N = P^N \circ \Psi$ with the same constants uniformly in~$N$. Also the second order Taylor formula given in Equation~(\ref{DLR-Setting: Psi Taylor formula}) is a direct implication of the assumptions on~$\Psi$, mainly the globally boundedness of the second derivative.  Finally, the global Lipschitz continuity of~$\Psi$ has to be proven. This is done by using the identity
+ As the family~$\{ P^N: \mathcal{H}^s \to X^N \subset \mathcal{H}^s \}$ consists of orthogonal projections with $\| P^N \|_{\mathcal{L}(\mathcal{H}^s, \mathcal{H}^s)} \leq 1$ independently of dimension~$N$, all properties and assumptions on~$\Psi$ extend naturally to its approximation~$\Psi^N = P^N \circ \Psi$ with the same constants uniformly in~$N$. Also the second order Taylor formula given in Equation~(\ref{DLR-Setting: Psi Taylor formula}) is a direct implication of the assumptions on~$\Psi$, mainly the globally boundedness of the second derivative.  Finally, the global Lipschitz continuity of~$\Psi$ has to be proven. This is done by using the identity
  \begin{equation*}
   \nabla \Psi (y) - \nabla \Psi(x) = \int_0^1 \partial^2 \Psi (ty + (1-t)x) dt (y-x).
  \end{equation*}
@@ -375,13 +373,13 @@ These definitions enable us to summarize various regularity results on the funct
       & \; \leq M_6 \int_0^1 \| y -x \|_s dt 
    \end{split}
  \end{equation*}
- for a constant~$M_6>0$ depending on the norm of the operator~$\partial^2 \Psi(\cdot)$ which is finite by assumption. Similarly, one proves the Lipschitz continuity of~$\mathcal{C}_s \nabla \Psi$. Indeed, the covariance operator~$\mathcal{C}_s$ is a bounded linear operator and both exponents are greater than zero by the choice of~$s$. For more details see~\autocite[Lemma 3.3]{Mattingly2010}.
+ for a constant~$M_6>0$ depending on the norm of the operator~$\partial^2 \Psi(\cdot)$ which is finite by assumption. Similarly, one proves the Lipschitz continuity of~$\mathcal{C}_s \nabla \Psi$. Indeed, the covariance operator~$\mathcal{C}_s$ is a bounded linear trace class operator by the choice of~$s$. For more details see~\autocite[Lemma 3.3]{Mattingly2010}.
   
 \end{proof}
 
 \begin{cor}\autocite[Remark 2.5]{Pillai2012}
 \label{DLR-Setting: Corollary: drifts are Lipschitz}
-In the setting of Lemma~\ref{DLR-Seeting: Lemma: Properties of Psi and Psi^N}, the function~$\mu : \mathcal{H}^s \to \mathcal{H}^s$ given in Equation~(\ref{DLR-Setting: Definition drift mu}) globally Lipschitz on~$\mathcal{H}^s$. Moreover, the drift functions~$\mu^N : \mathcal{H}^s \to \mathcal{H}^s$ are also globally Lipschitz uniformly in~$N$.
+In the setting of Lemma~\ref{DLR-Seeting: Lemma: Properties of Psi and Psi^N}, the function~$\mu : \mathcal{H}^s \to \mathcal{H}^s$ given in Equation~(\ref{DLR-Setting: Definition drift mu}) is globally Lipschitz on~$\mathcal{H}^s$. Moreover, the drift functions~$\mu^N : \mathcal{H}^s \to \mathcal{H}^s$ are also globally Lipschitz uniformly in~$N$.
  
 \end{cor}
 
@@ -390,10 +388,10 @@ In the setting of Lemma~\ref{DLR-Seeting: Lemma: Properties of Psi and Psi^N}, t
 \end{proof}
 
 
-\subsubsection{The Algorithms}
+\subsubsection{Algorithms}
 \label{sec:sub:DLR-Algo}
 
-Our goal is now to sample from the finite dimensional probability measure~$\pi^N$, defined by projection of $\pi$ on $X^N$, see Equation~(\ref{DLR-Setting: Definition of pi^N}), with $x \in X^N$. Therefore we will mimic the ideas of the Random Walk Metropolis algorithm and the Metropolis adjusted Langevin algorithm in the presented Hilbert setting. As in Chapter~\ref{sec:Metropolis-HastingsMethod} introduced, we consider proposal transition kernels based on Gaussian measures. To avoid repetition when stating results for RWM and MALA we define the following values for the scaling parameter $\gamma$ which will be used to scale the proposal variance and the step width in the interpolant as described in Chapter~\ref{CC:Optimality and Diffusion Limits}:
+Our goal is now to sample from the finite dimensional probability measure~$\pi^N$, defined by projection of $\pi$ on $X^N$, see Equation~(\ref{DLR-Setting: Definition of pi^N}), with $x \in X^N$. Therefore we will mimic the ideas of the Random Walk Metropolis algorithm and the Metropolis-adjusted Langevin algorithm in the presented Hilbert space setting. Introduced as in Chapter~\ref{sec:Metropolis-HastingsMethod}, we consider proposal transition kernels based on Gaussian measures. To avoid repetition when stating results for RWM and MALA we define the following values for the scaling parameter $\gamma$ which will be used to scale the proposal variance and the step width in the interpolant as described in Chapter~\ref{CC:Optimality and Diffusion Limits}:
 \begin{align}
  \text{RWM: } & \; \gamma = \gamma^{RWM} = 1, \\
  \text{MALA: } & \; \gamma = \gamma^{MALA} = \frac{1}{3}.
@@ -410,7 +408,9 @@ where $\mathcal{W}(t)$ is a cylindrical Wiener process in $\mathcal{H}^s$ and th
 \label{DLR-Setting: Definiton RWM-proposal}
  y = x + \sqrt{2 \delta} (\mathcal{C}_s^{N})^{1/2} \xi^{N} \qquad \text{ where } \delta = l N^{-\gamma}
 \end{equation}
-with  $\xi^{N} = \sum_{i=1}^{N} \xi_i \phi_i$ and $\xi_i \stackrel{D}{\sim} \mathcal{N}(0,1)$, and $x, y \in X^{N} \subset \mathcal{H}^s$~\autocite[Equation (1.11)]{Mattingly2010}. The quantity~$\delta$ is the time-step in the Euler-Maruyama discretization. The noise~$\xi^N$ is by definition finite dimensional and is independent of the actual position~$x$. Therefore, if the Markov chain starts in $X^N$ it evolves in $X^N$ and it can be implemented in $\mathbb{R}^N$ as $x$ and $ y$ differ only in the first $N$ coordinates when written in the eigenbasis of~$\mathcal{C}_s$. However the analysis is cleaner when written in $X^N \subset \mathcal{H}^s$. Following the Metropolis-Hastings methodology we have to consider the acceptance-rejection step next. The acceptance probability also only depends on the first $N$ coordinates of $x$ and $y$ and has the form
+with  $\xi^{N} = \sum_{i=1}^{N} \xi_i \phi_i$ and $\xi_i \stackrel{D}{\sim} \mathcal{N}(0,1)$, and $x, y \in X^{N} \subset \mathcal{H}^s$~\autocite[Equation (1.11)]{Mattingly2010}. The quantity~$\delta$ is the time step in the Euler-Maruyama discretization. The noise~$\xi^N$ is by definition finite dimensional and is independent of the actual position~$x$. Therefore, if the Markov chain starts in $X^N$ it evolves in $X^N$ and it can be implemented in $\mathbb{R}^N$ as $x$ and $ y$ differ only in the first $N$ coordinates when written in the eigenbasis of~$\mathcal{C}_s$. However, the analysis is cleaner when written in $X^N \subset \mathcal{H}^s$. 
+
+Following the Metropolis-Hastings methodology we have to consider the acceptance-rejection step next. The acceptance probability also only depends on the first $N$ coordinates of $x$ and $y$ and has the form
 \begin{equation}
  \label{DLR-Setting: Definition acceptance proba RWM}
  \alpha^N_{RWM}(x, \xi^N) := 1 \wedge \frac{\pi^N(y)}{\pi^N(x)} = 1 \wedge \exp (Q^N_{RWM}(x, \xi^N) ),
@@ -420,7 +420,7 @@ where, by definition of the measure~$\pi^N$ in Equation~(\ref{DLR-Setting: Defin
  Q_{RWM}^{N}(x, \xi^{N}) = - \frac{1}{2} \left(\| y \|_{\mathcal{C}_s^N}^2 - \| x \|_{\mathcal{C}_s^N}^2\right) - \left( \Psi^N(y) - \Psi^N(x) \right).
 \end{equation}
 
-Similarly, we define the MALA-type algorithm in $X^N \subset \mathcal{H}^s$. The idea of the MALA method is to make proposals according to Euler-Maruyama discretization of the Langevin diffusion given in Equation~(\ref{DLR- finite dimensional limit diffusion}) and not only of the diffusion term as for the RWM proposals. Hence we can express the MALA proposals~\autocite[Equation~(2.17)]{Pillai2012} as
+Similarly, we define the MALA-type algorithm in $X^N \subset \mathcal{H}^s$. The idea of the MALA method is to make proposals according to the Euler-Maruyama discretization of the Langevin diffusion given in Equation~(\ref{DLR- finite dimensional limit diffusion}) and not only of the diffusion term as for the RWM proposals. Hence, we can express the MALA proposals~\autocite[Equation~(2.17)]{Pillai2012} as
 \begin{equation}
 \label{DLR-Setting: Definiton MALA-proposal}
  y = x + \delta \mu^N(x) + \sqrt{2 \delta} (\mathcal{C}_s^{N})^{1/2} \xi^{N} \qquad \text{ where } \delta = l N^{-\gamma}.
@@ -428,7 +428,7 @@ Similarly, we define the MALA-type algorithm in $X^N \subset \mathcal{H}^s$. The
 Analogously, we define the acceptance probability of the Metropolizing step as
 \begin{equation}
  \label{DLR-Setting: Definition acceptance proba MALA}
- \alpha^N_{RWM}(x, \xi^N) := 1 \wedge \frac{\pi^N(y)T^N(y,x)}{\pi^N(x)T^N(x,y)} = 1 \wedge \exp (Q^N_{MALA}(x, \xi^N) ).
+ \alpha^N_{MALA}(x, \xi^N) := 1 \wedge \frac{\pi^N(y)T^N(y,x)}{\pi^N(x)T^N(x,y)} = 1 \wedge \exp (Q^N_{MALA}(x, \xi^N) ).
 \end{equation}
 The transition densities~$T^N(\cdot, \cdot)$ are given through the Langevin proposals and have the form
 \begin{equation*}
@@ -443,7 +443,7 @@ This is obtained by choosing $\sigma = \sqrt{2\delta} $ in the original definiti
  \end{split}
 \end{equation}
 
-Finally, we can define the the Markov chain~$x^N = \{ x^{k,N} \}_{k \geq 0}$  generated by the Metropolis-Hastings algorithm for the RWM proposal and by the MALA proposal, respectively. For an initial position~$x^{0,N}$ which is distributed according to~$\pi^N$, we define for $k \geq 1$ the proposals
+Finally, we can define the Markov chain~$x^N = \{ x^{k,N} \}_{k \geq 0}$  generated by the Metropolis-Hastings algorithm for the RWM proposal and the MALA proposal, respectively. For an initial position~$x^{0,N}$ which is distributed according to~$\pi^N$, we define for $k \geq 1$ the proposals
 \begin{equation}
  y^{k,N} = x^{k,N} + \sqrt{2 \delta} (\mathcal{C}_s^{N})^{1/2} \xi^{k,N} \qquad \text{ for the RWM},
 \end{equation}
@@ -451,37 +451,37 @@ and
 \begin{equation}
  y^{k,N} = x^{k,N} + \delta \mu^{N}(x^{k,N}) + \sqrt{2 \delta} (\mathcal{C}_s^{N})^{1/2} \xi^{k,N} \qquad \text{ for the MALA},
 \end{equation}
-where $\xi^{k,N}$ are i.i.d.\, samples distributed as $\xi^{N} = \sum_{i=1}^{N} \xi_i \varphi_i$ and $\xi_i \stackrel{D}{\sim} \mathcal{N}(0,1)$. Hence the chain~\autocite[Equation~(2.12) and~(2.20), respectively]{Mattingly2010, Pillai2012} can be expressed as
+where the $\xi^{k,N}$ are i.i.d.\,samples distributed as $\xi^{N} = \sum_{i=1}^{N} \xi_i \varphi_i$ and $\xi_i \stackrel{D}{\sim} \mathcal{N}(0,1)$. Hence the chain~\autocite[Equation~(2.12) and~(2.20), respectively]{Mattingly2010, Pillai2012} can be expressed as
 \begin{equation}
 \label{DLR-MH chain from algorithm - general form}
  x^{k+1,N} = \gamma^{k,N} y^{k,N} + (1 - \gamma^{k,N}) x^{k,N},
 \end{equation}
-where  $\gamma^{k,N}= \gamma^{N}(x^{k,N}, \xi^{k,N})$ creates a Bernoulli random sequence with $k^{th}$ success probability $\alpha^{N}(x^{k,N}, \xi^{k,N})$, and $\xi^{k,N}$ as above. According to the general definition of the Metropolis-Hastings method in Chapter~\ref{MH-TheMetropolis-HastingsAlgo}, we may view the Bernoulli random variable~$\gamma^{k,N} = 1_{U^k < \alpha^N(x^{k,N}, \xi^{k,N})}$, where $U^k\stackrel{D}{\sim} \text{ Uniform}(0,1)$ is independent from $x^{k,N}$ and $\xi^{k,N}$. These chains mainly differ in two aspects: the appearance of the additional drift term~$\mu^{N}(x)$ in the MALA proposal and the additional Langevin correction term in the acceptance probability, see Equation~(\ref{DLR-Setting: Definition Q MALA}). The incorpoated drift~$\mu^N(x)$ in the Langevin proposal is the cause of these two corrections and hence the reason for the better scale of the MALA algorithm. 
+where  $\gamma^{k,N}= \gamma^{N}(x^{k,N}, \xi^{k,N})$ creates a Bernoulli random sequence with $k$-th success probability $\alpha^{N}(x^{k,N}, \xi^{k,N})$, and $\xi^{k,N}$ as above. According to the general definition of the Metropolis-Hastings method in Chapter~\ref{MH-TheMetropolis-HastingsAlgo}, we may view the Bernoulli random variable~$\gamma^{k,N} = 1_{U^k < \alpha^N(x^{k,N}, \xi^{k,N})}$, where $U^k\stackrel{D}{\sim} \text{ Uniform}(0,1)$ is independent from $x^{k,N}$ and $\xi^{k,N}$. These chains mainly differ in two aspects: the appearance of the additional drift term~$\mu^{N}(x)$ in the MALA proposal and the additional Langevin correction term in the acceptance probability, see Equation~(\ref{DLR-Setting: Definition Q MALA}). The incorpoated drift~$\mu^N(x)$ in the Langevin proposal is the cause of these two corrections and hence the reason for the better scaling of the MALA algorithm. 
 
 
 \section{Main Theorem and Implications}
 \label{sec:DLR-Main theorem}
 
-The main result of this chapter, often refered as diffusion limit result, describes the asymptotic behavior of the RWM and MALA algorithm for their optimal scale~$\gamma$. The two algorithms have a different optimal scale~$\gamma$. We will see that for RWM:~$\gamma = 1$ and for MALA:~$\gamma = 1/3$. To follow the idea, of finding a suitable optimal scale, we express all formulas with a general scale~$\gamma$. We pursue the same ansatz as Roberts and coworkers for the product case, introduced in Chapter~\ref{CC:Existing results}, but for the purpose of a complete description, we will recall the main strategy and definitions.
+The main result of this chapter, often refered as diffusion limit result, describes the asymptotic behavior of the RWM and MALA algorithm for their optimal scale~$\gamma$. The two algorithms have a different optimal scale~$\gamma$. We will see that for RWM~$\gamma = 1$ and for MALA~$\gamma = 1/3$. To follow the idea of finding a suitable optimal scale, we express all formulas with a general scale~$\gamma$. We pursue the same ansatz as Roberts and coworkers for the product case, introduced in Chapter~\ref{CC:Existing results}, but for the purpose of a complete description, we will recall the main strategy and definitions.
 
 Generally, we have to distinguish between quantities defined on the $N$~dimensional subspace~$X^N \subset \mathcal{H}^s$ and quantities defined on $\mathcal{H}^s$ itself. The algorithms evolve in the finite dimensional setup and the limit diffusion process is defined on the infinite dimensional space. To derive the desired invariance principle, finite dimensional quantities have to be transfered to their infinite dimensional counterparts.
 
-We start with the finite dimensional setup of the algorithm. A first step in the Metropolis-Hastings algorithm, a proposal is generated. Comparing the RWM and MALA proposal in our setting, they only differ in the appearance of the drift term~$\mu^{N}(x) = - (P^{N}x + \mathcal{C}_s^{N} \nabla \Psi^{N}(x))$ in the case of MALA. The RWM proposal can be expressed as
+We start with the finite dimensional setup of the algorithm. As first step in the Metropolis-Hastings algorithm a proposal is generated. Comparing the RWM and MALA proposal in our setting, they only differ in the appearance of the drift term~$\mu^{N}(x) = - (P^{N}x + \mathcal{C}_s^{N} \nabla \Psi^{N}(x))$ in the case of MALA. The RWM proposal can be expressed as
 \begin{equation}
 \label{DLR-RWM-proposal short}
- y^{k,N} = x^{k,N} + \sqrt{2 \delta} (\mathcal{C}^{N})^{1/2} \xi^{k,N},
+ y^{k,N} = x^{k,N} + \sqrt{2 \delta} (\mathcal{C}_s^{N})^{1/2} \xi^{k,N},
 \end{equation}
 and the MALA proposal as
 \begin{equation}
 \label{DLR- MALA-proposal short}
  y^{k,N} = x^{k,N} + \delta \mu^{N}(x^{k,N}) + \sqrt{2 \delta} (\mathcal{C}_s^{N})^{1/2} \xi^{k,N},
 \end{equation}
-where $\xi^{k,N}$ are i.i.d.\, samples distributed as $\xi^{N} = \sum_{i=1}^{N} \xi_i \phi_i$ and $\xi_i \stackrel{D}{\sim} \mathcal{N}(0,1)$, and $x^{k,N}, y^{k,N} \in X^{N} \subset \mathcal{H}^s$. The quantity~$\delta$  incorporates the scaling of the proposals $ \delta = l N^{-\gamma} $, which is related to the natural time-step~$\Delta t := l^{-1} \delta = N^{ - \gamma}$ for the limiting diffusion process. The quantity~$l > 0$ is fixed tuning parameter to maximize the speed of the limiting diffusion process in the end.
+where $\xi^{k,N}$ are i.i.d.\,samples distributed as $\xi^{N} = \sum_{i=1}^{N} \xi_i \phi_i$ and $\xi_i \stackrel{D}{\sim} \mathcal{N}(0,1)$, and $x^{k,N}, y^{k,N} \in X^{N} \subset \mathcal{H}^s$. The quantity~$\delta$  incorporates the scaling of the proposals $ \delta = l N^{-\gamma} $, which is related to the natural time step~$\Delta t := l^{-1} \delta = N^{ - \gamma}$ for the limiting diffusion process. The quantity~$l > 0$ is a fixed tuning parameter to maximize the speed of the limiting diffusion process in the end.
 
-The Metropolizing or acceptance-rejection step in the Metropolis-Hastings algorithm is determined by the acceptance probability~$\alpha^{N}(x, \xi^{N})$, which only depends on the first $N$~coordinates of $x$ and $y$ and has the form
+The metropolizing or acceptance-rejection step in the Metropolis-Hastings algorithm is determined by the acceptance probability~$\alpha^{N}(x, \xi^{N})$, which only depends on the first $N$~coordinates of $x$ and $y$ and has the form
 \begin{equation}
  \label{DLR-acceptance probability short}
- \alpha^{N} (x, \xi^{N}) = 1 \wedge e^{Q^{N}_{\cdot}(x, \xi^{N})},
+ \alpha^{N}_{\cdot} (x, \xi^{N}) = 1 \wedge e^{Q^{N}_{\cdot}(x, \xi^{N})},
 \end{equation}
 where $Q^{N}_{\cdot}(x, \xi^{N})$ depends on the proposal transition densities and may be expressed as
 \begin{equation}
@@ -497,7 +497,7 @@ and
  \end{split}
 \end{equation}
 
-The RWM and MALA algorithms generate by Metropolizing the appropriate proposals a Markov chain~$x^{N} = \{ x^{k,N} \}_{k \geq 0}$ evolving in the finite dimensional subspace~$X^{N} \subset \mathcal{H}^s$ as defined in Equation~(\ref{DLR-MH chain from algorithm - general form}). 
+By Metropolizing the appropriate proposals the RWM and MALA algorithms generate a Markov chain~$x^{N} = \{ x^{k,N} \}_{k \geq 0}$ evolving in the finite dimensional subspace~$X^{N} \subset \mathcal{H}^s$ as defined in Equation~(\ref{DLR-MH chain from algorithm - general form}). Here, we denoted the fact that the quantity~$Q^N_{\cdot}(x, \xi^N)$ is defined for both algorithms by a subscripted dot~$(\,\cdot\,)$. This subscript stands either for RWM or MALA. As both quantities have a very similar asymptotic behavior and differ  only in a parametric dependence for large~$N$, we use this notation to remind the reader that this specific quantity is defined twice. We will apply this notation also for further quantities depending on~$Q^N_{\cdot}(x, \xi^N)$ like the acceptance probability~$\alpha^{N}_{\cdot} (x, \xi^{N})$ or the later defined speed function~$h^{\cdot}(l)$. Sometimes it will be droped if there is no ambiguity.
 
 As a last step, we have to define the piecewise linear, continuous interpolant of the Markov chain~$x^N$, recall that $\Delta t = N^{-\gamma}$,
 \begin{equation}
@@ -505,7 +505,7 @@ As a last step, we have to define the piecewise linear, continuous interpolant o
  z^N (t) := x^{k,N} + \frac{t - \Delta t}{\Delta t} (x^{k+1,N} - x^{k,N}) \qquad \text{for } k \Delta t \leq t < ( k + 1) \Delta t.
 \end{equation}
 
-Now, the main theorem provides information on the limit of the interpolant~$z^N(t)$ for dimension~$N$ going to infinity. The statement is taken from~\autocite[Main Theorem, Theorem 2.6]{Mattingly2010, Pillai2012}.
+Now, the main theorem provides information on the limit of the interpolant~$z^N(t)$ for dimension~$N$ tending to infinity. The statement is taken from~\autocite[Main Theorem, Theorem 2.6]{Mattingly2010, Pillai2012}.
 \begin{thm}[Diffusion limit]
  \label{DLR-THM main theorem}
  Let the reference measure~$\pi_0$ and the functional~$\Psi(\cdot)$ satisfy Assumption~\ref{DLR-Setting: Assumptions on C and Psi}. Consider the Metropolis-Hastings algorithm with RWM proposal defined in Equation~(\ref{DLR-RWM-proposal short}) or with MALA proposal defined in Equation~(\ref{DLR- MALA-proposal short}) with initial condition~$x^{0,N} \stackrel{D}{\sim} \pi^N$. Let $z^N(t)$ be the piecewise linear, continuous interpolant of the appropriate Markov chain~$x^N$ as defined in Equation~(\ref{DLR-linear continuous interpolant short}), with $\Delta t = N^{- \gamma}$. Let $\gamma=1$ for the RWM and $\gamma=1/3$ for the MALA. Then $z^N(t)$ converges weakly in $C([0,T];\mathcal{H}^s)$ to the diffusion process~$z(t)$ given by
@@ -516,21 +516,31 @@ Now, the main theorem provides information on the limit of the interpolant~$z^N(
 with initial distribution $z(0)\stackrel{D}{\sim} \pi$ and $\mathcal{W}(t)$ a $\mathcal{C}_s$-Wiener process on~$\mathcal{H}^s$.
 \end{thm}
 
+\begin{rem}
+  This statement of Theorem~\ref{DLR-THM main theorem} differs from the original ones given in~\autocite[Main Theorem, Theorem 2.6]{Mattingly2010, Pillai2012} by the fact that here the drift function~$\mu (z) = - (z + \mathcal{C}_s \nabla \Psi(z))$ is defined by the covariance operator~$\mathcal{C}_s$. Due to the basis change as noted in Remark~\ref{DLR-Remark Change of basis} the statements are equivalent. Indeed, we have for~$\{ \varphi_j \}_{j \geq 1}$ the eigenbasis of~$\mathcal{C}$ in~$\mathcal{H}$ and~$\{ \phi_j \}_{j \geq 1}$ the eigenbasis of~$\mathcal{C}_s$ in~$\mathcal{H}^s$
+  \begin{equation*}
+    \langle \mathcal{C}_s x, \phi_j \rangle_s \phi_j = \langle  x, \phi_j \rangle_s \lambda_j^2 j^{2s} \phi_j = \langle  x, \varphi_j \rangle \lambda_j^2  \varphi_j = \langle \mathcal{C} x, \varphi_j \rangle \varphi_j,
+  \end{equation*}
+  where~$\langle \cdot, \cdot \rangle $ denotes the inner-product on~$\mathcal{H}$ and~$\langle \cdot, \cdot \rangle_s $ denotes the inner-product on~$\mathcal{H}^s$.
 
-Among the analysis of the interpolant~$z^N(t)$ which we will explain in the next Section~\ref{sec:sub:DLR-Proof strategy}, we have to look at the asymptotic behavior of the local mean acceptance probability~$\alpha^{N} (x, \xi^{N})$, in particular the quantity~$Q^{N}_{\cdot}(x, \xi^{N})$ as we want to understand the asymptotic speed function~$h(l)$ of the limiting diffusion~$z$. Under the assumption of Theorem~\ref{DLR-THM main theorem} and for large~$N$, the quantity~$Q^{N}_{\cdot}(x, \xi^{N})$ behaves like a Gaussian random variable independent from the current position~$x$. This holds for the RWM and the MALA, respectively. Especially, 
+\end{rem}
+
+
+
+Among the analysis of the interpolant~$z^N(t)$ which we will explain in the next Section~\ref{sec:sub:DLR-Proof strategy}, we have to look at the asymptotic behavior of the local mean acceptance probability~$\alpha^{N}_{\cdot} (x, \xi^{N})$, in particular the quantity~$Q^{N}_{\cdot}(x, \xi^{N})$ as we want to understand the asymptotic speed function~$h(l)$ of the limiting diffusion~$z$. Under the assumption of Theorem~\ref{DLR-THM main theorem} and for large~$N$, the quantity~$Q^{N}_{\cdot}(x, \xi^{N})$ behaves like a Gaussian random variable independing from the current position~$x$. This holds for the RWM and the MALA, respectively. Especially, 
 \begin{equation}
 \label{DLR-Gaussian RWM short}
- Q^{N}_{RWM}(x, \xi^{N}) \to Q_l^{RWM} \stackrel{D}{\sim} \mathcal{N}(-l, 2l)
+ Q^{N}_{RWM}(x, \xi^{N}) \to Z_l^{RWM} \stackrel{D}{\sim} \mathcal{N}(-l, 2l)
 \end{equation}
 and
 \begin{equation}
 \label{DLR-Gaussian MALA short}
- Q^{N}_{MALA}(x, \xi^{N}) \to Q_l^{MALA} \stackrel{D}{\sim} \mathcal{N}(-\tfrac{l^3}{4}, \tfrac{l^3}{2}),
+ Q^{N}_{MALA}(x, \xi^{N}) \to Z_l^{MALA} \stackrel{D}{\sim} \mathcal{N}(-\tfrac{l^3}{4}, \tfrac{l^3}{2}),
 \end{equation}
 see Lemma~\ref{DLR: Lemma Gaussian approximation} for a quantitative estimation.  As a consequence, the asymptotic mean acceptance probability as defined in Equation~(\ref{DLR-acceptance probability short}) can be explicitly  computed  as a function of the parameter~$l>0$ and it is independent from the current state~$x$,
 \begin{equation}
 \label{DLR-asymptotic mean acceptance probability}
- \alpha^{\cdot}(l) := \lim_{N \to \infty}  \mathbb{E}^{\pi^N} \left[ \alpha^N(x, \xi^N) \right] = \mathbb{E} \left[ 1 \wedge e^{Q_l^{\cdot}} \right].
+ \alpha^{\cdot}(l) := \lim_{N \to \infty}  \mathbb{E}^{\pi^N} \left[ \alpha^N(x, \xi^N) \right] = \mathbb{E} \left[ 1 \wedge e^{Z_l^{\cdot}} \right].
 \end{equation}
 This result is rigorously proved as Corollary~\ref{DLR: Corollary acceptance rate convergence}. We then define the speed function
 \begin{equation}
@@ -539,32 +549,38 @@ This result is rigorously proved as Corollary~\ref{DLR: Corollary acceptance rat
 
 \begin{figure}[htb]
  \begin{center} 
-  \includegraphics[width=0.75\textwidth]{speedmeasures}
+  \includegraphics[width=0.8\textwidth]{speedmeasures}
  \end{center}
   \caption{Optimal acceptance probability for RWM=0.234 and MALA=0.574.}
   \label{fig:optimal acceptance probability}
 \end{figure}
 
-Through the convergence to an Gaussian random variable in Equation~(\ref{DLR-asymptotic mean acceptance probability}), the asymptotic mean acceptance probability~$\alpha^{\cdot}(l)$ can be explicitely computed and represented with the help of the culmulative density function~$\Phi$ of the standard normal distribution~\autocite[Lemma B2]{Beskos2009-2}. This convergence is also a crucial observation for later estimates. Generally speaking, the speed function varies the time-scale of the original diffusion given in Equation~(\ref{DLR-limit diffusion candidate}) by a factor~$h^{\cdot}(l)$ such that the effective time-step is reduced to $h^{\cdot}(l)\,t$ instead of $t$ as $ 0 \leq h^{\cdot}(l) \leq 1$. This results suggests choosing the value of~$l$ that maximizes the speed function~$h^{\cdot}(\cdot)$ since the limit diffusion~$z(t)$ will then explore the invariant measure as fast as possible. Obviously, the RWM and MALA algorithm have two different speed functions as the Gaussian random variables in Equation~(\ref{DLR-Gaussian RWM short}) and~(\ref{DLR-Gaussian MALA short}) differ. For practitioners, who often tune algorithms according to the acceptance probability of the simulation, it is relevant to express the maximization principle in terms of the asymptotic mean acceptance probability~$\alpha^{\cdot}(l)$. Figure~\ref{fig:optimal acceptance probability} shows that the speed function of the limit diffusion~$z(t)$ is maximized for an optimal asymptotic acceptance probability of $\alpha^{RWM}=0.234$ and $\alpha^{MALA}=0.574$, up to three decimal places. This fact is not surprising, because - as repeatedly stated - the MALA  algorithm uses gradient information on the target measure. Note that this result extends the rules for an optimal tuning of Metropolis-Hastings methods from product target measures as seen in~\autocite{Bedard2007, Roberts1997, Roberts1998} to this class of non-product measures. For further details on this type of argument for RWM and MALA, we refer to the original papers~\autocite[Section 2.3, Section 2.6]{Mattingly2010, Pillai2012}, where the idea of this presentation is taken from.
+Through the convergence to a Gaussian random variable~$Z_l^{\cdot}$ in Equation~(\ref{DLR-asymptotic mean acceptance probability}), the asymptotic mean acceptance probability~$\alpha^{\cdot}(l)$ can be explicitely computed and represented with the help of the culmulative density function~$\Phi$ of the standard normal distribution~\autocite[Lemma B2]{Beskos2009-2}. This convergence is also a crucial observation for later estimates. Generally speaking, the speed function varies the time-scale of the original diffusion given in Equation~(\ref{DLR-limit diffusion candidate}) by a factor~$h^{\cdot}(l)$ such that the effective time-step is reduced to $h^{\cdot}(l)\,t$ instead of $t$ as $ 0 \leq h^{\cdot}(l) \leq 1$. This results suggests choosing the value of~$l$ that maximizes the speed function~$h^{\cdot}(\cdot)$ since the limit diffusion~$z(t)$ will then explore the invariant measure as fast as possible. Obviously, the RWM and MALA algorithm have two different speed functions as the Gaussian random variables in Equation~(\ref{DLR-Gaussian RWM short}) and~(\ref{DLR-Gaussian MALA short}) differ. For practitioners who often tune algorithms according to the acceptance probability of the simulation, it is relevant to express the maximization principle in terms of the asymptotic mean acceptance probability~$\alpha^{\cdot}(l)$. Figure~\ref{fig:optimal acceptance probability} shows that the speed function of the limit diffusion~$z(t)$ is maximized for an optimal asymptotic acceptance probability of $\alpha^{RWM}=0.234$ and $\alpha^{MALA}=0.574$, up to three decimal places. This fact is not surprising, because - as repeatedly stated - the MALA  algorithm uses gradient information on the target measure. Note that this result extends the rules for an optimal tuning of Metropolis-Hastings methods from product target measures as seen in~\autocite{Bedard2007, Roberts1997, Roberts1998} to this class of non-product measures. For further details on this type of argument for RWM and MALA, we refer to the original papers~\autocite[Section 2.3, Section 2.6]{Mattingly2010, Pillai2012}, where the idea of this presentation is taken from.
 
-Beside this convenient rule of thumb for the optimal tuning of the two MH methods, Theorem~\ref{DLR-THM main theorem} demonstrates that, in stationarity, the computional complexity to explore the invariant measure~$\pi$ scales as~$\mathcal{O}(N^{\gamma})$, where $\gamma=1$ for the RWM and $\gamma=1/3$ for the MALA, respectively. Indeed, we accelerated the interpolant~$z^N(t)$ in Equation~(\ref{DLR-linear continuous interpolant short}) by a factor~$(\Delta t)^{-1} = N^{\gamma}$ in order to observe a diffusion limit. This shows that $\mathcal{O}(N^{\gamma})$ steps of the Markov chain~$x^N$ as defined in Equation~(\ref{DLR-MH chain from algorithm - general form}) are required for $z^N(t)$ to approximate the diffusion process $z(t)$ on a time interval~$[0,T]$. This shows impressively the idea of the diffusion limit approach to measure the computational complexity of Metropolis-Hastings methods. As the argumentation is in some sense reversely, we will recall it. Since we know that the diffusion~$z(t)$ explores its invariant measure~$\pi$, and we have to accelerate the interpolant~$z^N(t)$ of the Markov chain~$x^N$ by a factor~$N^{\gamma}$ such that $z^N(t)$ converges to $z(t)$, hence $\mathcal{O}(N^{\gamma})$ steps of the chain~$x^N$ are required to explore the measure~$\pi$.
+Beside this convenient rule of thumb for the optimal tuning of the two MH methods, Theorem~\ref{DLR-THM main theorem} demonstrates that, in stationarity, the computional complexity to explore the invariant measure~$\pi$ scales as~$\mathcal{O}(N^{\gamma})$, where $\gamma=1$ for the RWM and $\gamma=1/3$ for the MALA, respectively. Indeed, we accelerated the interpolant~$z^N(t)$ in Equation~(\ref{DLR-linear continuous interpolant short}) by a factor~$(\Delta t)^{-1} = N^{\gamma}$ in order to observe a diffusion limit. This shows that $\mathcal{O}(N^{\gamma})$ steps of the Markov chain~$x^N$ as defined in Equation~(\ref{DLR-MH chain from algorithm - general form}) are required for $z^N(t)$ to approximate the diffusion process $z(t)$ on a time interval~$[0,T]$. This shows impressively the idea of the diffusion limit approach to measure the computational complexity of Metropolis-Hastings methods. As the argumentation is in some sense done reversely, we will recall it. Since we know that the diffusion~$z(t)$ explores its invariant measure~$\pi$, and we have to accelerate the interpolant~$z^N(t)$ of the Markov chain~$x^N$ by a factor~$N^{\gamma}$ such that $z^N(t)$ converges to $z(t)$, $\mathcal{O}(N^{\gamma})$ steps of the chain~$x^N$ are required to explore the measure~$\pi$.
 
 
 \section{Proof of Main Theorem}
 \label{sec:DLR-Proof}
 
-In order to prove Theorem~\ref{DLR-THM main theorem} we outline the proof strategy in Section~\ref{sec:sub:DLR-Proof strategy} and introduce the discrete drift-martingale decomposition of the Metropolis-Hastings~(MH) Markov chain. This decomposition is used to show (weak) convergence of the interpolant towards the drift and the noise term of the diffusion process given in Theorem~\ref{DLR-THM main theorem} by Equation~(\ref{DLR-Thm diffusion process}). Section~\ref{sec:sub:DLR-General diffusion approximation} states and proves a general diffusion approximation for Markov chains which satisfy an appropriate drift-martingale decomposition. In Section~\ref{sec:DLR-Proof}, we finally prove Theorem~\ref{DLR-THM main theorem} by pointing to key estimates in Section~\ref{sec:DLR-Estimates}, which will show that the decomposition of the MH chain given by Equation~(\ref{DLR-MH chain from algorithm - general form}) is appropriate. The structure and main idea as well as the estimates concerning the MALA algorithm is taken from~\autocite{Pillai2012} whereas for the RWM algorithm we refer to~\autocite{Mattingly2010}. Our main contribution beside several annotations to enhance the understanding of the proof idea is the adoption of the arguments used for the MALA algorithm to the RWM case in a consitent way.
+In order to prove Theorem~\ref{DLR-THM main theorem} we outline the proof strategy in Section~\ref{sec:sub:DLR-Proof strategy} and introduce the discrete drift-martingale decomposition of the Metropolis-Hastings~(MH) Markov chain. This decomposition is used to show (weak) convergence of the interpolant towards the drift and the noise term of the diffusion process given in Theorem~\ref{DLR-THM main theorem} by Equation~(\ref{DLR-Thm diffusion process}). Section~\ref{sec:sub:DLR-General diffusion approximation} states and proves a general diffusion approximation for Markov chains which satisfy an appropriate drift-martingale decomposition. This is the theoretical heart of the proof. In Section~\ref{sec:DLR-Proof}, we finally prove Theorem~\ref{DLR-THM main theorem} by pointing to key estimates in Section~\ref{sec:DLR-Estimates}, which will show that the decomposition of the MH chain given by Equation~(\ref{DLR-MH chain from algorithm - general form}) is appropriate. This is the most technical part of the proof. The structure and main idea as well as the estimates concerning the MALA algorithm are taken from~\autocite{Pillai2012} whereas for the RWM algorithm we refer to~\autocite{Mattingly2010}. Our main contribution in this elaboration is the adoption of the arguments used for the MALA algorithm to the RWM case in a consitent way. This is mainly expressed in the statements of Section~\ref{sec:DLR-Estimates}, especially in Lemma~\ref{DLR: Lemma Gaussian approximation}, Lemma~\ref{DLR: Lemma Dirft approximation} and Lemma~\ref{DLR: Lemma Noise approximation}. However, we tried to improve the comprehension by filling minor gaps in the argumentation and reorganizing some statements, particularly in Section~\ref{sec:sub:DLR-Proof strategy} and Section~\ref{sec:sub:DLR-General diffusion approximation}.
+
+\subsubsection*{Notation}
+
+Due to various probability measures on several spaces we have to distinguish between different expectation values. First of all, we have the the expections~$\mathbb{E}^{\pi_0}[\cdot]$, $\mathbb{E}^{\pi}[\cdot]$ and $\mathbb{E}^{\pi^N}[\cdot]$, where we integrate over~$\mathcal{H}^s$ or~$X^N \subset \mathcal{H}^s$ with respect to the probability measures~$\pi_0$, $\pi$ and~$\pi^N$, respectively. Let $\mathcal{F}_k$ denote the sigma algebra generated by~$\{ x^{i,N}, \xi^{i,N}, \gamma^{i,N} : i \leq k  \}$. We denote the conditional expectation by~$\mathbb{E}[\cdot|\mathcal{F}_k] = \mathbb{E}_k [\cdot]$. Furthermore, we can fix a specific~$x \in \mathcal{H}^s$ by conditioning on it, $\mathbb{E}[\cdot | x^{k,N} = x] = \mathbb{E}_x[\cdot]$. Finally, the expectation of an one-dimensional random variable is denoted by~$\mathbb{E}[\cdot]$.
+
+
 
 \subsection{Proof Strategy}
 \label{sec:sub:DLR-Proof strategy}
 
 
-The main idea for the proof of Theorem~\ref{DLR-THM main theorem} is taken from numerical analysis. In fact, we will show that the Metropolis-Hastings Markov chain~$x^N$ generated by the RWM or MALA algorithm resembles a traditional Euler-Maruyama approximation scheme~\autocite{Kloeden1992} of the diffusion~$z(t)$ given by
+The main idea for the proof of Theorem~\ref{DLR-THM main theorem} is taken from numerical analysis and relies on the concept of strong approximation schemes for stochastic differential equations. In fact, we will show that the Metropolis-Hastings Markov chain~$x^N$ generated by the RWM or MALA algorithm resembles a traditional Euler-Maruyama approximation scheme~\autocite{Kloeden1992} of the diffusion~$z(t)$ given by
  \begin{equation}
  \label{DLR-Proof: Definiton: diffusion process}
   dz = -h^{\cdot}(l) (z + \mathcal{C}_s \nabla \Psi(z)) dt + \sqrt{2 h^{\cdot}(l)} d\mathcal{W}(t),
  \end{equation}
-where $h^{\cdot}(l) > 0$ and $\mathcal{W}(t)$ is a $\mathcal{C}_s$-Wiener process on $\mathcal{H}^s$. This is the diffusion limit in Theorem~\ref{DLR-THM main theorem}. To illustrate the idea of the proof of the theorem, we will give a short heuristical digression on approximations schemes for stochastic differential equations~(SDEs). The Euler-Maruyama scheme for the SDE in Equation~(\ref{DLR-Proof: Definiton: diffusion process}) has the form for $0 \leq k \leq n-1$
+where $h^{\cdot}(l) > 0$ and $\mathcal{W}(t)$ is a $\mathcal{C}_s$-Wiener process on $\mathcal{H}^s$. This is the diffusion limit in Theorem~\ref{DLR-THM main theorem}. To illustrate the idea of the proof of the theorem, we will give a short heuristical digression on approximation schemes for stochastic differential equations~(SDEs). The Euler-Maruyama scheme for the SDE in Equation~(\ref{DLR-Proof: Definiton: diffusion process}) has the form for $0 \leq k \leq n-1$
 \begin{equation}
 \label{DLR-Proof: Definition Euler-Maruyama scheme of limit SDE}
 \begin{split}
@@ -572,7 +588,7 @@ where $h^{\cdot}(l) > 0$ and $\mathcal{W}(t)$ is a $\mathcal{C}_s$-Wiener proces
   & \; = Y_k + h^{\cdot}(l) \mu(Y_k) \Delta t + \sqrt{2 h^{\cdot}(l) \Delta t} \; Z_k,
 \end{split}
 \end{equation}
-with initial condition~$Y_0 := x^{0,N}$ and the drift~$\mu: \mathcal{H}^s \to \mathcal{H}^s$ as defined in Equation~(\ref{DLR-Setting: Definition drift mu}) for an equidistant partition~$t_0 =0 < t_1 < \dots < t_{n-1} < t_n = T $ of~$[0,T]$ with $\Delta t := t_{k+1} - t_k$ and $Z_k \stackrel{D}{\sim} \mathcal{N}(0, \mathcal{C}_s)$. In the second identity, we used the fact, that $\mathcal{W}(t)$ is a $\mathcal{C}_s$-Wiener process, hence the increments are independently Gaussian distributed. Note that one may see $\mathcal{W}(t)$ equivalently as a Brownian motion on $\mathcal{H}^s$ with covariance operator~$\mathcal{C}_s$. These two notations describe the same object. Taking now the same interpolant as for the MH Markov chain as described in Equation~(\ref{DLR-linear continuous interpolant short}), we get the following rekursive expression for the Euler-Maruyama discretization~$Y(t)$ of the diffusion~$z(t)$ in the interval~$[0,T]$ for $t \in [k \Delta t, (k+1) \Delta t)$
+with initial condition~$Y_0 := x^{0,N}$ and the drift~$\mu: \mathcal{H}^s \to \mathcal{H}^s$ as defined in Equation~(\ref{DLR-Setting: Definition drift mu}) for an equidistant partition~$t_0 =0 < t_1 < \dots < t_{n-1} < t_n = T $ of~$[0,T]$ with $\Delta t := t_{k+1} - t_k$ and $Z_k \stackrel{D}{\sim} \mathcal{N}(0, \mathcal{C}_s)$. In the second identity, we used the fact, that $\mathcal{W}(t)$ is a $\mathcal{C}_s$-Wiener process, hence the increments are independently Gaussian distributed. Note that one may see $\mathcal{W}(t)$ equivalently as a Brownian motion on $\mathcal{H}^s$ with covariance operator~$\mathcal{C}_s$. These two notations describe the same object. See for further references~\autocite{DaPrato1992, DaPrato2002}. Taking now the same interpolant as for the MH Markov chain as described in Equation~(\ref{DLR-linear continuous interpolant short}), we get the following recursive expression for the Euler-Maruyama discretization~$Y(t)$ of the diffusion~$z(t)$ in the interval~$[0,T]$ for $t \in [k \Delta t, (k+1) \Delta t)$
 \begin{align}
     Y(t) & \; = Y_k + \frac{t - k \Delta t}{\Delta t} (Y_{k+1} - Y_k) \nonumber  \\
     & \; = Y_k + \frac{t - k \Delta t}{\Delta t} (h^{\cdot}(l) \Delta t \, \mu(Y_k) +\sqrt{2h^{\cdot}(l) \Delta t } \; Z_k ) \nonumber \\
@@ -580,11 +596,11 @@ with initial condition~$Y_0 := x^{0,N}$ and the drift~$\mu: \mathcal{H}^s \to \m
     & \; = Y_0 + h^{\cdot}(l) \left[ \Delta t \sum_{i=0}^{k-1} \mu(Y_i) + (t - \Delta t) \mu(Y_k) \right] \label{DLR-Proof: Integralapproximation mu} \\ 
     & \qquad + \sqrt{2 h^{\cdot}(l)} \left\{ \sqrt{ \Delta t} \sum_{i=0}^{k-1} Z_i +  \frac{t - \Delta t}{\sqrt{\Delta t}} Z_k \right\} \label{DLR-Proof: Wiener process approximation}
 \end{align}
-Following the methodology of stochastic approximations schemes, we have to prove convergence of the quantity in the angular brackets in Equation~(\ref{DLR-Proof: Integralapproximation mu}) to the drift integral~$\int_0^t \mu (t) dt$ of the original SDE and we have to show an \textit{invariance principle}, in the sense of a generalization of Donsker's Theorem as in~\autocite{Revuz2005}, for the quantity in the curly brackets in Equation~(\ref{DLR-Proof: Wiener process approximation}). Such an invariance principle states  that a rescaled sum of random variables, as the quantity in the curly brackets, converges weakly to a Wiener process~$\mathcal{W}(t)$ on $\mathcal{H}^s$ with a covariance operator~$\mathcal{C}_s$. 
+Following the methodology of stochastic approximation schemes, we have to prove convergence of the quantity in the angular brackets in Equation~(\ref{DLR-Proof: Integralapproximation mu}) to the drift integral~$\int_0^t \mu (t) dt$ of the original SDE and we have to show an \textit{invariance principle}, in the sense of a generalization of Donsker's Theorem as in~\autocite{Revuz2005}, for the quantity in the curly brackets in Equation~(\ref{DLR-Proof: Wiener process approximation}). Such an invariance principle states  that a rescaled sum of random variables, as the quantity in the curly brackets, converges weakly to a Wiener process~$\mathcal{W}(t)$ on $\mathcal{H}^s$ with a covariance operator~$\mathcal{C}_s$. 
 
 
 
-Keeping this in mind, let $\mathcal{F}_k$ denote the sigma algebra generated by~$\{ x^{i,N}, \xi^{i,N}, \gamma^{i,N} : i \leq k  \}$. We denote the conditional expectation by~$\mathbb{E}[|\mathcal{F}_k]$. We define now the \textit{drift-martingale decomposition} of the Metropolis-Hastings chain~$x^N = \{ x^{k,N} \}_{k \geq 0}$ by introducing the drift function~$d^N: \mathcal{H}^s \to \mathcal{H}^s$ given by
+Keeping this in mind, we define now the \textit{drift-martingale decomposition} of the Metropolis-Hastings chain~$x^N = \{ x^{k,N} \}_{k \geq 0}$ by introducing the drift function~$d^N: \mathcal{H}^s \to \mathcal{H}^s$ given by
 \begin{equation}
 \label{DLR-Proof: Definition drift function d^N}
 d^N (x) := \left(  h^{\cdot}(l) \Delta t \right)^{-1} \mathbb{E} \left[ x^{1,N} - x^{0,N} | x^{0,N} = x \right] 
@@ -599,7 +615,7 @@ For the drift-martingale decomposition the natural time step is given by $\Delta
  \label{DLR-Proof: Definition drift-martingale decomposition}
  x^{k+1,N} - x^{k,N} = h^{\cdot}(l) \Delta t \, d^N(x^{k,N}) + \sqrt{2 h^{\cdot}(l) \Delta t} \, \Gamma^{k,N}.
 \end{equation}
-This identitiy follows directly by inserting the definition of the drift martingale array. According to the methodology of numerical analysis, we now interpolate our time-discrete chain continuously and piecewise linearly as defined in Equation~(\ref{DLR-linear continuous interpolant short}) and used in the heuristic digression. Thus the interpolant~$z^N(t)$, $t \in [0,T]$, has the form 
+This identity follows directly by inserting the definition of the drift martingale array. According to the methodology of numerical analysis, we now interpolate our time-discrete chain continuously and piecewise linearly as defined in Equation~(\ref{DLR-linear continuous interpolant short}) and used in the heuristic digression. Thus the interpolant~$z^N(t)$, $t \in [0,T]$, has the form 
 \begin{align}
   z^N(t) & \; = x^{0,N} + h^{\cdot}(l) \left[ \Delta t \sum_{i=0}^{k-1} d^N(x^{i,N}) + (t - \Delta t) d^N(x^{k,N}) \right] \label{DLR-Proof: Integralapproximation d^N} \\ 
   & \qquad + \sqrt{2 h^{\cdot}(l)} \left\{ \sqrt{ \Delta t} \sum_{i=0}^{k-1} \Gamma^{i,N} +  \frac{t - \Delta t}{\sqrt{\Delta t}} \Gamma^{k,N} \right\} \label{DLR-Proof: Gamma approximation}
@@ -654,19 +670,19 @@ This will finish the proof of Theorem~\ref{DLR-THM main theorem} since a suitabl
 \subsection{General Diffusion Approximation}
 \label{sec:sub:DLR-General diffusion approximation}
 
-This section is devoted to a general diffusion approximation result containing the contiunous mapping argument as described in Section~\ref{sec:sub:DLR-Proof strategy} and is taken from~\autocite[Section 3.2]{Pillai2012}. We impose three requirements on a general drift-martingale decompostion of a Markov chain such that this decomposition which resembles a traditional Euler-Maruyama scheme converges weakly to a suitable limit SDE. This result is the heart of the matter of the proof of Theorem~\ref{DLR-THM main theorem}. In Section~\ref{sec:sub:DLR-Proof} we will varify that the drift-martingale decomposition of the Metropolis-Hastings Markov chain obtained by the RWM or MALA algorithm in the Hilbert space setting fulfills these imposed conditions which  will finally finish the proof of Theorem~\ref{DLR-THM main theorem}.
+This section is devoted to a general diffusion approximation result containing the continuous mapping argument as described in Section~\ref{sec:sub:DLR-Proof strategy} and is taken from~\autocite[Section 3.2]{Pillai2012}. We impose three requirements on a general drift-martingale decompostion of a Markov chain such that this decomposition which resembles a traditional Euler-Maruyama scheme converges weakly to a suitable limit SDE. This result is the heart of the matter of the proof of Theorem~\ref{DLR-THM main theorem}. In Section~\ref{sec:sub:DLR-Proof} we will varify that the drift-martingale decomposition of the Metropolis-Hastings Markov chain obtained by the RWM or MALA algorithm in the Hilbert space setting fulfills these imposed conditions which  will finally finish the proof of Theorem~\ref{DLR-THM main theorem}.
 
 In this section we step back and consider a general sequence of Markov chains~$x^N = \{ x^{k,N} \}_{k\geq0}$ evolving at stationarity in a separable Hilbert space~$\mathcal{H}^s$. We define the drift function~$d^N: \mathcal{H}^s \to \mathcal{H}^s$ as in Equation~(\ref{DLR-Proof: Definition drift function d^N}) as well as the martingale difference array~$\{\Gamma^{k,N}\}_{k\geq0}$ defined in Equation~(\ref{DLR-Proof: Definiton martingale difference array}) and introduce the drift-martingale decomposition
 \begin{equation}
   \label{DLR-Proof: drift-martingale decomposition for general diffusion approximation}
  x^{k+1,N} - x^{k,N} = h^{\cdot}(l) \Delta t \, d^N(x^{k,N}) + \sqrt{2 h^{\cdot}(l) \Delta t} \, \Gamma^{k,N},
 \end{equation}
-with $h^{\cdot}(l)>0$ and $\Delta t$ a time-step decreasing to zero for $N$ going to infinity. Moreover, we define a rescaled and interpolated version of the martingale difference array denoted by~$W^N \in C([0,T];\mathcal{H}^s)$ given in Equation~(\ref{DLR-Proof: Definition W^N}).
+with $h^{\cdot}(l)>0$ and $\Delta t$ a time step decreasing to zero for $N$ tending to infinity. Moreover, we define a rescaled and interpolated version of the martingale difference array denoted by~$W^N \in C([0,T];\mathcal{H}^s)$ as given in Equation~(\ref{DLR-Proof: Definition W^N}).
 
 
 \begin{proposition}\autocite[Proposition 3.1]{Pillai2012}(General diffusion approximation for Markov chains)
   \label{DLR-Proof: Proposition General diffusion approximation}
-  Consider a separable Hilbert space~$(\mathcal{H}^s, \langle \cdot, \cdot \rangle_s$ and a sequence of~$\mathcal{H}^s$-valued Markov chains~$x^N = \{ x^{k,N} \}_{k \geq 0}$ with invariant distribution~$\pi^N$. Suppose that the Markov chains start at stationarity~$x^{0,N} \stackrel{D}{\sim} \pi^N$ and the drift-martingale decomposition given in Equation~(\ref{DLR-Proof: drift-martingale decomposition for general diffusion approximation}) satisfies the following assumptions:
+  Consider a separable Hilbert space~$(\mathcal{H}^s, \langle \cdot, \cdot \rangle_s)$ and a sequence of~$\mathcal{H}^s$-valued Markov chains~$x^N = \{ x^{k,N} \}_{k \geq 0}$ with invariant distribution~$\pi^N$. Suppose that the Markov chains start at stationarity~$x^{0,N} \stackrel{D}{\sim} \pi^N$ and the drift-martingale decomposition given in Equation~(\ref{DLR-Proof: drift-martingale decomposition for general diffusion approximation}) satisfies the following assumptions:
   \begin{enumerate}
     \item[(1)] Convergence of initial conditions: $\pi^N$ converges in distribution to the probability measure~$\pi$ where $\pi$ has a finite moment, that is, $\mathbb{E}^{\pi}[\|x\|_s]<\infty$. 
     \item[(2)] Convergence of the drift: there exists a globally Lipschitz function~$\mu:\mathcal{H}^s \to \mathcal{H}^s$ that satisfies
@@ -688,7 +704,7 @@ with $h^{\cdot}(l)>0$ and $\Delta t$ a time-step decreasing to zero for $N$ goin
 \end{proposition}
 
 \begin{proof}
-  The structure of the proof is taken from~\autocite[Proposition 3.1]{Pillai2012}.  Recall the basic idea of comparing the Metropolis-Hastings Markov chain~$\{ x^{k,N} \}_{k \geq 1}$ to an Euler-Maruyama approximation scheme of the limit diffusion process~$z(t)$ given in Equation~(\ref{DLR-Proof: Definiton: diffusion process}). We start with tracking  the error in this Euler-Maruyama approximation argument. Let the chain start in stationarity, i.e.\,$x^{0,N} \stackrel{D}{\sim} \pi^N$. Define the piecewise constant interpolant~$\bar{z}(t)$ as in Equation~(\ref{DLR: Proof Strategy Definition piecewise constant interpolant}). Inserting~$\bar{z}^N(t)$ in the representation of the piecewise linear interpolant~$z(t)$ of the chain~$\{ x^{k,N} \}_{k \geq 1}$ given in Equations~(\ref{DLR-Proof: Integralapproximation d^N}) and~(\ref{DLR-Proof: Gamma approximation}) allows us to deduce that
+  The structure of the proof is taken from~\autocite[Proposition 3.1]{Pillai2012}.  Recall the basic idea of comparing the Metropolis-Hastings Markov chain~$\{ x^{k,N} \}_{k \geq 0}$ to an Euler-Maruyama approximation scheme of the limit diffusion process~$z(t)$ given in Equation~(\ref{DLR-Proof: Definiton: diffusion process}). We start with tracking  the error in this Euler-Maruyama approximation argument. Let the chain start in stationarity, i.e., $x^{0,N} \stackrel{D}{\sim} \pi^N$. Define the piecewise constant interpolant~$\bar{z}(t)$ as in Equation~(\ref{DLR: Proof Strategy Definition piecewise constant interpolant}). Inserting~$\bar{z}^N(t)$ in the representation of the piecewise linear interpolant~$z(t)$ of the chain~$\{ x^{k,N} \}_{k \geq 0}$ given in Equations~(\ref{DLR-Proof: Integralapproximation d^N}) and~(\ref{DLR-Proof: Gamma approximation}) allows us to deduce that
   \begin{equation}
     \label{DLR: Proposition General diffusion approximation interpolant representation}
     \begin{split}
@@ -700,12 +716,12 @@ with $h^{\cdot}(l)>0$ and $\Delta t$ a time-step decreasing to zero for $N$ goin
   \begin{equation}
     \widehat{W}^N(t) :=  W^N(t) + \sqrt{\frac{h^{\cdot}(l)}{2}} \int_0^t [d^N(\bar{z}^N(u)) - \mu(z^N(u))] du.
   \end{equation}
-  Hence, $\widehat{W}^N(t)$ incorporates the error due to the change from~$d^N(\bar{z}^N(u))$ to $\mu(z^N(u))$; the change of the interpolant and the drift function. By assumption, we know that the uncorrected noise process~$W^N(t)$ fulfills an invariance principle to deduce that also the corrected noise process~$\widehat{W}^N(t)$ converges to a $\mathcal{C}_s$-Wiener process on~$\mathcal{H}^s$ and that $z^N(t)$ given in Equation~(\ref{DLR: Proposition General diffusion approximation interpolant representation}) converges to the diffusion given in Equation~(\ref{DLR-Thm diffusion process}), we exploit a continuous mapping argument. Define the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$ that maps~$(z_0, \omega) $ to the unique solution~$z \in  C([0,T]; \mathcal{H}^s)$ of the integral equation
+  Hence, $\widehat{W}^N(t)$ incorporates the error due to the change from~$d^N(\bar{z}^N(u))$ to $\mu(z^N(u))$; the change of the interpolant and the drift function. By assumption, we know that the uncorrected noise process~$W^N(t)$ fulfills an invariance principle. To deduce that also the corrected noise process~$\widehat{W}^N(t)$ converges to a $\mathcal{C}_s$-Wiener process on~$\mathcal{H}^s$ and that $z^N(t)$ given in Equation~(\ref{DLR: Proposition General diffusion approximation interpolant representation}) converges to the diffusion given in Equation~(\ref{DLR-Thm diffusion process}), we exploit a continuous mapping argument. Define the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$ that maps~$(z_0, \omega) $ to the unique solution~$z \in  C([0,T]; \mathcal{H}^s)$ of the integral equation
   \begin{equation}
     \label{DLR: Proposition General Diffusion approximation integral equation}
    z(t) := z^0 + h^{\cdot}(l) \int_0^t \mu(z) du + \sqrt{2 h^{\cdot}(l)} \omega(t) \qquad \forall t \in [0,T].
   \end{equation}
-  Therefore, the representation of~$z^N(t)$ given in Equation~(\ref{DLR: Proposition General diffusion approximation interpolant representation}) is equivalent to~$z^N = \Theta (x^{0,N}, \widehat{W}^N )$. To apply the continuous mapping argument and conclude that~$z^N $ converges weakly to~$ z(t)$ in~$ C([0,T]; \mathcal{H}^s)$ we have to prove first that the error in the correction term of~$\widehat{W}^N(t)$ has no effect on the asymptotic behavior, in the sense that we can also establish an invariance principle for~$\widehat{W}^N(t)$ in a second step we have to prove that the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$ is well-defined in the sense that it is continuous and that the integral equation given in Equation~(\ref{DLR: Proposition General Diffusion approximation integral equation}) has a unique (strong) and continuous solution.
+  Therefore, the representation of~$z^N(t)$ given in Equation~(\ref{DLR: Proposition General diffusion approximation interpolant representation}) is equivalent to~$z^N = \Theta (x^{0,N}, \widehat{W}^N )$. To apply the continuous mapping argument and conclude that~$z^N $ converges weakly to~$ z(t)$ in~$ C([0,T]; \mathcal{H}^s)$ we have to prove first that the error in the correction term of~$\widehat{W}^N(t)$ has no effect on the asymptotic behavior, in the sense that we can also establish an invariance principle for~$\widehat{W}^N(t)$. In a second step we have to prove that the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$ is well-defined in the sense that it is continuous and that the integral equation given in Equation~(\ref{DLR: Proposition General Diffusion approximation integral equation}) has a unique (strong) and continuous solution.
   
   \begin{claim}
    \label{DLR: Proposition General diffusion approximation: Claim 1: convergence of corrected noise}
@@ -724,7 +740,7 @@ with $h^{\cdot}(l)>0$ and $\Delta t$ a time-step decreasing to zero for $N$ goin
       \| \mu(\bar{z}^N(u)) - \mu(z^N(u)) \|_s & = \|  \mu \|_{Lip} \cdot \| x^{k+1,N} - x^{k,N} \|_s \\
       & \stackrel{D}{\sim} \|  \mu \|_{Lip} \cdot \| x^{1,N} - x^{0,N} \|_s,
     \end{align*}
-    where in the last step we hae used the Lipschitz continuity of the drift~$\mu: \mathcal{H}^s \to \mathcal{H}^s$ as proven in Corollary~\ref{DLR-Setting: Corollary: drifts are Lipschitz} and the fact that~$\| \bar{z}^N(u) - z^N(u) \|_s \leq \| x^{k+1,N} - x^{k,N} \|_s$.  Consequently, by using the triangle inequality
+    where in the last step we have used the Lipschitz continuity of the drift~$\mu: \mathcal{H}^s \to \mathcal{H}^s$ as proven in Corollary~\ref{DLR-Setting: Corollary: drifts are Lipschitz} and the fact that~$\| \bar{z}^N(u) - z^N(u) \|_s \leq \| x^{k+1,N} - x^{k,N} \|_s$.  Consequently, by using the triangle inequality
     \begin{align*}
      \mathbb{E}^{\pi^N} \left[ \int_0^T  \| d^N(\bar{z}^N(u)) - \mu(z^N(u)) \|_s du \right] & \leq T \cdot \mathbb{E}^{\pi^N} \left[ \| d^N(x^{0,N})) - \mu(x^{0,N}) \|_s \right] \\
      & \qquad + T \cdot  \|  \mu \|_{Lip} \cdot  \mathbb{E}^{\pi^N} \left[ \| x^{1,N} - x^{0,N} \|_s \right] .
@@ -745,15 +761,15 @@ with $h^{\cdot}(l)>0$ and $\Delta t$ a time-step decreasing to zero for $N$ goin
        z^{(0)}(t) & := z^0
       \end{split}
     \end{equation}
-    for an arbitrary~$z^0 \in \mathcal{H}^s$ and $\omega \in C([0,T];\mathcal{H}^s)$. This sequence is also known as Picard-Lindel\"{o}ff iteration. Since the Lipschitz continuity of~$\mu: \mathcal{H}^s \to \mathcal{H}^s$, it is readily shown that the map~$F: C([0,T];\mathcal{H}^s) \to C([0,T];\mathcal{H}^s)$ defined by~$z(t) \mapsto z^0 + h^{\cdot}(l) \int_0^t \mu (z(u)) du + \sqrt{2 h^{\cdot}(l)} \omega(t)$ is a contraction. Indeed, for~$z_1(\cdot), z_2(\cdot) \in C([0,T];\mathcal{H}^s)$, we obtain that
+    for an arbitrary~$z^0 \in \mathcal{H}^s$ and $\omega \in C([0,T];\mathcal{H}^s)$. This sequence is also known as Picard-Lindel\"{o}ff iteration. Since the Lipschitz continuity of~$\mu: \mathcal{H}^s \to \mathcal{H}^s$, it is readily shown that the map~$F: C([0,T];\mathcal{H}^s) \to C([0,T];\mathcal{H}^s)$ defined by~$z(\cdot) \mapsto z^0 + h(l) \int_0^{\cdot} \mu (z(u)) du + \sqrt{2 h(l)} \omega(\cdot)$ is a contraction. Indeed, for~$z_1(\cdot), z_2(\cdot) \in C([0,T];\mathcal{H}^s)$, we obtain that
     \begin{align*}
       \sup_{t \in [0,T]} \| F(z_1(t)) - F(z_2(t)) \|_{s} & \leq \sup_{t \in [0,T]} \int_0^t \| \mu(z_1(u)) - \mu(z_2(u)) \|_{s} du \\
       & \leq \int_0^T \sup_{t \in [0,T]} \| \mu(z_1(t)) - \mu(z_2(t)) \|_{s} du \\
       & \leq \| \mu \|_{Lip} \cdot T \cdot \sup_{t \in [0,T]} \| z_1(t) - z_2(t) \|_{s},
     \end{align*}
-    where~$C([0,T];\mathcal{H}^s)$ is a Banach space with the supremum norm~$\sup_{t \in [0,T]} \| f(t) \|_s $ for $f \in C([0,T];\mathcal{H}^s)$. For sufficently small~$T>0$, the constant~$\vartheta := \| \mu \|_{Lip} \cdot T$ is smaller than one and in particular~$\vartheta $ is independent from the initial value~$z^0 \in \mathcal{H}^s$. Hence a Banach fix point argument shows that the mapping~$F$ has an unique fix point in~$C([0,T];\mathcal{H}^s)$. By construction, this fix point is a solution for the integral equation given in Equation~(\ref{DLR: Proposition General Diffusion approximation integral equation}) and it is unique by the fix point theorem. Repeated application of the same idea extends this existence and uniqueness result to arbitrary time-intervalls. 
+    where~$C([0,T];\mathcal{H}^s)$ is a Banach space with the supremum norm~$\sup_{t \in [0,T]} \| f(t) \|_s $ for $f \in C([0,T];\mathcal{H}^s)$. For sufficently small~$T>0$, the constant~$\vartheta := \| \mu \|_{Lip} \cdot T$ is smaller than one and in particular~$\vartheta $ is independent of the initial value~$z^0 \in \mathcal{H}^s$. Hence a Banach fix point argument shows that the mapping~$F$ has an unique fix point in~$C([0,T];\mathcal{H}^s)$. By construction, this fix point is a solution for the integral equation given in Equation~(\ref{DLR: Proposition General Diffusion approximation integral equation}) and it is unique by the same fix point argument. Repeated application of the same idea extends this existence and uniqueness result to arbitrary time-intervalls. 
     
-    To prove continuity of the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$, let~$z_i (\cdot)$ solve integral equation defined in Equation~(\ref{DLR: Proposition General Diffusion approximation integral equation}) with~$(z^0, \omega) = (z^0_i, \omega_i), i = 1,2$. Subtracting both equations and using again the global Lipschitz continuity of~$\mu$ on~$\mathcal{H}^s$, we have
+    To prove continuity of the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$, let~$z_i (\cdot)$ solve the integral equation defined in Equation~(\ref{DLR: Proposition General Diffusion approximation integral equation}) with~$(z^0, \omega) = (z^0_i, \omega_i), i = 1,2$. Subtracting both equations and using again the global Lipschitz continuity of~$\mu$ on~$\mathcal{H}^s$, we have
     \begin{equation*}
      \| z_1(t) - z_2(t) \|_s  \leq  \| z_1^0 - z_2^0 \|_s + \| \mu \|_{Lip} \cdot \int_0^t  \| z_1(u) - z_2(u) \|_s du + \sqrt{2 h^{\cdot}(l)}  \| \omega_1(t) - \omega_2(t) \|_s.
     \end{equation*}
@@ -762,11 +778,11 @@ with $h^{\cdot}(l)>0$ and $\Delta t$ a time-step decreasing to zero for $N$ goin
       \sup_{0 \leq t \leq T} \| z_1(t) - z_2(t) \|_s &  \leq  \| z_1^0 - z_2^0 \|_s + \| \mu \|_{Lip} \cdot \int_0^T \sup_{0 \leq \tau \leq u}  \| z_1(\tau) - z_2(\tau) \|_s du \\
       & \quad + \sqrt{2 h^{\cdot}(l)} \sup_{0 \leq t \leq T}  \| \omega_1(t) - \omega_2(t) \|_s.
     \end{align*}
-    To apply Gronwall's inequality, we define the constant $\beta := \| \mu \|_{Lip} $, the continuous function~$g : [0,T] \to \mathbb{R}$ by
+    To apply Gronwall's inequality, we define the constant $\beta := \| \mu \|_{Lip} $ and the continuous function~$g : [0,T] \to \mathbb{R}$ by
     \begin{equation*}
-     g (t) := \sup_{0 \leq \tau \leq t} \| z_1(\tau) - z_2(\tau) \|_s,
+     g (t) := \sup_{0 \leq \tau \leq t} \| z_1(\tau) - z_2(\tau) \|_s.
     \end{equation*}
-    furthermore let~$\alpha: [0,T] \to \mathbb{R}$ be given by
+    Furthermore let~$\alpha: [0,T] \to \mathbb{R}$ be given by
     \begin{equation*}
      \alpha(t) := \| z_1^0 - z_2^0 \|_s + \sqrt{2 h^{\cdot}(l)} \sup_{0 \leq \tau \leq t}  \| \omega_1(\tau) - \omega_2(\tau) \|_s,
     \end{equation*}
@@ -778,7 +794,7 @@ with $h^{\cdot}(l)>0$ and $\Delta t$ a time-step decreasing to zero for $N$ goin
       & \qquad + \sqrt{2 h^{\cdot}(l)} \sup_{0 \leq \tau \leq t}  \| \omega_1(\tau) - \omega_2(\tau) \|_s \\
       & = M_1 \cdot \| z_1^0 - z_2^0 \|_s + M_2 \cdot \sup_{0 \leq \tau \leq t}  \| \omega_1(\tau) - \omega_2(\tau) \|_s.
     \end{align*}
-    Thus, if $(z^0_1, \omega_1) \Longrightarrow (z^0_2, \omega_2)$ in $\mathcal{H}^s \times C([0,T]; \mathcal{H}^s)$ then $\| z_1^0 - z_2^0 \|_s \to 0$ and $\sup_{0 \leq \tau \leq t}  \| \omega_1(\tau) - \omega_2(\tau) \|_s \to 0$and hence, $\sup_{0 \leq \tau \leq t} \| z_1(\tau) - z_2(\tau) \|_s \to 0$. This proves that the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$ is continuous. This finishes the proof of Claim~\ref{DLR: Proposition General diffusion approximation: Claim 2: Ito map}.
+    Thus, if $(z^0_1, \omega_1) \Longrightarrow (z^0_2, \omega_2)$ in $\mathcal{H}^s \times C([0,T]; \mathcal{H}^s)$ then $\| z_1^0 - z_2^0 \|_s \to 0$ and $\sup_{0 \leq \tau \leq t}  \| \omega_1(\tau) - \omega_2(\tau) \|_s \to 0$ and hence, $\sup_{0 \leq \tau \leq t} \| z_1(\tau) - z_2(\tau) \|_s \to 0$. This proves that the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$ is continuous. This finishes the proof of Claim~\ref{DLR: Proposition General diffusion approximation: Claim 2: Ito map}.
      
   \end{proof}   
   
@@ -813,9 +829,9 @@ Additionally, Lemma~\ref{DLR: Lemma jump size of order(sqrt(Delta t))} states th
 \section{Key Estimates}
 \label{sec:DLR-Estimates}
 
-In the previous section, we stated and proved a general diffusion approximation result for Markov chains. To link this theory to the Metropolis-Hastings Markov chain generated by the RWM and MALA algorithm in the Hilbert setting as defined in Equation~(\ref{DLR-MH chain from algorithm - general form}), we have to verify several properties of the drift-martingale decomposition of those Markov chain sequences. Beside some general and technical results like the convergence of the approximated measures~$\pi^N$ to the infinite dimensional target measure~$\pi$ in Section~\ref{sec:sub: DLR - Tehnical Lemmas}, there are three main issues to understand. First the Gaussian behavior of the quantity~$Q^{N}_{\cdot}(x, \xi^N)$ in the acceptance probability of the appropriate algorithm, see Section~\ref{sec:sub:DLR - Gaussian approximation}, which will be needed to give quantitative versions of the drift approximation (Section~\ref{sec:sub:DLR - Drift Approximation}) and finally the noise approximation (Section~\ref{sec:sub:DLR - Noise Approximation}).
+In the previous section, we stated and proved a general diffusion approximation result for Markov chains. To link this theory to the Metropolis-Hastings Markov chain generated by the RWM and MALA algorithm in the Hilbert space setting as defined in Equation~(\ref{DLR-MH chain from algorithm - general form}), we have to verify several properties of the drift-martingale decomposition of those Markov chain sequences. Beside some general and technical results like the convergence of the approximated measures~$\pi^N$ to the infinite dimensional target measure~$\pi$ in Section~\ref{sec:sub: DLR - Tehnical Lemmas}, there are three main issues to understand: the Gaussian behavior of the quantity~$Q^{N}_{\cdot}(x, \xi^N)$ in the acceptance probability of the appropriate algorithm, see Section~\ref{sec:sub:DLR - Gaussian approximation}, which will be needed to give quantitative versions of the drift approximation (Section~\ref{sec:sub:DLR - Drift Approximation}) and finally the noise approximation (Section~\ref{sec:sub:DLR - Noise Approximation}).
 
-The main statement, Theorem~\ref{DLR-THM main theorem}, holds for the RWM and MALA algorithm equally. Also the general proof strategy is the same. But to show the necessary properties of the drift-martingale decomposition of the Metropolis-Hastings Markov chain generated by the MH method, we have to distinguish between the two algorithms in this section. To do so we state several results divided into a RWM and MALA part seperately. As we adopt the proof method introduced in~\autocite{Pillai2012} to the RWM algorithm, we mostly refer to~\autocite{Pillai2012} for proofs concerning the MALA algorithm and we prove only the result for the RWM algorithm.
+The main statement, Theorem~\ref{DLR-THM main theorem}, holds for the RWM and MALA algorithm equally. Also the general proof strategy is the same. But to show the necessary properties of the drift-martingale decomposition of the Metropolis-Hastings Markov chain generated by the MH method, we have to distinguish between the two algorithms in this section. To do so we state several results divided into a RWM and MALA part separately. As we adapt the proof method introduced in~\autocite{Pillai2012} to the RWM algorithm, we often refer for proofs concerning the MALA algorithm to~\autocite{Pillai2012}. The appropriate proofs for the RWM algorithm are accomplished if necessary.
 
 
 
@@ -840,14 +856,14 @@ As a first result we show the convergence of the approximations~$\pi^N$ to~$\pi$
 
 \begin{proof}\autocite[Lemma 3.5, Lemma 4.3]{Mattingly2010, Pillai2012}
   
- The uniform boundedness of the normalization constants~$M_{\Psi^N}$ follows from the fact that we can transfer all integrals with respect to~$\pi^N$ to integrals with respect to the Gaussian reference measure~$\pi_0$ on $\mathcal{H}^s$ and the boundedness assumptions on the change of measure~$\Psi$.Indeed, by definition of~$\pi$ and~$\pi^N$ via their Radon-Nikodym derivative with respect to the Gaussian measure~$\pi_0 \stackrel{D}{\sim} \mathcal{N}(0, \mathcal{C}_s)$ we can estimate
+ The uniform boundedness of the normalization constants~$M_{\Psi^N}$ follows from the fact that we can transfer all integrals with respect to~$\pi^N$ to integrals with respect to the Gaussian reference measure~$\pi_0$ on $\mathcal{H}^s$ and the boundedness assumptions on the change of measure~$\Psi$. Indeed, by definition of~$\pi$ and~$\pi^N$ via their Radon-Nikodym derivative with respect to the Gaussian measure~$\pi_0 \stackrel{D}{\sim} \mathcal{N}(0, \mathcal{C}_s)$ we can estimate
  \begin{equation*}
    \begin{split}
    M_{\Psi^N}^{-1} & \; = \int_{\mathcal{H}^s} \exp (-\Psi^N(x)) \pi_0(dx) \geq \int_{\mathcal{H}^s} \exp (-M(1+ \|x\|_s^2)) \pi_0(dx) \\
    & \; \geq e^{-2M} \mathbb{P}^{\pi_0}(\|x\|_s \leq 1) > 0.
    \end{split}
  \end{equation*}
- The left hand side is independently of $N$. Therefore, if $\inf \{ M_{\Psi^N}^{-1}: N \in \mathbb{N}\} > 0$, then $ \sup\{ M_{\Psi^N}: N \in \mathbb{N}\} < \infty$. Hence, we conclude that for any functional~$f: \mathcal{H}^s \to \mathbb{R}$ and any $p\geq 1$ the $p^{\text{th}}$ moment of $\pi^N$ is bounded uniformly,
+ The left hand side is independently of $N$. Therefore, if $\inf \{ M_{\Psi^N}^{-1}: N \in \mathbb{N}\} > 0$, then $ \sup\{ M_{\Psi^N}: N \in \mathbb{N}\} < \infty$. Hence, we conclude that for any functional~$f: \mathcal{H}^s \to \mathbb{R}$ and any $p\geq 1$ the $p$-th moment of $\pi^N$ is bounded uniformly,
  \begin{equation*}
   \sup_{N \in \mathbb{N}} \mathbb{E}^{\pi^N} [| f(x) |^p] \leq \sup_{N \in \mathbb{N}} M_{\Psi^N} \mathbb{E}^{\pi_0}[ \exp (-\Psi^N(x)) |f(x)|^p] \lesssim \mathbb{E}^{\pi_0}[|f(x)|^p],
  \end{equation*}
@@ -859,19 +875,19 @@ As a first result we show the convergence of the approximations~$\pi^N$ to~$\pi$
   \begin{equation*}
    \mathbb{E}^{\pi} [g(x)] = \mathbb{E}^{\pi_0} [g(x)M_{\Psi} e^{-\Psi(x)} ].
  \end{equation*}
- Since $g$ is bounded by assumption, $\Psi$ is lower bounded by Assumption~\ref{DLR-Setting: Assumptions on C and Psi}, and since the normalization constants~$M_{\Psi^N}$ are uniformly bounded in $N$, the dominated convergence theorem shows that it suffices to prove that $g(P^Nx) M_{\Psi^N} e^{-\Psi(P^Nx)}$ converges $\pi_0$-alomst surely to $g(x)M_{\Psi} e^{-\Psi(x)}$. Thus, we start to show that $\Psi(P^Nx)$ converges $\pi_0$-alomst surely to $\Psi(x)$. Using the boundedness assumption given in Equation~(\ref{DLR-Setting: Assumption on Psi 1}) we have
+ Since $g$ is bounded by assumption, $\Psi$ is lower bounded by Assumption~\ref{DLR-Setting: Assumptions on C and Psi}, and since the normalization constants~$M_{\Psi^N}$ are uniformly bounded in $N$, the dominated convergence theorem shows that it suffices to prove that $g(P^Nx) M_{\Psi^N} e^{-\Psi(P^Nx)}$ converges $\pi_0$-almost surely to $g(x)M_{\Psi} e^{-\Psi(x)}$. Thus, we start to show that $\Psi(P^Nx)$ converges $\pi_0$-almost surely to $\Psi(x)$. Using the boundedness assumption given in Equation~(\ref{DLR-Setting: Assumption on Psi 1}) we have
  \begin{equation*}
   | \Psi(P^Nx) - \Psi(x) | \lesssim  (1 + \|x\|_s + \|P^Nx\|_s) \; \|P^Nx-x\|_s \to 0,
  \end{equation*}
- by definition of the orthogonal projections $\lim_{N \to \infty}   \|P^Nx-x\|_s = 0$ for any $x \in \mathcal{H}^s$. Moreover, we conclude for the normalization constants
+ by definition of the orthogonal projections $\lim_{N \to \infty}   \|P^Nx-x\|_s = 0$ for any $x \in \mathcal{H}^s$. Moreover, we conclude for the normalization constants by using dominated convergence due to the boundedness of~$\Psi^N$
  \begin{equation*}
    M_{\Psi^N}^{-1}  = \int_{\mathcal{H}^s} \exp (-\Psi^N(x)) \pi_0(dx) \longrightarrow \int_{\mathcal{H}^s} \exp (-\Psi(x)) \pi_0(dx) = M_{\Psi}^{-1} \qquad \text{ for } N \to \infty.
  \end{equation*}
- Finally, the last term reads as
+ Finally, the last term reads as 
  \begin{equation*}
   |g(P^Nx) - g(x)| \lesssim \|P^Nx-x\|_s \longrightarrow 0 \qquad \text{ for } N \to \infty,
  \end{equation*}
- which finishes the proof.
+ due to the boundedness of~$g$. This finishes the proof.
 
 \end{proof}
 
@@ -923,7 +939,7 @@ In the proof of Proposition~\ref{DLR-Proof: Proposition General diffusion approx
 \end{proof}
 
 \begin{rem}
-  The preceding Lemma~\ref{DLR: Lemma jump size of order(sqrt(Delta t))} shows that the size of jumps for consecutive states of the Metropolis-Hastings Markov chain~$\mathbb{E}^{\pi^N} [ \| x^{1,N} -x^{0,N} \|_s ]$ is of order~$\mathcal{O}(\sqrt{\Delta t})$ and thus converges to zero for $N$ tending to infinity as $\Delta t = N^{-\gamma}$ with $\gamma >0$. This completes the proof of Proposition~\ref{DLR-Proof: Proposition General diffusion approximation}.
+  The preceding Lemma~\ref{DLR: Lemma jump size of order(sqrt(Delta t))} shows that the size of jumps for consecutive states of the Metropolis-Hastings Markov chain~$\mathbb{E}^{\pi^N} [ \| x^{1,N} -x^{0,N} \|_s ]$ is of order~$\mathcal{O}(\sqrt{\Delta t})$ and thus converges to zero for $N$ tending to infinity as $\Delta t = N^{-\gamma}$ with $\gamma >0$. This was a postponed claim in the proof of Proposition~\ref{DLR-Proof: Proposition General diffusion approximation}.
 \end{rem}
 
 
@@ -968,7 +984,7 @@ The next lemma shows that the drift~$\mu^N(x)$ used in the algorithms is a good 
      & \leq \|  \mathcal{C}_s P^N  \nabla  \Psi(P^Nx)  - \mathcal{C}_s P^N \nabla \Psi(x) \|_s + \|  \mathcal{C}_s P^N  \nabla  \Psi(x)  - \mathcal{C}_s \nabla \Psi(x) \|_s.
     \end{split}
   \end{equation*}
-  As the projection~$P^N$ is a bounded operator on $\mathcal{H}^s$, the same proof as Lemma~\ref{DLR-Seeting: Lemma: Properties of Psi and Psi^N} shows that $\mathcal{C}_sP^N\nabla \Psi : \mathcal{H}^s \to \mathcal{H}^s$ is globally Lipschitz, with a Lipschitz constant independently of $N$. Hence, Equation~(\ref{DLR: Lemma mu^N converge to mu - Projection} implies that
+  As the projection~$P^N$ is a bounded operator on $\mathcal{H}^s$, the same proof as Lemma~\ref{DLR-Seeting: Lemma: Properties of Psi and Psi^N} shows that $\mathcal{C}_sP^N\nabla \Psi : \mathcal{H}^s \to \mathcal{H}^s$ is globally Lipschitz, with a Lipschitz constant independently of $N$. Hence, Equation~(\ref{DLR: Lemma mu^N converge to mu - Projection}) implies that
   \begin{equation*}
     \|  \mathcal{C}_s P^N  \nabla  \Psi(P^Nx)  - \mathcal{C}_s P^N \nabla \Psi(x) \|_s \lesssim  \| P^N x - x \|_s \to 0 \qquad \text{ for } N \to \infty.
   \end{equation*}
