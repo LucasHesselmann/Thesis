@@ -1,22 +1,22 @@
 \chapter{Numerical Results}
 \label{Numerical Results}
 
-In this chapter, we will present some numerical studies concerning simulations with the random walk Metropolis~(RWM) algorithm and the Metropolis adjusted Langevin algorithm~(MALA). A simple simulation tool was implemented in python and was used to generate the following figures. We will briefly describe some properties like the estimation of integrated autocorrelation time to avoid ambiguousness. Also the different target distributions are described which are used for the simulations. Mainly, we want to verify that the theoretical and asymptotical results hold for finite dimensions~$N$. This is reached by performing simulations with RWM and MALA applied to several target distributions. Afterwards, these simulations are analyzed to measure the complexity and to find the optimal scaling (of the proposal variance) depending on $N$.
-Further numerical studies concerning the optimal scaling of Metropolis-Hastings methods and in particular the RWM and MALA algorithm, can be found in~\autocite{Beskos2008, Gelman1996, Roberts2001}.
+In this chapter, we  present some numerical studies concerning simulations with the RWM algorithm and the MALA algorithm. A simple simulation tool has been implemented in python and has been used to generate the following figures. We  briefly describe some properties like the estimation of integrated autocorrelation time to avoid ambiguousness. Also the different target distributions are described which have been used for the simulations. Mainly, we want to verify that the theoretical and asymptotical results hold for finite dimensions~$N$. This has been reached by performing simulations with RWM and MALA having been applied to several target distributions. Afterwards, these simulations have been analyzed to measure the complexity and to find the optimal scaling (of the proposal variance) depending on $N$.
+Further numerical studies concerning the optimal scaling of Metropolis-Hastings methods, and in particular the RWM and MALA algorithm, can be found in~\autocite{Beskos2008, Gelman1996, Roberts2001}.
 
 \section{Measuring Complexity}
 \label{NR- autocorrelation time}
 
-In this section, we will present briefly the used measure of complexity. As introduced in Chapter~\ref{CC:Criteria}, there exist no uniqe and best criteria to ascertain a good performance of a (Markov) chain and hence, a Metropolis-Hastings method. We introduce the \textit{autocorrelation time}, or more precisely, an suitable estimator for this quantity and related estimators as the \textit{standard error of the mean}. The theory for these estimators is taken from~\autocite{Geyer1992}.
+In this section, we briefly present the used measure of complexity. As introduced in Chapter~\ref{CC:Criteria}, there exist no uniqe and best criteria to ascertain a good performance of a time-discrete Markov chain and hence, a Metropolis-Hastings method. We  introduce the \textit{autocorrelation time}, or more precisely, an suitable estimator for this quantity and related estimators as the \textit{standard error of the mean}. The theory for these estimators is taken from~\autocite{Geyer1992}.
 
 
-Short definition of the used estimators...
-\vspace{8cm}
+%\section{Implementation in Python}
+
 
 
 \section{Numerical Simulations}
 
-In this section, we present three selected numerical studies concerning Metropolis-Hastings methods. We tried to answer three questions: 
+In this section, we present three selected numerical studies concerning Metropolis-Hastings methods. We try to answer three questions: 
 \begin{enumerate}
  \item How do the RWM and MALA algorithms behave in high dimensions for a nonproduct target distribution? Do the observations coincide with the theory developed in Chapter~\ref{Diffusion Limit Results}?
  \item Do the theoretical results in Chapter~\ref{ch:Computational Complexity} and~\ref{Diffusion Limit Results} apply for small dimension~$N$? 
@@ -26,7 +26,8 @@ In this section, we present three selected numerical studies concerning Metropol
 To answer these three questions, we did several numerical studies for different target distributions. In the following, we present for each of these three questions concerning the performance of RWM and MALA algorithms in different dimensions, the result of our simulations. As the results for each question are similar for different target distributions, we illustrate each study applied to a different target measure~$\pi^N$.
 
 
-\subsection{RWM and MALA Applied to Nonproduct Targets in Various Dimensions}
+\subsection{RWM and MALA Applied to Non-product Targets in Various Dimensions}
+\label{sec:sub:Numericals Non-product targets}
 
 \begin{figure}%[htb]
  \begin{center} 
@@ -49,22 +50,23 @@ For instance, consider a $N$-dimensional bimodal target density of the form
  \label{NR-multimodal}
  \pi^{N} = \tfrac{1}{2} \; \mathcal{N}(-\mu_N, I_N ) +  \tfrac{1}{2} \; \mathcal{N}(\mu_N, I_N ),
 \end{equation}
-where $\mu_N = (m_N, 0, \dots, 0) \in \mathbb{R}^N$. The mass of this distribution is centered in the two modes~$-\mu_N$ and $\mu_N$. Although, this is the sum of two simple $N$-dimensional Gaussians, the bimodal distribution is wether of i.i.d.\,product form nor of a scaled product form as defined in Equations~(\ref{CC:iid product targets} and~(\ref{CC:Scaled product targets}), respectively. Indeed, the first coordinate is not merely a rescaling of the other coordinates. 
+where $\mu_N = (m_N, 0, \dots, 0) \in \mathbb{R}^N$. The mass of this distribution is centered in the two modes~$-\mu_N$ and $\mu_N$. Although, this is the sum of two simple $N$-dimensional Gaussians, the bimodal distribution is neiher of i.i.d.\,product form nor of a scaled product form as defined in Equations~(\ref{CC:iid product targets} and~(\ref{CC:Scaled product targets}), respectively. Indeed, the first coordinate is not merely a rescaling of the other coordinates. 
 
 
-A numerical study for $m_N = 2$ for the RWM and MALA is illustrated in Figure~\ref{fig:OptimalScaling for RWM and MALA in various dimensions}. For each dimension $N \in \{ 5, 10, 20, 30, 50 \}$, several simulations of the RWM and MALA applied to the target defined in Equation~(\ref{NR-multimodal}) are performed. For different average acceptance rates, the scaled integrated autocorrelation time is calculated according to Section~\ref{NR- autocorrelation time}. Several facts are well illustrated:
+A numerical study for $m_N = 2$ for the RWM and MALA method is illustrated in Figure~\ref{fig:OptimalScaling for RWM and MALA in various dimensions}. For each dimension $N \in \{ 5, 10, 20, 30, 50 \}$, several simulations of the RWM and MALA algorithm applied to the target defined in Equation~(\ref{NR-multimodal}) are performed. For different average acceptance rates, the scaled integrated autocorrelation time is calculated according to Section~\ref{NR- autocorrelation time}. In the case of the RWM method, the integrated autocorrelation time is scaled by a factor of~$N^{-1}$.  For each single dimension~$N$, the scaled integrated autocorrelation times approximately form a flat and quadratic ``curve'' with its minimum around 0.25. For high acceptance rates and large dimensions, the variance of the estimator for the integrated autocorrelation time increases such that these samples are more scattered than the others. Nevertheless, for the scaling~$N^{-1}$ these different curves ``converge'' in the sense that they lie on above the other. Therfore, the theoretical optimal scaling of~$\mathcal{O}(N)$ for the RWM algorithm obtained in Theorem~\ref{DLR-THM main theorem} seems reasonable. For the MALA algorithm, we obtain similar results with a scaling of~$N^{-1/3}$. In contrast, the ``curves'' for the MALA simulations have their minima near 0.6 and for low acceptance rates, the performance for all dimensions is worse. However, the integrated autocorrelation times of the MALA algorithm are in total smaller than the analogue times of the RWM algorithm. Several facts are well illustrated by Figure~\ref{fig:OptimalScaling for RWM and MALA in various dimensions}:
 \begin{enumerate}
  \item Best performance of RWM near an acceptance rate of 0.234 and of MALA near an acceptance rate of 0.573. Hence, asymptotic results seem to apply for finite dimensional setting ($N \geq 5$).
  \item To reach optimality, it suffices to scale the simulation such that the average acceptance rate is near the optimal values of 0.234 and 0.574. The performance of RWM is good for an average acceptance rate in the intervall $[0.1, 0.4]$ and the MALA performs well for $[0.4, 0.75]$.
- \item It is not surprising, that the MALA algorithm has in practice a lower scaled integrated autocorrelation time as the theoretical complexity is better in comparison to the RWM algorithm due to the gradient information in the proposal of MALA algorithm.
+ \item It is not surprising, that the MALA algorithm  in practice has a lower scaled integrated autocorrelation time as the theoretical complexity is better in comparison to the RWM algorithm due to the gradient information in the proposal of MALA algorithm.
 \end{enumerate}
 
 \begin{rem}
- The gradient~$\nabla \log \pi^{N}$ in the MALA algorithm can be numerically approximated by finite differences. Moreover, for both methods, a parallelization for high dimensions is possible. As only the acceptance and rejection steps requires all information on the actual position and the possible candidate, once per iteration, a spreading of information is sufficent.
+ The gradient~$\nabla \log \pi^{N}$ in the MALA algorithm can be numerically approximated by finite differences. Moreover, for both methods, a parallelization for high dimensions is possible. As only the acceptance and rejection steps require all information on the actual position and the possible candidate, a spreading of information once per iteration is sufficient.
 \end{rem}
 
 
 \subsection{Validity in Low Dimensions}
+\label{sub:sec:Numericals Low dimensions}
 
 Consider a simple multidimensional Gaussian distribution in $\mathbb{R}^N$  of the form
 \begin{equation}
@@ -91,6 +93,7 @@ with covariance matrix~$\Sigma^N = \sigma^2 I_N$ for $\sigma^2 >0$ and mean~$\mu
 
 
 \subsection{Comparison of the Performance of RWM and MALA Algorithm}
+\label{sec:sub:Numericals: Comparison MALA - RWM}
 
 To compare the performance of MALA and RWM algorithm, we chose the target distribution~$\pi^N$ of the form
 \begin{equation}
