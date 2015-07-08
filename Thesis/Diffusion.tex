@@ -315,7 +315,7 @@ The constant~$M_{\Psi^N}$ is chosen such that $\pi^N (\mathcal{H}^s) =1$. As $X^
 \label{DLR-Setting: Definition finite dim target measure pi^N}
  \pi^N (x) \varpropto \exp (-\tfrac{1}{2} \| x \|^2_{\mathcal{C}_s^N} - \Psi^N (x)).
 \end{equation}
-The Hilbert-Schmidt norm  $ \| \cdot \|_{\mathcal{C}_s^{N}} $ on $X^{N}$ associated to the operator~$\mathcal{C}^N$ is given by the scalar product $ \langle u, v \rangle_{\mathcal{C}_s^{N}} := \langle u, ( \mathcal{C}_s^{N} )^{-1} v \rangle_s $ for all $ u,v \in X^{N} $. Since the eigenvalues of $ \mathcal{C} $ are assumed to be strictly positive, the operator $ \mathcal{C}_s^{N} $ is invertible on $X^{N}$. Under the assumption that the functionals~$\Psi^N$ satisfy the same conditons as $\Psi$ given in Assumption~\ref{DLR-Setting: Assumptions on C and Psi}, it is straight forward to show that the sequence of measures~$\{ \pi^N \}_N$ converges to $\pi$ in the Hellinger metric. Indeed, note that due to the regularity assumptions on~$\Psi$, for any $R>0$, there exists a constant $K=K(R)>0$ such that, for all $x\in \mathcal{H}^s$ with $\|x\|_s < R$,
+The Hilbert-Schmidt norm  $ \| \cdot \|_{\mathcal{C}_s^{N}} $ on $X^{N}$ associated to the operator~$\mathcal{C}^N_s$ is given by the scalar product $ \langle u, v \rangle_{\mathcal{C}_s^{N}} := \langle u, ( \mathcal{C}_s^{N} )^{-1} v \rangle_s $ for all $ u,v \in X^{N} $. Since the eigenvalues of $ \mathcal{C} $ are assumed to be strictly positive, the operator $ \mathcal{C}_s^{N} $ is invertible on $X^{N}$. Under the assumption that the functionals~$\Psi^N$ satisfy the same conditons as $\Psi$ given in Assumption~\ref{DLR-Setting: Assumptions on C and Psi}, it is straight forward to show that the sequence of measures~$\{ \pi^N \}_N$ converges to $\pi$ in the Hellinger metric. Indeed, note that due to the regularity assumptions on~$\Psi$, for any $R>0$, there exists a constant $K=K(R)>0$ such that, for all $x\in \mathcal{H}^s$ with $\|x\|_s < R$,
 \begin{equation*}
  | \Psi (x) - \Psi^N (x) | \leq K \psi(N) 
 \end{equation*}
@@ -544,6 +544,7 @@ see Lemma~\ref{DLR: Lemma Gaussian approximation} for a quantitative estimation.
 \end{equation}
 This result is rigorously proved as Corollary~\ref{DLR: Corollary acceptance rate convergence}. We then define the speed function
 \begin{equation}
+  \label{DLR: Definition speed function}
  h^{\cdot}(l) := l \alpha^{\cdot}(l).
 \end{equation}
 
@@ -563,11 +564,11 @@ Beside this convenient rule of thumb for the optimal tuning of the two MH method
 \section{Proof of Main Theorem}
 \label{sec:DLR-Proof}
 
-In order to prove Theorem~\ref{DLR-THM main theorem} we outline the proof strategy in Section~\ref{sec:sub:DLR-Proof strategy} and introduce the discrete drift-martingale decomposition of the Metropolis-Hastings~(MH) Markov chain. This decomposition is used to show (weak) convergence of the interpolant towards the drift and the noise term of the diffusion process given in Theorem~\ref{DLR-THM main theorem} by Equation~(\ref{DLR-Thm diffusion process}). Section~\ref{sec:sub:DLR-General diffusion approximation} states and proves a general diffusion approximation for Markov chains which satisfy an appropriate drift-martingale decomposition. This is the theoretical heart of the proof. In Section~\ref{sec:DLR-Proof}, we finally prove Theorem~\ref{DLR-THM main theorem} by pointing to key estimates in Section~\ref{sec:DLR-Estimates}, which will show that the decomposition of the MH chain given by Equation~(\ref{DLR-MH chain from algorithm - general form}) is appropriate. This is the most technical part of the proof. The structure and main idea as well as the estimates concerning the MALA algorithm are taken from~\autocite{Pillai2012} whereas for the RWM algorithm we refer to~\autocite{Mattingly2010}. Our main contribution in this elaboration is the adoption of the arguments used for the MALA algorithm to the RWM case in a consitent way. This is mainly expressed in the statements of Section~\ref{sec:DLR-Estimates}, especially in Lemma~\ref{DLR: Lemma Gaussian approximation}, Lemma~\ref{DLR: Lemma Dirft approximation} and Lemma~\ref{DLR: Lemma Noise approximation}. However, we tried to improve the comprehension by filling minor gaps in the argumentation and reorganizing some statements, particularly in Section~\ref{sec:sub:DLR-Proof strategy} and Section~\ref{sec:sub:DLR-General diffusion approximation}.
+In order to prove Theorem~\ref{DLR-THM main theorem} we outline the proof strategy in Section~\ref{sec:sub:DLR-Proof strategy} and introduce the discrete drift-martingale decomposition of the Metropolis-Hastings~(MH) Markov chain. This decomposition is used to show (weak) convergence of the interpolant towards the drift and the noise term of the diffusion process given in Theorem~\ref{DLR-THM main theorem} by Equation~(\ref{DLR-Thm diffusion process}). Section~\ref{sec:sub:DLR-General diffusion approximation} states and proves a general diffusion approximation for Markov chains which satisfy an appropriate drift-martingale decomposition. This is the theoretical heart of the proof. In Section~\ref{sec:DLR-Proof}, we finally prove Theorem~\ref{DLR-THM main theorem} by pointing to key estimates in Section~\ref{sec:DLR-Estimates}, which will show that the decomposition of the MH chain given by Equation~(\ref{DLR-MH chain from algorithm - general form}) is appropriate. This is the most technical part of the proof. The structure and main idea as well as the estimates concerning the MALA algorithm are taken from~\autocite{Pillai2012} whereas for the RWM algorithm we refer to~\autocite{Mattingly2010}. Our main contribution in this elaboration is the adoption of the arguments used for the MALA algorithm to the RWM case in a consistent way. This is mainly expressed in the statements of Section~\ref{sec:DLR-Estimates}, especially in Lemma~\ref{DLR: Lemma Gaussian approximation}, Lemma~\ref{DLR: Lemma Dirft approximation} and Lemma~\ref{DLR: Lemma Noise approximation}. However, we tried to improve the comprehension by filling minor gaps in the argumentation and reorganizing some statements, particularly in Section~\ref{sec:sub:DLR-Proof strategy} and Section~\ref{sec:sub:DLR-General diffusion approximation}.
 
 \subsubsection*{Notation}
 
-Due to various probability measures on several spaces we have to distinguish between different expectation values. First of all, we have the the expections~$\mathbb{E}^{\pi_0}[\cdot]$, $\mathbb{E}^{\pi}[\cdot]$ and $\mathbb{E}^{\pi^N}[\cdot]$, where we integrate over~$\mathcal{H}^s$ or~$X^N \subset \mathcal{H}^s$ with respect to the probability measures~$\pi_0$, $\pi$ and~$\pi^N$, respectively. Let $\mathcal{F}_k$ denote the sigma algebra generated by~$\{ x^{i,N}, \xi^{i,N}, \gamma^{i,N} : i \leq k  \}$. We denote the conditional expectation by~$\mathbb{E}[\cdot|\mathcal{F}_k] = \mathbb{E}_k [\cdot]$. Furthermore, we can fix a specific~$x \in \mathcal{H}^s$ by conditioning on it, $\mathbb{E}[\cdot | x^{k,N} = x] = \mathbb{E}_x[\cdot]$. Finally, the expectation of an one-dimensional random variable is denoted by~$\mathbb{E}[\cdot]$.
+Due to various probability measures on several spaces we have to distinguish between different expectation values. First of all, we have the the expections~$\mathbb{E}^{\pi_0}[\cdot]$, $\mathbb{E}^{\pi}[\cdot]$ and $\mathbb{E}^{\pi^N}[\cdot]$, where we integrate over~$\mathcal{H}^s$ or~$X^N \subset \mathcal{H}^s$ with respect to the probability measures~$\pi_0$, $\pi$ and~$\pi^N$, respectively. Let $\mathcal{F}_k$ denote the sigma algebra generated by~$\{ x^{i,N}, \xi^{i,N}, \gamma^{i,N} : i \leq k  \}$. We denote the conditional expectation by~$\mathbb{E}[\cdot|\mathcal{F}_k] =: \mathbb{E}_k [\cdot]$. Furthermore, we can fix a specific~$x \in \mathcal{H}^s$ by conditioning on it, $\mathbb{E}[\cdot | x^{k,N} = x] =: \mathbb{E}_x[\cdot]$. Finally, the expectation of an one-dimensional random variable is denoted by~$\mathbb{E}[\cdot]$.
 
 
 
@@ -575,7 +576,7 @@ Due to various probability measures on several spaces we have to distinguish bet
 \label{sec:sub:DLR-Proof strategy}
 
 
-The main idea for the proof of Theorem~\ref{DLR-THM main theorem} is taken from numerical analysis and relies on the concept of strong approximation schemes for stochastic differential equations. In fact, we will show that the Metropolis-Hastings Markov chain~$x^N$ generated by the RWM or MALA algorithm resembles a traditional Euler-Maruyama approximation scheme~\autocite{Kloeden1992} of the diffusion~$z(t)$ given by
+The main idea for the proof of Theorem~\ref{DLR-THM main theorem} is taken from numerical analysis and relies on the concept of strong approximation schemes for stochastic differential equations. In fact, we will show that the Metropolis-Hastings Markov chain~$x^N$ generated by the RWM or MALA algorithm resembles a traditional Euler-Maruyama approximation scheme~\autocite{Kloeden1992} of the diffusion~$z(t)$ which is defined by
  \begin{equation}
  \label{DLR-Proof: Definiton: diffusion process}
   dz = -h^{\cdot}(l) (z + \mathcal{C}_s \nabla \Psi(z)) dt + \sqrt{2 h^{\cdot}(l)} d\mathcal{W}(t),
@@ -588,7 +589,7 @@ where $h^{\cdot}(l) > 0$ and $\mathcal{W}(t)$ is a $\mathcal{C}_s$-Wiener proces
   & \; = Y_k + h^{\cdot}(l) \mu(Y_k) \Delta t + \sqrt{2 h^{\cdot}(l) \Delta t} \; Z_k,
 \end{split}
 \end{equation}
-with initial condition~$Y_0 := x^{0,N}$ and the drift~$\mu: \mathcal{H}^s \to \mathcal{H}^s$ as defined in Equation~(\ref{DLR-Setting: Definition drift mu}) for an equidistant partition~$t_0 =0 < t_1 < \dots < t_{n-1} < t_n = T $ of~$[0,T]$ with $\Delta t := t_{k+1} - t_k$ and $Z_k \stackrel{D}{\sim} \mathcal{N}(0, \mathcal{C}_s)$. In the second identity, we used the fact, that $\mathcal{W}(t)$ is a $\mathcal{C}_s$-Wiener process, hence the increments are independently Gaussian distributed. Note that one may see $\mathcal{W}(t)$ equivalently as a Brownian motion on $\mathcal{H}^s$ with covariance operator~$\mathcal{C}_s$. These two notations describe the same object. See for further references~\autocite{DaPrato1992, DaPrato2002}. Taking now the same interpolant as for the MH Markov chain as described in Equation~(\ref{DLR-linear continuous interpolant short}), we get the following recursive expression for the Euler-Maruyama discretization~$Y(t)$ of the diffusion~$z(t)$ in the interval~$[0,T]$ for $t \in [k \Delta t, (k+1) \Delta t)$
+with initial condition~$Y_0 := x^{0,N}$ and the drift~$\mu: \mathcal{H}^s \to \mathcal{H}^s$ as defined in Equation~(\ref{DLR-Setting: Definition drift mu}) for an equidistant partition~$t_0 =0 < t_1 < \dots < t_{n-1} < t_n = T $ of~$[0,T]$ with $\Delta t := t_{k+1} - t_k$ and $Z_k \stackrel{D}{\sim} \mathcal{N}(0, \mathcal{C}_s)$. In the second identity, we used the fact, that $\mathcal{W}(t)$ is a $\mathcal{C}_s$-Wiener process, hence the increments are independently Gaussian distributed. Note that one may see $\mathcal{W}(t)$ equivalently as a Brownian motion on $\mathcal{H}^s$ with covariance operator~$\mathcal{C}_s$. These two notations describe the same object. See for further references~\autocite{DaPrato1992, DaPrato2002}. Now, taking the same interpolant as for the MH Markov chain (see Equation~(\ref{DLR-linear continuous interpolant short})), we get the following recursive expression for the Euler-Maruyama discretization~$Y(t)$ of the diffusion~$z(t)$ in the interval~$[0,T]$ for $t \in [k \Delta t, (k+1) \Delta t)$
 \begin{align}
     Y(t) & \; = Y_k + \frac{t - k \Delta t}{\Delta t} (Y_{k+1} - Y_k) \nonumber  \\
     & \; = Y_k + \frac{t - k \Delta t}{\Delta t} (h^{\cdot}(l) \Delta t \, \mu(Y_k) +\sqrt{2h^{\cdot}(l) \Delta t } \; Z_k ) \nonumber \\
@@ -596,11 +597,11 @@ with initial condition~$Y_0 := x^{0,N}$ and the drift~$\mu: \mathcal{H}^s \to \m
     & \; = Y_0 + h^{\cdot}(l) \left[ \Delta t \sum_{i=0}^{k-1} \mu(Y_i) + (t - \Delta t) \mu(Y_k) \right] \label{DLR-Proof: Integralapproximation mu} \\ 
     & \qquad + \sqrt{2 h^{\cdot}(l)} \left\{ \sqrt{ \Delta t} \sum_{i=0}^{k-1} Z_i +  \frac{t - \Delta t}{\sqrt{\Delta t}} Z_k \right\} \label{DLR-Proof: Wiener process approximation}
 \end{align}
-Following the methodology of stochastic approximation schemes, we have to prove convergence of the quantity in the angular brackets in Equation~(\ref{DLR-Proof: Integralapproximation mu}) to the drift integral~$\int_0^t \mu (t) dt$ of the original SDE and we have to show an \textit{invariance principle}, in the sense of a generalization of Donsker's Theorem as in~\autocite{Revuz2005}, for the quantity in the curly brackets in Equation~(\ref{DLR-Proof: Wiener process approximation}). Such an invariance principle states  that a rescaled sum of random variables, as the quantity in the curly brackets, converges weakly to a Wiener process~$\mathcal{W}(t)$ on $\mathcal{H}^s$ with a covariance operator~$\mathcal{C}_s$. 
+Following the methodology of stochastic approximation schemes, we have to prove convergence of the quantity in the angular brackets in Equation~(\ref{DLR-Proof: Integralapproximation mu}) to the drift integral~$\int_0^t \mu (t) dt$ of the original SDE. Additionally, we have to show an \textit{invariance principle}, in the sense of a generalization of Donsker's Theorem as in~\autocite{Revuz2005}, for the quantity in the curly brackets in Equation~(\ref{DLR-Proof: Wiener process approximation}). Such an invariance principle states  that a rescaled sum of random variables converges weakly to a Wiener process~$\mathcal{W}(t)$ on $\mathcal{H}^s$ with a covariance operator~$\mathcal{C}_s$. 
 
 
 
-Keeping this in mind, we define now the \textit{drift-martingale decomposition} of the Metropolis-Hastings chain~$x^N = \{ x^{k,N} \}_{k \geq 0}$ by introducing the drift function~$d^N: \mathcal{H}^s \to \mathcal{H}^s$ given by
+Keeping this in mind, we now define the \textit{drift-martingale decomposition} of the Metropolis-Hastings chain~$x^N = \{ x^{k,N} \}_{k \geq 0}$ by introducing the drift function~$d^N: \mathcal{H}^s \to \mathcal{H}^s$ given by
 \begin{equation}
 \label{DLR-Proof: Definition drift function d^N}
 d^N (x) := \left(  h^{\cdot}(l) \Delta t \right)^{-1} \mathbb{E} \left[ x^{1,N} - x^{0,N} | x^{0,N} = x \right] 
@@ -620,7 +621,7 @@ This identity follows directly by inserting the definition of the drift martinga
   z^N(t) & \; = x^{0,N} + h^{\cdot}(l) \left[ \Delta t \sum_{i=0}^{k-1} d^N(x^{i,N}) + (t - \Delta t) d^N(x^{k,N}) \right] \label{DLR-Proof: Integralapproximation d^N} \\ 
   & \qquad + \sqrt{2 h^{\cdot}(l)} \left\{ \sqrt{ \Delta t} \sum_{i=0}^{k-1} \Gamma^{i,N} +  \frac{t - \Delta t}{\sqrt{\Delta t}} \Gamma^{k,N} \right\} \label{DLR-Proof: Gamma approximation}
 \end{align}
-for $k \Delta t \leq t  < (k+1) \Delta t $ and $\Delta t = N^{-\gamma}$. In order to show now weak convergence in $C([0,T];\mathcal{H}^s)$ of the interpolant~$z^N(t)$ to the diffusion~$z(t)$ given in Equation~(\ref{DLR-Proof: Definiton: diffusion process}), one has to verify that the quantity in the angular brackets in Equation~(\ref{DLR-Proof: Integralapproximation d^N}) converges to the drift of $z(t)$ and the quantity in the curly brackets in Equation~(\ref{DLR-Proof: Gamma approximation}) converges to a $\mathcal{C}_s$-Wiener process in $\mathcal{H}^s$, i.e.,
+for $k \Delta t \leq t  < (k+1) \Delta t $ and $\Delta t = N^{-\gamma}$. In order to now show the weak convergence of the interpolant~$z^N(t)$ in $C([0,T];\mathcal{H}^s)$ to the diffusion~$z(t)$ given in Equation~(\ref{DLR-Proof: Definiton: diffusion process}), one has to verify that the quantity in the angular brackets in Equation~(\ref{DLR-Proof: Integralapproximation d^N}) converges to the drift of $z(t)$ and the quantity in the curly brackets in Equation~(\ref{DLR-Proof: Gamma approximation}) converges to a $\mathcal{C}_s$-Wiener process in $\mathcal{H}^s$, i.e.,
 \begin{equation}
   \label{DLR-Proof: Definition W^N}
   \begin{split}
@@ -632,9 +633,7 @@ where $\Longrightarrow$ denotes weak convergence in $C([0,T];\mathcal{H}^s)$ for
 \begin{equation*}
   (x^{0,N}, W^N) \Longrightarrow (z^0, \mathcal{W}),
 \end{equation*}
-where $\Longrightarrow$ denotes weak convergence in $\mathcal{H}^s \times C([0,T];\mathcal{H}^s)$, and $z^0 \stackrel{D}{\sim} \pi$ is independent of the limiting Wiener process~$\mathcal{W}(t)$. Using this invariance principle for~$W^N$ and the fact of additive noise in the diffusion limit~$z(t)$, we deduce the weak convergence of~$z^N$ to $z$ in $ C([0,T];\mathcal{H}^s)$ from a continuous  mapping argument (It\={o} map). This continuous mapping argument, which we will now outline, allows us to manage the transfer from the drift term with $d^N(x)$ given in Equation~(\ref{DLR-Proof: Integralapproximation d^N}) to the desired drift~$ \int_0^t \mu(z) du$ of the limiting SPDE given in Equation~(\ref{DLR-Proof: Definiton: diffusion process}). For a rigorous proof, we refer to Proposition~\ref{DLR-Proof: Proposition General diffusion approximation}.
-
-Define the It\={o} map~$\Theta$ for any $\omega \in C([0,T];\mathcal{H}^s)$ by 
+where $\Longrightarrow$ denotes weak convergence in $\mathcal{H}^s \times C([0,T];\mathcal{H}^s)$, and $z^0 \stackrel{D}{\sim} \pi$ is independent of the limiting Wiener process~$\mathcal{W}(t)$. Using this invariance principle for~$W^N$ and the fact of additive noise in the diffusion limit~$z(t)$, we deduce the weak convergence of~$z^N$ to $z$ in $ C([0,T];\mathcal{H}^s)$ from a continuous  mapping argument (It\={o} map). This continuous mapping argument, which we will now outline, allows us to manage the transfer from the drift term with $d^N(x)$ given in Equation~(\ref{DLR-Proof: Integralapproximation d^N}) to the desired drift~$ \int_0^t \mu(z) du$ of the limiting SPDE given in Equation~(\ref{DLR-Proof: Definiton: diffusion process}). For a rigorous proof, we refer to Proposition~\ref{DLR-Proof: Proposition General diffusion approximation}. We define the It\={o} map~$\Theta$ for any $\omega \in C([0,T];\mathcal{H}^s)$ by 
 \begin{equation*}
  \Theta : \mathcal{H}^s \times C([0,T];\mathcal{H}^s) \to C([0,T];\mathcal{H}^s)
 \end{equation*}
@@ -655,7 +654,7 @@ Using this definition it follows that the continuous piecewise linear interpolan
 \begin{equation}
   z^N(t) = x^{0,N} +  h^{\cdot}(l) \int_0^t d^N(\bar{z}(u)) du + \sqrt{2 h^{\cdot}(l)} W^N(t) \qquad \forall t \in [0,T].
 \end{equation}
-Exploiting the closeness of $d^N(\cdot)$ and $\mu(\cdot)$, and of $\bar{z}(t)$ and $z^N(t)$, we will see that there exists a continuous process~$\widehat{W}^N \Longrightarrow \mathcal{W}$ as $N$ goes to infinity such that
+Exploiting the ``closeness'' of $d^N(\cdot)$ and $\mu(\cdot)$, and of $\bar{z}(t)$ and $z^N(t)$, we will see that there exists a continuous process~$\widehat{W}^N \Longrightarrow \mathcal{W}$ as $N$ tends to infinity such that
 \begin{equation*}
  z^N(t) = x^{0,N} +  h^{\cdot}(l) \int_0^t \mu(z^N(u)) du + \sqrt{2 h^{\cdot}(l)} \widehat{W}^N(t) \qquad \forall t \in [0,T].
 \end{equation*}
@@ -670,9 +669,9 @@ This will finish the proof of Theorem~\ref{DLR-THM main theorem} since a suitabl
 \subsection{General Diffusion Approximation}
 \label{sec:sub:DLR-General diffusion approximation}
 
-This section is devoted to a general diffusion approximation result containing the continuous mapping argument as described in Section~\ref{sec:sub:DLR-Proof strategy} and is taken from~\autocite[Section 3.2]{Pillai2012}. We impose three requirements on a general drift-martingale decompostion of a Markov chain such that this decomposition which resembles a traditional Euler-Maruyama scheme converges weakly to a suitable limit SDE. This result is the heart of the matter of the proof of Theorem~\ref{DLR-THM main theorem}. In Section~\ref{sec:sub:DLR-Proof} we will varify that the drift-martingale decomposition of the Metropolis-Hastings Markov chain obtained by the RWM or MALA algorithm in the Hilbert space setting fulfills these imposed conditions which  will finally finish the proof of Theorem~\ref{DLR-THM main theorem}.
+This section is devoted to a general diffusion approximation result containing the continuous mapping argument as described in Section~\ref{sec:sub:DLR-Proof strategy} and is taken from~\autocite[Section 3.2]{Pillai2012}. We impose three requirements on a general drift-martingale decomposition of a Markov chain such that this decomposition which resembles a traditional Euler-Maruyama scheme converges weakly to a suitable limit SDE. This result is the heart of the proof of Theorem~\ref{DLR-THM main theorem}. In Section~\ref{sec:sub:DLR-Proof} we will varify that the drift-martingale decomposition of the Metropolis-Hastings Markov chain obtained by the RWM or MALA algorithm in the Hilbert space setting fulfills these imposed conditions which  will finally finish the proof of Theorem~\ref{DLR-THM main theorem}.
 
-In this section we step back and consider a general sequence of Markov chains~$x^N = \{ x^{k,N} \}_{k\geq0}$ evolving at stationarity in a separable Hilbert space~$\mathcal{H}^s$. We define the drift function~$d^N: \mathcal{H}^s \to \mathcal{H}^s$ as in Equation~(\ref{DLR-Proof: Definition drift function d^N}) as well as the martingale difference array~$\{\Gamma^{k,N}\}_{k\geq0}$ defined in Equation~(\ref{DLR-Proof: Definiton martingale difference array}) and introduce the drift-martingale decomposition
+In this section we take a step back and consider a general sequence of Markov chains~$x^N = \{ x^{k,N} \}_{k\geq0}$ evolving at stationarity in a separable Hilbert space~$\mathcal{H}^s$. We define the drift function~$d^N: \mathcal{H}^s \to \mathcal{H}^s$ as in Equation~(\ref{DLR-Proof: Definition drift function d^N}) as well as the martingale difference array~$\{\Gamma^{k,N}\}_{k\geq0}$ defined in Equation~(\ref{DLR-Proof: Definiton martingale difference array}) and introduce the drift-martingale decomposition
 \begin{equation}
   \label{DLR-Proof: drift-martingale decomposition for general diffusion approximation}
  x^{k+1,N} - x^{k,N} = h^{\cdot}(l) \Delta t \, d^N(x^{k,N}) + \sqrt{2 h^{\cdot}(l) \Delta t} \, \Gamma^{k,N},
@@ -684,7 +683,7 @@ with $h^{\cdot}(l)>0$ and $\Delta t$ a time step decreasing to zero for $N$ tend
   \label{DLR-Proof: Proposition General diffusion approximation}
   Consider a separable Hilbert space~$(\mathcal{H}^s, \langle \cdot, \cdot \rangle_s)$ and a sequence of~$\mathcal{H}^s$-valued Markov chains~$x^N = \{ x^{k,N} \}_{k \geq 0}$ with invariant distribution~$\pi^N$. Suppose that the Markov chains start at stationarity~$x^{0,N} \stackrel{D}{\sim} \pi^N$ and the drift-martingale decomposition given in Equation~(\ref{DLR-Proof: drift-martingale decomposition for general diffusion approximation}) satisfies the following assumptions:
   \begin{enumerate}
-    \item[(1)] Convergence of initial conditions: $\pi^N$ converges in distribution to the probability measure~$\pi$ where $\pi$ has a finite moment, that is, $\mathbb{E}^{\pi}[\|x\|_s]<\infty$. 
+    \item[(1)] Convergence of initial conditions: $\pi^N$ converges in distribution to the probability measure~$\pi$ where $\pi$ has a finite moment, that is $\mathbb{E}^{\pi}[\|x\|_s]<\infty$. 
     \item[(2)] Convergence of the drift: there exists a globally Lipschitz function~$\mu:\mathcal{H}^s \to \mathcal{H}^s$ that satisfies
     \begin{equation*}
       \lim_{N \to \infty} \mathbb{E}^{\pi^N}[ \|  d^N(x) - \mu(x) \|_{s} ] = 0 \qquad \text{ for all } x \in \mathcal{H}^s.
@@ -704,7 +703,7 @@ with $h^{\cdot}(l)>0$ and $\Delta t$ a time step decreasing to zero for $N$ tend
 \end{proposition}
 
 \begin{proof}
-  The structure of the proof is taken from~\autocite[Proposition 3.1]{Pillai2012}.  Recall the basic idea of comparing the Metropolis-Hastings Markov chain~$\{ x^{k,N} \}_{k \geq 0}$ to an Euler-Maruyama approximation scheme of the limit diffusion process~$z(t)$ given in Equation~(\ref{DLR-Proof: Definiton: diffusion process}). We start with tracking  the error in this Euler-Maruyama approximation argument. Let the chain start in stationarity, i.e., $x^{0,N} \stackrel{D}{\sim} \pi^N$. Define the piecewise constant interpolant~$\bar{z}(t)$ as in Equation~(\ref{DLR: Proof Strategy Definition piecewise constant interpolant}). Inserting~$\bar{z}^N(t)$ in the representation of the piecewise linear interpolant~$z(t)$ of the chain~$\{ x^{k,N} \}_{k \geq 0}$ given in Equations~(\ref{DLR-Proof: Integralapproximation d^N}) and~(\ref{DLR-Proof: Gamma approximation}) allows us to deduce that
+  The structure of the proof is taken from~\autocite[Proposition 3.1]{Pillai2012}.  Recall the basic idea of comparing the Metropolis-Hastings Markov chain~$\{ x^{k,N} \}_{k \geq 0}$ to an Euler-Maruyama approximation scheme of the limit diffusion process~$z(t)$ given in Equation~(\ref{DLR-Proof: Definiton: diffusion process}). We start with tracking  the error in this Euler-Maruyama approximation argument. Let the chain start in stationarity, i.e., $x^{0,N} \stackrel{D}{\sim} \pi^N$. We define the piecewise constant interpolant~$\bar{z}(t)$ as in Equation~(\ref{DLR: Proof Strategy Definition piecewise constant interpolant}). Inserting~$\bar{z}^N(t)$ into the representation of the piecewise linear interpolant~$z(t)$ of the chain~$\{ x^{k,N} \}_{k \geq 0}$ given in Equations~(\ref{DLR-Proof: Integralapproximation d^N}) and~(\ref{DLR-Proof: Gamma approximation}) allows us to deduce that
   \begin{equation}
     \label{DLR: Proposition General diffusion approximation interpolant representation}
     \begin{split}
@@ -716,12 +715,12 @@ with $h^{\cdot}(l)>0$ and $\Delta t$ a time step decreasing to zero for $N$ tend
   \begin{equation}
     \widehat{W}^N(t) :=  W^N(t) + \sqrt{\frac{h^{\cdot}(l)}{2}} \int_0^t [d^N(\bar{z}^N(u)) - \mu(z^N(u))] du.
   \end{equation}
-  Hence, $\widehat{W}^N(t)$ incorporates the error due to the change from~$d^N(\bar{z}^N(u))$ to $\mu(z^N(u))$; the change of the interpolant and the drift function. By assumption, we know that the uncorrected noise process~$W^N(t)$ fulfills an invariance principle. To deduce that also the corrected noise process~$\widehat{W}^N(t)$ converges to a $\mathcal{C}_s$-Wiener process on~$\mathcal{H}^s$ and that $z^N(t)$ given in Equation~(\ref{DLR: Proposition General diffusion approximation interpolant representation}) converges to the diffusion given in Equation~(\ref{DLR-Thm diffusion process}), we exploit a continuous mapping argument. Define the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$ that maps~$(z_0, \omega) $ to the unique solution~$z \in  C([0,T]; \mathcal{H}^s)$ of the integral equation
+  Hence, $\widehat{W}^N(t)$ incorporates the error due to the change from~$d^N(\bar{z}^N(u))$ to $\mu(z^N(u))$; the change of the interpolant and the drift function. By assumption, we know that the uncorrected noise process~$W^N(t)$ fulfills an invariance principle. To deduce that also the corrected noise process~$\widehat{W}^N(t)$ converges to a $\mathcal{C}_s$-Wiener process on~$\mathcal{H}^s$ and that $z^N(t)$ given in Equation~(\ref{DLR: Proposition General diffusion approximation interpolant representation}) converges to the diffusion given in Equation~(\ref{DLR-Thm diffusion process}), we exploit a continuous mapping argument as presented above. Define the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$ that maps~$(z_0, \omega) $ to the unique solution~$z \in  C([0,T]; \mathcal{H}^s)$ of the integral equation
   \begin{equation}
     \label{DLR: Proposition General Diffusion approximation integral equation}
    z(t) := z^0 + h^{\cdot}(l) \int_0^t \mu(z) du + \sqrt{2 h^{\cdot}(l)} \omega(t) \qquad \forall t \in [0,T].
   \end{equation}
-  Therefore, the representation of~$z^N(t)$ given in Equation~(\ref{DLR: Proposition General diffusion approximation interpolant representation}) is equivalent to~$z^N = \Theta (x^{0,N}, \widehat{W}^N )$. To apply the continuous mapping argument and conclude that~$z^N $ converges weakly to~$ z(t)$ in~$ C([0,T]; \mathcal{H}^s)$ we have to prove first that the error in the correction term of~$\widehat{W}^N(t)$ has no effect on the asymptotic behavior, in the sense that we can also establish an invariance principle for~$\widehat{W}^N(t)$. In a second step we have to prove that the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$ is well-defined in the sense that it is continuous and that the integral equation given in Equation~(\ref{DLR: Proposition General Diffusion approximation integral equation}) has a unique (strong) and continuous solution.
+  Therefore, the representation of~$z^N(t)$ given in Equation~(\ref{DLR: Proposition General diffusion approximation interpolant representation}) is equivalent to~$z^N = \Theta (x^{0,N}, \widehat{W}^N )$. To apply the continuous mapping argument and conclude that~$z^N $ converges weakly to~$ z(t)$ in~$ C([0,T]; \mathcal{H}^s)$ we first have to prove that the error in the correction term of~$\widehat{W}^N(t)$ has no effect on the asymptotic behavior, in the sense that we can also establish an invariance principle for~$\widehat{W}^N(t)$. In a second step, we have to prove that the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$ is well-defined in the sense that it is continuous and that the integral equation given in Equation~(\ref{DLR: Proposition General Diffusion approximation integral equation}) has a unique (strong) and continuous solution.
   
   \begin{claim}
    \label{DLR: Proposition General diffusion approximation: Claim 1: convergence of corrected noise}
@@ -754,20 +753,20 @@ with $h^{\cdot}(l)>0$ and $\Delta t$ a time step decreasing to zero for $N$ tend
   \end{claim}
   
   \begin{proof} (of Claim~\ref{DLR: Proposition General diffusion approximation: Claim 2: Ito map})~\autocite[Lemma 3.7]{Mattingly2010}
-    The proof is based on the contraction mapping theorem which shows existence and uniqueness for ordinary differential equations with Lipschitz coefficients and Gronwall's inequality which is used to show continuity of the It\={o} map~$\Theta$. For the existence and uniqueness of the SDE given by Equation~(\ref{DLR: Proposition General Diffusion approximation integral equation}) define the approximating sequence~$\{ z^{(n)}(t) \}_{n \in \mathbb{N}} $ given by
+    The proof is based on the contraction mapping theorem which shows existence and uniqueness for ordinary differential equations with Lipschitz coefficients and Gronwall's inequality which is used to show continuity of the It\={o} map~$\Theta$. For the existence and uniqueness of the SDE given by Equation~(\ref{DLR: Proposition General Diffusion approximation integral equation}) we define the approximating sequence~$\{ z^{(n)}(t) \}_{n \in \mathbb{N}} $ given by
     \begin{equation}
       \begin{split}
        z^{(n+1)}(t) & := z^0 + h^{\cdot}(l) \int_0^t \mu (z^{(n)}(u)) du + \sqrt{2 h^{\cdot}(l)} \omega(t) \\
        z^{(0)}(t) & := z^0
       \end{split}
     \end{equation}
-    for an arbitrary~$z^0 \in \mathcal{H}^s$ and $\omega \in C([0,T];\mathcal{H}^s)$. This sequence is also known as Picard-Lindel\"{o}ff iteration. Since the Lipschitz continuity of~$\mu: \mathcal{H}^s \to \mathcal{H}^s$, it is readily shown that the map~$F: C([0,T];\mathcal{H}^s) \to C([0,T];\mathcal{H}^s)$ defined by~$z(\cdot) \mapsto z^0 + h(l) \int_0^{\cdot} \mu (z(u)) du + \sqrt{2 h(l)} \omega(\cdot)$ is a contraction. Indeed, for~$z_1(\cdot), z_2(\cdot) \in C([0,T];\mathcal{H}^s)$, we obtain that
+    for an arbitrary~$z^0 \in \mathcal{H}^s$ and $\omega \in C([0,T];\mathcal{H}^s)$. This sequence is also known as Picard-Lindel\"{o}ff iteration. Due to the Lipschitz continuity of~$\mu: \mathcal{H}^s \to \mathcal{H}^s$, it is readily shown that the map~$F: C([0,T];\mathcal{H}^s) \to C([0,T];\mathcal{H}^s)$ defined by~$z(\cdot) \mapsto z^0 + h(l) \int_0^{\cdot} \mu (z(u)) du + \sqrt{2 h(l)} \omega(\cdot)$ is a contraction. Indeed, for~$z_1(\cdot), z_2(\cdot) \in C([0,T];\mathcal{H}^s)$, we obtain that
     \begin{align*}
       \sup_{t \in [0,T]} \| F(z_1(t)) - F(z_2(t)) \|_{s} & \leq \sup_{t \in [0,T]} \int_0^t \| \mu(z_1(u)) - \mu(z_2(u)) \|_{s} du \\
       & \leq \int_0^T \sup_{t \in [0,T]} \| \mu(z_1(t)) - \mu(z_2(t)) \|_{s} du \\
       & \leq \| \mu \|_{Lip} \cdot T \cdot \sup_{t \in [0,T]} \| z_1(t) - z_2(t) \|_{s},
     \end{align*}
-    where~$C([0,T];\mathcal{H}^s)$ is a Banach space with the supremum norm~$\sup_{t \in [0,T]} \| f(t) \|_s $ for $f \in C([0,T];\mathcal{H}^s)$. For sufficently small~$T>0$, the constant~$\vartheta := \| \mu \|_{Lip} \cdot T$ is smaller than one and in particular~$\vartheta $ is independent of the initial value~$z^0 \in \mathcal{H}^s$. Hence a Banach fix point argument shows that the mapping~$F$ has an unique fix point in~$C([0,T];\mathcal{H}^s)$. By construction, this fix point is a solution for the integral equation given in Equation~(\ref{DLR: Proposition General Diffusion approximation integral equation}) and it is unique by the same fix point argument. Repeated application of the same idea extends this existence and uniqueness result to arbitrary time-intervalls. 
+    where~$C([0,T];\mathcal{H}^s)$ is a Banach space with the supremum norm~$\sup_{t \in [0,T]} \| f(t) \|_s $ for $f \in C([0,T];\mathcal{H}^s)$. For sufficiently small~$T>0$, the constant~$\vartheta := \| \mu \|_{Lip} \cdot T$ is smaller than one and in particular~$\vartheta $ is independent of the initial value~$z^0 \in \mathcal{H}^s$. Hence a Banach fixed-point argument shows that the mapping~$F$ has an unique fixed point in~$C([0,T];\mathcal{H}^s)$. By construction, this fixed point is a solution for the integral equation given in Equation~(\ref{DLR: Proposition General Diffusion approximation integral equation}) and it is unique by the same fixed-point argument. Repeated application of the same idea extends this existence and uniqueness result to arbitrary time-intervalls. 
     
     To prove continuity of the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$, let~$z_i (\cdot)$ solve the integral equation defined in Equation~(\ref{DLR: Proposition General Diffusion approximation integral equation}) with~$(z^0, \omega) = (z^0_i, \omega_i), i = 1,2$. Subtracting both equations and using again the global Lipschitz continuity of~$\mu$ on~$\mathcal{H}^s$, we have
     \begin{equation*}
@@ -798,7 +797,7 @@ with $h^{\cdot}(l)>0$ and $\Delta t$ a time step decreasing to zero for $N$ tend
      
   \end{proof}   
   
-  With these two porperties, we can now conclude the result of Proposition~\ref{DLR-Proof: Proposition General diffusion approximation} by a continuous mapping argument. We have proved that~$(x^{0,N}, \widehat{W}^N)$ converges weakly to~$(z^0, \mathcal{W})$ in~$\mathcal{H}^s \times C([0,T];\mathcal{H}^s)$, and the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$ is a continuous function. Thus the continuous mapping theorem~\autocite[Theorem 4.27]{Kallenberg2001} shows that
+  With these two porperties, we can now conclude the result of Proposition~\ref{DLR-Proof: Proposition General diffusion approximation} by a continuous mapping argument. We have proven that~$(x^{0,N}, \widehat{W}^N)$ converges weakly to~$(z^0, \mathcal{W})$ in~$\mathcal{H}^s \times C([0,T];\mathcal{H}^s)$, and the It\={o} map~$\Theta : \mathcal{H}^s \times C([0,T]; \mathcal{H}^s) \to  C([0,T]; \mathcal{H}^s)$ is a continuous function. Thus, the continuous mapping theorem~\autocite[Theorem 4.27]{Kallenberg2001} shows that
   \begin{equation*}
     z^N = \Theta (x^{0,N}, \widehat{W}^N) \Longrightarrow \Theta (z^0, \mathcal{W}) = z \qquad \text{  as } N \to \infty,
   \end{equation*}
@@ -811,7 +810,7 @@ with $h^{\cdot}(l)>0$ and $\Delta t$ a time step decreasing to zero for $N$ tend
 \subsection{Proof of Theorem~\ref{DLR-THM main theorem}}
 \label{sec:sub:DLR-Proof}
 
-To finish the proof of Theorem~\ref{DLR-THM main theorem} we have to check the conditions imposed on  the sequence of RWM and MALA Markov chains given in Equation~(\ref{DLR-MH chain from algorithm - general form}) in Proposition~\ref{DLR-Proof: Proposition General diffusion approximation}. Additionally, we postponed a claim concerning the expected one step mean of these chains. The key estimates are proved subsequently in Section~\ref{sec:DLR-Estimates}.
+To finish the proof of Theorem~\ref{DLR-THM main theorem} we have to check the conditions imposed on  the sequence of RWM and MALA Markov chains given in Equation~(\ref{DLR-MH chain from algorithm - general form}) in Proposition~\ref{DLR-Proof: Proposition General diffusion approximation}. Additionally, we postponed a claim concerning the expected one step mean of these chains. The key estimates are proven subsequently in Section~\ref{sec:DLR-Estimates}.
 
 For the imposed conditions of Proposition~\ref{DLR-Proof: Proposition General diffusion approximation}, we have
  \begin{enumerate}
@@ -829,16 +828,30 @@ Additionally, Lemma~\ref{DLR: Lemma jump size of order(sqrt(Delta t))} states th
 \section{Key Estimates}
 \label{sec:DLR-Estimates}
 
-In the previous section, we stated and proved a general diffusion approximation result for Markov chains. To link this theory to the Metropolis-Hastings Markov chain generated by the RWM and MALA algorithm in the Hilbert space setting as defined in Equation~(\ref{DLR-MH chain from algorithm - general form}), we have to verify several properties of the drift-martingale decomposition of those Markov chain sequences. Beside some general and technical results like the convergence of the approximated measures~$\pi^N$ to the infinite dimensional target measure~$\pi$ in Section~\ref{sec:sub: DLR - Tehnical Lemmas}, there are three main issues to understand: the Gaussian behavior of the quantity~$Q^{N}_{\cdot}(x, \xi^N)$ in the acceptance probability of the appropriate algorithm, see Section~\ref{sec:sub:DLR - Gaussian approximation}, which will be needed to give quantitative versions of the drift approximation (Section~\ref{sec:sub:DLR - Drift Approximation}) and finally the noise approximation (Section~\ref{sec:sub:DLR - Noise Approximation}).
+In the previous section, we stated and proved a general diffusion approximation result for Markov chains. To link this theory to the Metropolis-Hastings Markov chain generated by the RWM and MALA algorithm in the Hilbert space setting as defined in Equation~(\ref{DLR-MH chain from algorithm - general form}), we have to verify several properties of the drift-martingale decomposition of those Markov chain sequences. Beside some general and technical results like the convergence of the approximated measures~$\pi^N$ to the infinite dimensional target measure~$\pi$ in Section~\ref{sec:sub: DLR - Tehnical Lemmas}, there are three main issues to understand: the Gaussian behavior of the quantity~$Q^{N}_{\cdot}(x, \xi^N)$ in the acceptance probability of the appropriate algorithm (Section~\ref{sec:sub:DLR - Gaussian approximation}), which will be needed to give quantitative versions of the drift approximation (Section~\ref{sec:sub:DLR - Drift Approximation}) and finally the noise approximation (Section~\ref{sec:sub:DLR - Noise Approximation}).
 
-The main statement, Theorem~\ref{DLR-THM main theorem}, holds for the RWM and MALA algorithm equally. Also the general proof strategy is the same. But to show the necessary properties of the drift-martingale decomposition of the Metropolis-Hastings Markov chain generated by the MH method, we have to distinguish between the two algorithms in this section. To do so we state several results divided into a RWM and MALA part separately. As we adapt the proof method introduced in~\autocite{Pillai2012} to the RWM algorithm, we often refer for proofs concerning the MALA algorithm to~\autocite{Pillai2012}. The appropriate proofs for the RWM algorithm are accomplished if necessary.
+The main statement, Theorem~\ref{DLR-THM main theorem}, holds for the RWM and MALA algorithm equally. Also, the general proof strategy is the same. But to show the necessary properties of the drift-martingale decomposition of the Metropolis-Hastings Markov chain generated by the MH method, we have to distinguish between the two algorithms in this section. To do so we state several results divided into a RWM and MALA part separately. As we adapt the proof method introduced in~\autocite{Pillai2012} to the RWM algorithm, we often refer for proofs concerning the MALA algorithm to~\autocite{Pillai2012}. The appropriate proofs for the RWM algorithm are accomplished if necessary.
 
 
 
 \subsection{Technical Lemmas} 
 \label{sec:sub: DLR - Tehnical Lemmas}
 
-As a first result we show the convergence of the approximations~$\pi^N$ to~$\pi$. We have seen that the sequence~$\{ \pi^N \}$ converges to~$\pi$ in the Hellinger metric. Furthermore, the normalizing constants~$M_{\Psi^N}$ are uniformly bounded and we use this fact to obtain uniform bounds on moments of functionals in~$\mathcal{H}^s$ under~$\pi^N$ and weak convergence of~$\{ \pi^N \}$ to~$\pi$.
+We are now going to show several properties of some quantities defined on the Hilbert space~$\mathcal{H}^s$. Especially, we will see that we can estimate integrals with respect to the measures~$\pi^N$ by integrals with respect to the Gaussian reference measure~$\pi_0$. The theory of Gaussian measures gives us a powerful tool that ensures integrability under~$\pi_0$.
+
+\begin{thm}(Fernique, 1970)~\autocite[Theorem 3.11]{Hairer2009}
+  \label{Fernique's theorem}
+ Let~$\pi_0$ be an arbitrary Gaussian measure on an arbitrary separable Hilbert space~$\mathcal{H}^s$. Then, there exists~$\alpha >0$ such that
+ \begin{equation*}
+   \mathbb{E}^{\pi_0}[ \exp (\alpha \| x \|_s^2 ) ] < \infty.
+ \end{equation*}
+ 
+\end{thm}
+
+In particular, Fernique's theorem is even more general as it holds for arbitrary Banach-space valued probability measures satisfying a rotation symmetry. For further details and a comprehensive proof, we refer to~\autocite[Theorem 3.11]{Hairer2009}. Nevertheless, Theorem~\ref{Fernique's theorem} shows that any moment of~$\pi_0$ is bounded. Indeed, for any~$p \geq 0$,  the map~$x \mapsto \|x\|_s^p$ is integrable with respect to~$\pi_0$. This integrability will be frequently used to apply the dominated convergence theorem. For instance, Lemma~\ref{DLR-Seeting: Lemma: Properties of Psi and Psi^N} shows that the functionals~$\Psi^N$ and their gradients~$\nabla \Psi^N$ are bounded by the first and second moments of~$\pi_0$ and hence integrable.
+
+
+As a first result we show the convergence of the approximations~$\pi^N$ to~$\pi$. We have seen that the sequence~$\{ \pi^N \}$ converges to~$\pi$ in the Hellinger metric. Furthermore, we show that the normalizing constants~$M_{\Psi^N}$ are uniformly bounded and we use this fact to obtain uniform bounds on moments of functionals in~$\mathcal{H}^s$ under~$\pi^N$ and weak convergence of~$\{ \pi^N \}$ to~$\pi$.
 
 \begin{lemma}\autocite[Lemma 3.5, Lemma 4.3]{Mattingly2010, Pillai2012}
   \label{DLR-Proof: Lemma Convergence of pi^N to pi}
@@ -863,11 +876,11 @@ As a first result we show the convergence of the approximations~$\pi^N$ to~$\pi$
    & \; \geq e^{-2M} \mathbb{P}^{\pi_0}(\|x\|_s \leq 1) > 0.
    \end{split}
  \end{equation*}
- The left hand side is independently of $N$. Therefore, if $\inf \{ M_{\Psi^N}^{-1}: N \in \mathbb{N}\} > 0$, then $ \sup\{ M_{\Psi^N}: N \in \mathbb{N}\} < \infty$. Hence, we conclude that for any functional~$f: \mathcal{H}^s \to \mathbb{R}$ and any $p\geq 1$ the $p$-th moment of $\pi^N$ is bounded uniformly,
+ The right hand side is independent of $N$. Therefore, if $\inf \{ M_{\Psi^N}^{-1}: N \in \mathbb{N}\} > 0$, then $ \sup\{ M_{\Psi^N}: N \in \mathbb{N}\} < \infty$. This shows that the normalization constants~$M_{\Psi^N}$ are uniformly bounded. Hence, we conclude that for any functional~$f: \mathcal{H}^s \to \mathbb{R}$ and any $p\geq 1$ the $p$-th moment of $\pi^N$ is bounded uniformly,
  \begin{equation*}
   \sup_{N \in \mathbb{N}} \mathbb{E}^{\pi^N} [| f(x) |^p] \leq \sup_{N \in \mathbb{N}} M_{\Psi^N} \mathbb{E}^{\pi_0}[ \exp (-\Psi^N(x)) |f(x)|^p] \lesssim \mathbb{E}^{\pi_0}[|f(x)|^p],
  \end{equation*}
- where we used again the boundedness of $\Psi$ given in Assumption~\ref{DLR-Setting: Assumptions on C and Psi}. To prove the weak convergence~$\pi^N \Longrightarrow \pi$, we have to show that for any bounded continuous functional~$g: \mathcal{H}^s \to \mathbb{R}$ we have $\lim_{N \to \infty} \mathbb{E}^{\pi^N} [ g(x) ] = \mathbb{E}^{\pi_0}[g(x)]$. Using the definition of $\pi^N$ via the orthogonal projections~$P^N: \mathcal{H}^s \to X^N$, the following identity holds
+ where we used the boundedness from below of $\Psi$ given in Assumption~\ref{DLR-Setting: Assumptions on C and Psi}. Thus, we can uniformly bound polynomial moments under the measures~$\pi^N$ through respective polynomial moments under the Gaussian reference measure~$\pi_0$. To prove the weak convergence~$\pi^N \Longrightarrow \pi$, we have to show that for any bounded continuous functional~$g: \mathcal{H}^s \to \mathbb{R}$ we have $\lim_{N \to \infty} \mathbb{E}^{\pi^N} [ g(x) ] = \mathbb{E}^{\pi_0}[g(x)]$. Using the definition of $\pi^N$ via the orthogonal projections~$P^N: \mathcal{H}^s \to X^N$, the following identity holds
  \begin{equation*}
    \mathbb{E}^{\pi^N} [g(x)] = \mathbb{E}^{\pi^N_0} [g(x)M_{\Psi^N} e^{-\Psi^N(x)} ] =  \mathbb{E}^{\pi_0}[ g(P^Nx) M_{\Psi^N} e^{-\Psi(P^Nx)} ].
  \end{equation*}
@@ -875,25 +888,32 @@ As a first result we show the convergence of the approximations~$\pi^N$ to~$\pi$
   \begin{equation*}
    \mathbb{E}^{\pi} [g(x)] = \mathbb{E}^{\pi_0} [g(x)M_{\Psi} e^{-\Psi(x)} ].
  \end{equation*}
- Since $g$ is bounded by assumption, $\Psi$ is lower bounded by Assumption~\ref{DLR-Setting: Assumptions on C and Psi}, and since the normalization constants~$M_{\Psi^N}$ are uniformly bounded in $N$, the dominated convergence theorem shows that it suffices to prove that $g(P^Nx) M_{\Psi^N} e^{-\Psi(P^Nx)}$ converges $\pi_0$-almost surely to $g(x)M_{\Psi} e^{-\Psi(x)}$. Thus, we start to show that $\Psi(P^Nx)$ converges $\pi_0$-almost surely to $\Psi(x)$. Using the boundedness assumption given in Equation~(\ref{DLR-Setting: Assumption on Psi 1}) we have
- \begin{equation*}
-  | \Psi(P^Nx) - \Psi(x) | \lesssim  (1 + \|x\|_s + \|P^Nx\|_s) \; \|P^Nx-x\|_s \to 0,
- \end{equation*}
- by definition of the orthogonal projections $\lim_{N \to \infty}   \|P^Nx-x\|_s = 0$ for any $x \in \mathcal{H}^s$. Moreover, we conclude for the normalization constants by using dominated convergence due to the boundedness of~$\Psi^N$
- \begin{equation*}
-   M_{\Psi^N}^{-1}  = \int_{\mathcal{H}^s} \exp (-\Psi^N(x)) \pi_0(dx) \longrightarrow \int_{\mathcal{H}^s} \exp (-\Psi(x)) \pi_0(dx) = M_{\Psi}^{-1} \qquad \text{ for } N \to \infty.
- \end{equation*}
- Finally, the last term reads as 
- \begin{equation*}
-  |g(P^Nx) - g(x)| \lesssim \|P^Nx-x\|_s \longrightarrow 0 \qquad \text{ for } N \to \infty,
- \end{equation*}
- due to the boundedness of~$g$. This finishes the proof.
+  Since $g$ is bounded by assumption, $\Psi$ is bounded from below by Assumption~\ref{DLR-Setting: Assumptions on C and Psi}, and since the normalization constants~$M_{\Psi^N}$ are uniformly bounded in $N$, the dominated convergence theorem shows that it suffices to prove that $g(P^Nx) M_{\Psi^N} e^{-\Psi(P^Nx)}$ converges $\pi_0$-almost surely to $g(x)M_{\Psi} e^{-\Psi(x)}$. Thus, we start to show that $\Psi(P^Nx)$ converges $\pi_0$-almost surely to $\Psi(x)$. Using the boundedness properties of~$\Psi$ given in Lemma~\ref{DLR-Seeting: Lemma: Properties of Psi and Psi^N} and Assumption~\ref{DLR-Setting: Assumptions on C and Psi} and the Cauchy-Schwarz inequality we have
+  \begin{align*}
+  | \Psi(P^Nx) - \Psi(x) | & \leq  M_5 \| P^Nx -x \|^2_s + \langle \nabla \Psi(x), P^Nx -x \rangle_s \\
+  & \leq  M_5 \| P^Nx -x \|^2_s + \| \nabla \Psi(x) \|_s \cdot \|P^Nx -x \|_s \\
+  & \leq \| P^Nx -x \|_s ( M_5 \| P^Nx -x \|_s + M_3 (1 + \| x\|_s) ).
+  \end{align*}
+  Now, the convergence of~$\| P^Nx -x \|^2_s$ for large~$N$ is a straight forward application of the orthogonal projection~$P^N: \mathcal{H}^s \to X^N \subset \mathcal{H}^s$. For any $x \in \mathcal{H}^s$, we have $ \| x \|_s^2 = \sum_{j\geq1} \langle \phi_j, x \rangle_s^2 < \infty $ such that 
+  \begin{equation}
+    \label{DLR: Lemma Convergence - Projection}
+    \lim_{N \to \infty}  \| P^N x - x \|_s^2 = \lim_{N \to \infty} \sum_{j = N +1}^{\infty} \langle \phi_j, x \rangle_s^2 = 0.
+  \end{equation}
+  For this reason, $\lim_{N \to \infty}  \| P^N x - x \|_s = 0$ and $\lim_{N \to \infty}| \Psi(P^Nx) - \Psi(x) | =0$  $\pi_0$-almost surely.   Moreover, we conclude for the normalization constants by using dominated convergence due to the boundedness from below of~$\Psi^N$
+  \begin{equation*}
+    M_{\Psi^N}^{-1}  = \int_{\mathcal{H}^s} \exp (-\Psi^N(x)) \pi_0(dx) \longrightarrow \int_{\mathcal{H}^s} \exp (-\Psi(x)) \pi_0(dx) = M_{\Psi}^{-1} \qquad \text{ for } N \to \infty.
+  \end{equation*}
+  Finally, the last term reads as 
+  \begin{equation*}
+    |g(P^Nx) - g(x)| \lesssim \|P^Nx-x\|_s \longrightarrow 0 \qquad \text{ for } N \to \infty,
+  \end{equation*}
+  due to the boundedness of~$g$. This finishes the proof.
 
 \end{proof}
 
 \begin{rem}
   \label{DLR: Remark Fernique's theorem}
-  The $\pi_0$-measurable function~$f:\mathcal{H}^s \to \mathbb{R}$ will often be equal to $\| \cdot \|_s :\mathcal{H}^s \to \mathbb{R}$. Moreover, we can use Fernique's theorem to bound the $p^{\text{th}}$-moment of the Gaussian reference measure~$\pi_0$ for any~$p \geq 1$, i.e., $\mathbb{E}^{\pi_0}[\|x\|_s^p] < \infty$. See~\autocite[Theorem 3.11]{Hairer2009} for more details. Hence, it follows from Lemma~\ref{DLR-Proof: Lemma Convergence of pi^N to pi} that for any~$p \geq 1$, 
+  The $\pi_0$-measurable function~$f:\mathcal{H}^s \to \mathbb{R}$ will often be equal to $\| \cdot \|_s :\mathcal{H}^s \to \mathbb{R}$. Moreover, we can use Fernique's theorem as stated in Theorem~\ref{Fernique's theorem} to bound the $p$-th moment of the Gaussian reference measure~$\pi_0$ for any~$p \geq 1$, i.e., $\mathbb{E}^{\pi_0}[\|x\|_s^p] < \infty$. Hence, it follows from Lemma~\ref{DLR-Proof: Lemma Convergence of pi^N to pi} that for any~$p \geq 1$, 
   \begin{equation*}
     \sup \{ \mathbb{E}^{\pi^N} [\|x\|_s^p] : N \in \mathbb{N}\} < \infty.
   \end{equation*}
@@ -901,17 +921,17 @@ As a first result we show the convergence of the approximations~$\pi^N$ to~$\pi$
 \end{rem}
 
 
-In the proof of Proposition~\ref{DLR-Proof: Proposition General diffusion approximation} we postponed a claim concerning the order of jumps of the MH chains. We will this catch up on now.
+In the proof of Proposition~\ref{DLR-Proof: Proposition General diffusion approximation} we postponed a claim concerning the order of jumps of the MH chains. We will catch up on this now.
 
 \begin{lemma}\autocite[Lemma 4.2]{Pillai2012}
   \label{DLR: Lemma jump size of order(sqrt(Delta t))}
   \begin{enumerate}
-    \item[(A)] Consider the RWM proposal given in Equation~(\ref{DLR-RWM-proposal short}). Under Assumption~\ref{DLR-Setting: Assumptions on C and Psi}, for any $p \geq 1$, we have
+    \item[(A)] Consider the RWM proposal given in Equation~(\ref{DLR-RWM-proposal short}). Under Assumption~\ref{DLR-Setting: Assumptions on C and Psi}, for any $p \geq 1$ we have
     \begin{equation*}
       \mathbb{E}^{\pi^N}_x [ \| y -x \|_s^p ] \lesssim (\Delta t)^{p/2}.
     \end{equation*}
 
-    \item[(B)] Consider the MALA proposal given in Equation~(\ref{DLR- MALA-proposal short}). Under Assumption~\ref{DLR-Setting: Assumptions on C and Psi}, for any $p \geq 1$, we have
+    \item[(B)] Consider the MALA proposal given in Equation~(\ref{DLR- MALA-proposal short}). Under Assumption~\ref{DLR-Setting: Assumptions on C and Psi}, for any $p \geq 1$ we have
     \begin{equation*}
       \mathbb{E}^{\pi^N}_x [ \| y -x \|_s^p ] \lesssim (\Delta t)^{p/2} (1 + \| x \|_s^p).
     \end{equation*}
@@ -928,9 +948,9 @@ In the proof of Proposition~\ref{DLR-Proof: Proposition General diffusion approx
    \begin{equation*}
      \mathbb{E}^{\pi^N}[\|  (\mathcal{C}_s^N)^{1/2} \xi^N \|_s^p] \lesssim \mathbb{E}^{\pi_0}[\|  (\mathcal{C}_s^N)^{1/2} \xi^N \|_s^p] \leq \mathbb{E}^{\pi_0} [\|  \zeta \|_s^p] < \infty,
    \end{equation*}
-   where $\zeta \stackrel{D}{\sim} \mathcal{N}(0, \mathcal{C}_s)$ as $\xi^{N} = \sum_{i=1}^{N} \xi_i \phi_i$ and $\xi_i \stackrel{D}{\sim} \mathcal{N}(0,1)$ and $X^N \subset \mathcal{H}^s$. Thus, we conclude that $\mathbb{E}^{\pi^N}[\|  (\mathcal{C}_s^N)^{1/2} \xi^N \|_s^p]$ is uniformly bounded as a function of $N$. This finishes the proof of~(A).
+   where $\zeta \stackrel{D}{\sim} \mathcal{N}(0, \mathcal{C}_s)$ and~$P^N\zeta \stackrel{D}{\sim} (\mathcal{C}_s^N)^{1/2} \xi^N$ as $\xi^{N} = \sum_{i=1}^{N} \xi_i \phi_i$ and $\xi_i \stackrel{D}{\sim} \mathcal{N}(0,1)$ and $X^N \subset \mathcal{H}^s$. Thus, we conclude that $\mathbb{E}^{\pi^N}[\|  (\mathcal{C}_s^N)^{1/2} \xi^N \|_s^p]$ is uniformly bounded as a function of $N$. This finishes the proof of~(A).
    
-   To~(B): Considering the MALA proposal and recalling that the drift~$\mu^N: \mathcal{H}^s \to \mathcal{H}^s$ is globally Lipschitz continuous on $\mathcal{H}^s$, we have
+   To~(B): Considering the MALA proposal as given in Equation~(\ref{DLR- MALA-proposal short}) with~$\delta \asymp \Delta t$ and recalling that the drift~$\mu^N: \mathcal{H}^s \to \mathcal{H}^s$ is globally Lipschitz continuous on $\mathcal{H}^s$ (see Corollary~\ref{DLR-Setting: Corollary: drifts are Lipschitz}), we have
    \begin{equation*}
      \| y - x \|_s    \lesssim \Delta t ( 1 + \| x \|_s) + \sqrt{\Delta t} \|  (\mathcal{C}_s^N)^{1/2} \xi^N \|_s.
    \end{equation*}
@@ -955,7 +975,7 @@ The next lemma shows that the drift~$\mu^N(x)$ used in the algorithms is a good 
 \end{lemma}
 
 \begin{proof}
-  A comprehensive proof is given in~\autocite{Pillai2012}. As we changed the basis of $\mathcal{H}^s$ to the eigenbasis of~$\mathcal{C}_s$ given by~$\{ \phi_j, \lambda_j^2 j^{2s} \}_{j \geq 1}$, see Remark~\ref{DLR-Remark Change of basis}, we will rewrite it.
+  A comprehensive proof is given in~\autocite{Pillai2012}. Since we changed the basis of $\mathcal{H}^s$ to the eigenbasis of~$\mathcal{C}_s$ given by~$\{ \phi_j, \lambda_j^2 j^{2s} \}_{j \geq 1}$, (Remark~\ref{DLR-Remark Change of basis}), we will rewrite this proof.
   
   Using the definitions of the drifts in Equation~(\ref{DLR-Setting: Definition aproximated drift mu^N}) and~(\ref{DLR-Setting: Definition drift mu}), the condition reads
   \begin{equation*}
@@ -971,20 +991,14 @@ The next lemma shows that the drift~$\mu^N(x)$ used in the algorithms is a good 
     \label{DLR: Lemma mu^N converges to mu - Part2}
     \lim_{N \to \infty}  \|  \mathcal{C}_s P^N \nabla  \Psi(P^Nx)  - \mathcal{C}_s \nabla \Psi(x) \|_s & = 0.
   \end{align}
-  The proof of Equation~(\ref{DLR: Lemma mu^N converges to mu - Part1}) is a straight forward application of the orthogonal projection~$P^N: \mathcal{H}^s \to X^N \subset \mathcal{H}^s$. For any $x \in \mathcal{H}^s$, we have $ \| x \|_s^2 = \sum_{j\geq1} \langle \phi_j, x \rangle_s^2 < \infty $ such that 
-  \begin{equation}
-    \label{DLR: Lemma mu^N converge to mu - Projection}
-    \lim_{N \to \infty}  \| P^N x - x \|_s^2 = \lim_{N \to \infty} \sum_{j = N +1}^{\infty} \langle \phi_j, x \rangle_s^2 = 0.
-  \end{equation}
-  
-  To prove Equation~(\ref{DLR: Lemma mu^N converges to mu - Part2}) the main ingredients will be the Lipschitz continuity of $\mathcal{C}_s \nabla \Psi$ on $\mathcal{H}^s$ as proved in Lemma~\ref{DLR-Seeting: Lemma: Properties of Psi and Psi^N} and the decay of eigenvalues of the covariance operator~$\mathcal{C}_s$ given in Assumption~\ref{DLR-Setting: Assumptions on C and Psi}. The triangle inequality shows that
+  The proof of Equation~(\ref{DLR: Lemma mu^N converges to mu - Part1}) was shown before in Lemma~\ref{DLR-Proof: Lemma Convergence of pi^N to pi}, Equation~(\ref{DLR: Lemma Convergence - Projection}). To prove Equation~(\ref{DLR: Lemma mu^N converges to mu - Part2}) the main ingredients will be the Lipschitz continuity of $\mathcal{C}_s \nabla \Psi$ on $\mathcal{H}^s$ as proven in Lemma~\ref{DLR-Seeting: Lemma: Properties of Psi and Psi^N} and the decay of eigenvalues of the covariance operator~$\mathcal{C}_s$ given in Assumption~\ref{DLR-Setting: Assumptions on C and Psi}. The triangle inequality shows that
   \begin{equation*}
     \begin{split}
      \|  \mathcal{C}_s P^N & \nabla  \Psi(P^Nx)  - \mathcal{C}_s \nabla \Psi(x) \|_s \\
      & \leq \|  \mathcal{C}_s P^N  \nabla  \Psi(P^Nx)  - \mathcal{C}_s P^N \nabla \Psi(x) \|_s + \|  \mathcal{C}_s P^N  \nabla  \Psi(x)  - \mathcal{C}_s \nabla \Psi(x) \|_s.
     \end{split}
   \end{equation*}
-  As the projection~$P^N$ is a bounded operator on $\mathcal{H}^s$, the same proof as Lemma~\ref{DLR-Seeting: Lemma: Properties of Psi and Psi^N} shows that $\mathcal{C}_sP^N\nabla \Psi : \mathcal{H}^s \to \mathcal{H}^s$ is globally Lipschitz, with a Lipschitz constant independently of $N$. Hence, Equation~(\ref{DLR: Lemma mu^N converge to mu - Projection}) implies that
+  As the projection~$P^N$ is a bounded operator on $\mathcal{H}^s$, the same proof as for Lemma~\ref{DLR-Seeting: Lemma: Properties of Psi and Psi^N} shows that $\mathcal{C}_sP^N\nabla \Psi : \mathcal{H}^s \to \mathcal{H}^s$ is globally Lipschitz, with a Lipschitz constant independent of $N$. Hence, Equation~(\ref{DLR: Lemma Convergence - Projection}) implies that
   \begin{equation*}
     \|  \mathcal{C}_s P^N  \nabla  \Psi(P^Nx)  - \mathcal{C}_s P^N \nabla \Psi(x) \|_s \lesssim  \| P^N x - x \|_s \to 0 \qquad \text{ for } N \to \infty.
   \end{equation*}
@@ -998,13 +1012,53 @@ The next lemma shows that the drift~$\mu^N(x)$ used in the algorithms is a good 
 
 \end{proof}
 
+As we will need it later for the drift approximation, we derive a direct implication concerning the convergence of~$\mu^N$ to~$\mu$.
+
+\begin{cor}
+  \label{DLR: Corollary mu^N to mu}
+ Let Assumption~\ref{DLR-Setting: Assumptions on C and Psi} hold. The sequence of functions~$\mu^N: \mathcal{H}^s \to \mathcal{H}^s$ defined in Equation~(\ref{DLR-Setting: Definition aproximated drift mu^N}) satisfies the following properties for any~$x \in \mathcal{H}^s$ and $p \geq 1$,
+ \begin{align}
+   \label{DLR: Corollary mu^N to mu - claim1}
+   \sup \{ \mathbb{E}^{\pi^N}[\| \mu^N(x) \|_s^p] : N \in \mathbb{N} \} & < \infty, \\
+   \label{DLR: Corollary mu^N to mu - claim2}
+   \lim_{N \to \infty} \mathbb{E}^{\pi^N} [\| \mu^N(x) - \mu(x) \|_s^p ] & = 0.
+ \end{align}
+
+\end{cor}
+
+\begin{proof}
+  Some parts of this proof are taken from~\autocite[Lemma 4.7]{Pillai2012}. The boundedness property given in Equation~(\ref{DLR: Corollary mu^N to mu - claim1}) is a direct consequence of the global Lipschitz continuity of~$\mu^N$. Corollary~\ref{DLR-Setting: Corollary: drifts are Lipschitz} states that the drift functions~$\mu^N: \mathcal{H}^s \to \mathcal{H}^s$ are Lipschitz, with a Lipschitz constant that can be chosen independent of~$N$. Therefore, we conclude that for arbitrary~$x \in \mathcal{H}^s$,
+ \begin{equation}
+   \label{DLR: Corollary Proof Lipschitz bound}
+  \| \mu^N(x) \|_s^p \leq M (1 + \|x\|^p_s),
+ \end{equation}
+ where the constant can be choosen independently from~$N$. Using Fernique's theorem as mentioned in Remark~\ref{DLR: Remark Fernique's theorem} and Lemma~\ref{DLR-Proof: Lemma Convergence of pi^N to pi}, we have for arbitrary~$x \in \mathcal{H}^s$ and $p \geq 1$,
+ \begin{equation*}
+   \sup_{N \in \mathbb{N}}  \mathbb{E}^{\pi^N}[\| \mu^N(x) \|_s^p] \lesssim  \mathbb{E}^{\pi_0}[\| \mu^N(x) \|_s^p] \lesssim \mathbb{E}^{\pi_0}[\|  x \|_s^p] < \infty.
+ \end{equation*}
+ This finishes the proof of Equation~(\ref{DLR: Corollary mu^N to mu - claim1}). To prove Equation~(\ref{DLR: Corollary mu^N to mu - claim2}), we use again intensively the Lipschitz continuity of both drift functions~$\mu^N, \mu: \mathcal{H}^s \to \mathcal{H}^s$. Equivalently to Equation~(\ref{DLR: Corollary Proof Lipschitz bound}) it holds that
+ \begin{equation*}
+  \| \mu^N (x) - \mu(x) \|_s^p \lesssim \|\mu^N(x)\|_s^p + \|\mu(x)\|_s^p \lesssim (1 + \|x\|^p_s)
+ \end{equation*}
+ for arbitrary~$x \in \mathcal{H}^s$. The right hand side is due to Fernique's theorem an integrable function, hence we can apply the dominated convergence theorem. Lemma~\ref{DLR: Proof Lemma mu^N converges to mu} proves that the sequence~$\{ \mu^N \}$ converges $\pi_0$-almost surely to~$\mu(x)$ in~$\mathcal{H}^s$. Thus, by  Lemma~\ref{DLR-Proof: Lemma Convergence of pi^N to pi} and dominated convergence we deduce
+ \begin{equation*}
+   \lim_{N \to \infty} \mathbb{E}^{\pi^N}[\| \mu^N (x) - \mu(x) \|_s^p ] \lesssim \mathbb{E}^{\pi_0}[\| \mu^N (x) - \mu(x) \|_s^p ] \to 0 \quad \text{ for } N \to \infty.
+ \end{equation*}
+ This  ends the proof of Corollary~\ref{DLR: Corollary mu^N to mu}.
+
+\end{proof}
+
+
+
+
+
 
 
 
 \subsection{Gaussian Approximation}
 \label{sec:sub:DLR - Gaussian approximation}
 
-The next step is to prove the asymptotic behavior of the quantity~$Q^N_{\cdot}(x, \xi^N)$ given in Equation~(\ref{DLR-Q RWM short}) for the RWM proposal and in Equation~(\ref{DLR-Q MALA short}) for the MALA proposal. Recall that this quantity characterizes the acceptance probability~$\alpha^N(x, \xi^N)$ as defined in Equation~(\ref{DLR-acceptance probability short}). We claimed that for large $N$, $Q^N_{\cdot}(x, \xi^N)$ approximates an Gaussian random variable independent of the actual position~$x \in \mathcal{H}^s$, see Equations~(\ref{DLR-Gaussian RWM short}) and~(\ref{DLR-Gaussian MALA short}). This approximation will be needed to prove the drift approximation in Section~\ref{sec:sub:DLR - Drift Approximation} and the noise approximation in Section~\ref{sec:sub:DLR - Noise Approximation} for the drift-martingale decomposition. More precisely, this section proves that $Q^N_{\cdot}(x, \xi^N)$ has a Gaussian behavior in the sense that
+The next step is to prove the asymptotic behavior of the quantity~$Q^N_{\cdot}(x, \xi^N)$ given in Equation~(\ref{DLR-Q RWM short}) for the RWM proposal and in Equation~(\ref{DLR-Q MALA short}) for the MALA proposal. Recall that this quantity characterizes the acceptance probability~$\alpha^N(x, \xi^N)$ as defined in Equation~(\ref{DLR-acceptance probability short}). We claimed that for large $N$, the quantity~$Q^N_{\cdot}(x, \xi^N)$ approximates a Gaussian random variable independent of the actual position~$x \in \mathcal{H}^s$, see Equations~(\ref{DLR-Gaussian RWM short}) and~(\ref{DLR-Gaussian MALA short}). This approximation will be needed to prove the drift approximation in Section~\ref{sec:sub:DLR - Drift Approximation} and the noise approximation in Section~\ref{sec:sub:DLR - Noise Approximation} for the drift-martingale decomposition. Recall the definition of the Hilbert-Schmidt norm  $ \| \cdot \|_{\mathcal{C}_s^{N}} $ on $X^{N}$ associated to the operator~$\mathcal{C}_s^N$ given by the scalar product $ \langle u, v \rangle_{\mathcal{C}_s^{N}} := \langle u, ( \mathcal{C}_s^{N} )^{-1} v \rangle_s $ for all $ u,v \in X^{N} $ as defined in Equation~(\ref{DLR-Setting: Definition finite dim target measure pi^N}). This section proves that $Q^N_{\cdot}(x, \xi^N)$ has a Gaussian behavior in the sense that
 \begin{align}
   \label{DLR-Definition Q^N_RWM as Gaussian}
  Q^N_{RWM}(x, \xi^N) & \; = Z^N_{RWM} (x, \xi^N) + i^N_{RWM}( \xi^N)+ \textbf{e}^N_{RWM}(x, \xi^N), \\
@@ -1021,11 +1075,11 @@ in the case of the RWM proposal and for the MALA proposal, we have
   Z^N_{MALA} (x, \xi^N) & \; = -\frac{l^3}{4} - \frac{l^{3/2}}{\sqrt{2}} N^{-1/2} \sum_{j=1}^N  \left[ \lambda_j^{-1} j^{-s} x_j \right] \xi_j ,\\
   i^N_{MALA}(x, \xi^N) & \; =  \frac{l^2}{2} N^{-2/3} (\|x \|_{\mathcal{C}^N_s}^2 - \| (\mathcal{C}^N_s)^{1/2} \xi^N \|_{\mathcal{C}^N_s}^2) ,
 \end{align}
-where $i^N_{\cdot}$ and $\textbf{e}^N_{\cdot}$ are small for $N$ tending to infinity. Consequently, the main contribution to~$Q^N_{\cdot}(x, \xi^N)$ comes from the two Gaussian random variables~$Z^N_{\cdot} (x, \xi^N)$. Indeed, both random variables have the common structure
+where $i^N_{\cdot}$ and $\textbf{e}^N_{\cdot}$ are small for $N$ tending to infinity.  Consequently, the main contribution to~$Q^N_{\cdot}(x, \xi^N)$ comes from the two Gaussian random variables~$Z^N_{\cdot} (x, \xi^N)$. Indeed, both random variables have the common structure
 \begin{equation*}
   Z^N_{\cdot} (x, \xi^N)  = - c_1(l) + c_2(l) N^{-1/2} \sum_{j+1}^N z_j(x) \xi_j,
 \end{equation*}
-where $c_1(l), c_2(l) > 0 $ are constants depending on the tuning parameter~$l$ and independent of~$N$, $z_j \in \mathbb{R}$ are some coordinates depending on the actual position~$x \in \mathcal{H}^s$ and $\xi_j  \stackrel{D}{\sim} \mathcal{N}(0, 1)$ are i.i.d.\,Gaussian random variables. In other words, $Z^N_{\cdot} (x, \xi^N)$ is a scaled and shifted sum of independent Gaussian random variables. Therefore it is again a Gaussian. For instance, we calculate the mean and variance of~$Z^N_{RWM} (x, \xi^N)$,
+where $c_1(l), c_2(l) > 0 $ are constants depending on the tuning parameter~$l$ and independent of~$N$, $z_j \in \mathbb{R}$ are some coordinates depending on the actual position~$x \in \mathcal{H}^s$ and $\xi_j  \stackrel{D}{\sim} \mathcal{N}(0, 1)$ are i.i.d.\,Gaussian random variables. In other words, $Z^N_{\cdot} (x, \xi^N)$ is a scaled and shifted sum of independent Gaussian random variables. Therefore, it is again a Gaussian. For instance, we calculate the mean and variance of~$Z^N_{RWM} (x, \xi^N)$,
 \begin{equation}
   \label{DLR: Gaussian mean and variance of Z^N RWM}
   \begin{split}
@@ -1037,15 +1091,12 @@ Similarly, we have in the case of the MALA algorithm
 \begin{equation*}
   \mathbb{E}_x[Z^N_{MALA} (x, \xi^N)] = - \frac{l^3}{4}, \qquad \text{Var}[Z^N_{MALA} (x, \xi^N)]  = \frac{l^3}{2} \frac{\|x\|_{\mathcal{C}^N_s}^2}{N}.
 \end{equation*}
-Furthermore, the~$\{Z^N_{\cdot} (x, \xi^N) \}_{N\geq1}$ fulfill a central limit theorem, in the sense that due to the Karhunen-Lo\`{e}ve expansion of the reference measure~$\pi_0$ for $\pi_0$-almost and therefore for $\pi$-almost every function~$x \in \mathcal{H}^s$ the sequence~$\{Z^N_{\cdot} (x, \xi^N) \}_{N\geq1}$ converges in law to the distribution of
+Furthermore, the~$\{Z^N_{\cdot} (x, \xi^N) \}_{N\geq1}$ fulfill a central limit theorem, in the sense that due to the Karhunen-Lo\`{e}ve expansion of the reference measure~$\pi_0$, the sequence~$\{Z^N_{\cdot} (x, \xi^N) \}_{N\geq1}$ converges in law for $\pi_0$-almost and therefore for $\pi$-almost every function~$x \in \mathcal{H}^s$ to the distribution of
 \begin{equation}
   \label{DLR: Claim Convergence of Z^N to Gaussian}
   Z_l^{RWM} \stackrel{D}{\sim} \mathcal{N}(- l, 2l) \quad \text{ and } \quad Z_l^{MALA} \stackrel{D}{\sim} \mathcal{N}(- \tfrac{l^3}{4}, \tfrac{l^3}{2}).
 \end{equation}
-This is done rigorously in Lemma~\ref{DLR: Lemma: Convergence of Z^N to Gaussian}.
-
-
-The next lemma rigorously bounds the error terms~$i^N_{\cdot}$ and $\textbf{e}^N_{\cdot}$. It is taken from~\autocite[Lemma 4.4]{Pillai2012}. We adept the proof for the RWM algorithm.
+This is done rigorously in Lemma~\ref{DLR: Lemma: Convergence of Z^N to Gaussian}. The next lemma rigorously bounds the error terms~$i^N_{\cdot}$ and $\textbf{e}^N_{\cdot}$. It is taken from~\autocite[Lemma 4.4]{Pillai2012}. We adapt the proof for the RWM algorithm.
 
 \begin{lemma}(Gaussian approximation)
   \label{DLR: Lemma Gaussian approximation}
@@ -1060,22 +1111,20 @@ The next lemma rigorously bounds the error terms~$i^N_{\cdot}$ and $\textbf{e}^N
  \begin{equation}
    \begin{split}
      (\mathbb{E}^{\pi^N}[|i^N_{MALA}(x, \xi^N) |^p] )^{1/p} & \; = \mathcal{O}(N^{-1/6}) \quad \text{ and }\\
-     (\mathbb{E}^{\pi^N}[|\textbf{e}^N_{MALA}(x, \xi^N)|^p] )^{1/p} & \; = \mathcal{O}(N^{1/3})
+     (\mathbb{E}^{\pi^N}[|\textbf{e}^N_{MALA}(x, \xi^N)|^p] )^{1/p} & \; = \mathcal{O}(N^{-1/3})
    \end{split}
  \end{equation}
 
 \end{lemma}
 
 \begin{proof}
- The original proof for these error bounds are done in the case of  the MALA algorithm by~\autocite[Lemma 4.4]{Pillai2012}. The idea is to rewrite the quantity~$Q^N_{\cdot} (x,  \xi^N)$ and to extract the Gaussian term~$Z^N_{\cdot} (x, \xi^N)$ and than to sort the remaining terms according to their scaling with respect to~$N$. For the estimation of the error terms, three main ingredients are used:
+ The original proof for these error bounds is done in the case of  the MALA algorithm by~\autocite[Lemma 4.4]{Pillai2012}. The idea is to rewrite the quantity~$Q^N_{\cdot} (x,  \xi^N)$ and to extract the Gaussian term~$Z^N_{\cdot} (x, \xi^N)$ and than to sort the remaining terms according to their scaling with respect to~$N$. For the estimation of the error terms, three main ingredients are used:
  \begin{enumerate}
   \item The regularity conditions on~$\Psi^N$ and the decay of eigenvalues of~$\mathcal{C}_s$ given in Assumption~\ref{DLR-Setting: Assumptions on C and Psi} and Remark~\ref{DLR: Assumption on C_s}.
-  \item The Gaussian structure of the reference measure~$\pi_0$ and in particluar the estimation on the step size given in Lemma~\ref{DLR: Lemma jump size of order(sqrt(Delta t))} and Fernique's theorem which states that all polynomial moments of~$\pi_0$ are finite.
+  \item The Gaussian structure of the reference measure~$\pi_0$ and in particular the estimation on the step size given in Lemma~\ref{DLR: Lemma jump size of order(sqrt(Delta t))} and Fernique's theorem which states that all polynomial moments of~$\pi_0$ are finite.
   \item The global Lipschitz continuity of~$\nabla \Psi$ and $\mathcal{C}_s \nabla \Psi$ on~$\mathcal{H}^s$ given in Lemma~\ref{DLR-Seeting: Lemma: Properties of Psi and Psi^N}.
  \end{enumerate}
- We adept the proof strategy for the RWM algorithm and refer for the rigorous estimates concerning the MALA proposals to the original proof. 
- 
- For notational clarity, and without loss of generality, we suppose $p=2q$. The quantity~$Q^N_{RWM} (x,  \xi^N)$ is defined in Equation~(\ref{DLR-Q RWM short}), and expanding terms leads to
+ We adapt the proof strategy for the RWM algorithm and refer for the rigorous estimates concerning the MALA proposals to the original proof.  For notational clarity, and without loss of generality, we suppose $p=2q$. The quantity~$Q^N_{RWM} (x,  \xi^N)$ is defined in Equation~(\ref{DLR-Q RWM short}), and expanding the terms leads to
 \begin{align*}
  &  Q^N_{RWM} (x,  \xi^N) \\
   & \quad = - \frac{1}{2} (\|y\|_{\mathcal{C}^N_s}^2 - \|x\|_{\mathcal{C}^N_s}^2) - (\Psi^N(y) - \Psi^N(x)) \\
@@ -1101,20 +1150,19 @@ Therefore, the representation as claimed in Equation~(\ref{DLR-Definition Q^N_RW
  i^N_{RWM}( \xi^N) & \; := l (1 -  \Delta t \| \xi^N\|_{s}^2) \\
  \textbf{e}^N_{RWM}(x, \xi^N) & \; := - \{  \Psi^N(y) - [ \Psi^N(x) + \langle \nabla \Psi^N(x), y - x\rangle_s ]\}
 \end{align}
-To analyze the error term~$\textbf{e}^N_{RWM}(x, \xi^N)$, we recall that~$\Psi^N$ satisfies a second order Taylor formula such that
-\begin{equation*}
-  \mathbb{E}^{\pi^N}[\textbf{e}^N_{RWM}(x, \xi^N)^{2q}] \lesssim \mathbb{E}^{\pi^N}[\| y-x \|^{4q}] \lesssim (\Delta t)^{2q} = (N^{-1})^{2q},
-\end{equation*}
-where we have used the fact that the step size of the RWM proposals is of order~$\mathcal{O}(\sqrt{\Delta t})$.
-
-We now prove that~$i^N_{RWM}( \xi^N)$ is of order~$\mathcal{O}(N^{-1})$. We have
+To analyze the error term~$\textbf{e}^N_{RWM}(x, \xi^N)$, we recall that~$\Psi^N$ satisfies a second order Taylor formula given in Equation~(\ref{DLR-Setting: Psi Taylor formula}) such that
+\begin{align*}
+  \mathbb{E}^{\pi^N}[\textbf{e}^N_{RWM}(x, \xi^N)^{2q}] & = \mathbb{E}^{\pi^N}[(\Psi^N(y) - [ \Psi^N(x) + \langle \nabla \Psi^N(x), y - x\rangle_s])^{2q}] \\
+  & \lesssim \mathbb{E}^{\pi^N}[\| y-x \|^{4q}] \lesssim (\Delta t)^{2q} = (N^{-1})^{2q},
+\end{align*}
+where we have used the fact that the step size of the RWM proposals is of order~$\mathcal{O}(\sqrt{\Delta t})$. We now prove that~$i^N_{RWM}( \xi^N)$ is of order~$\mathcal{O}(N^{-1})$. We have
 \begin{equation*}
   \begin{split}
    i^N_{RWM}( \xi^N) & \; = l (1 -  \Delta t \| \xi^N\|_{s}^2) \\
    & \; = l( 1 -  N^{-1} \sum_{j = 1}^{N} \xi_j^2 ),
   \end{split}
 \end{equation*}
-where $ \xi_1, \dots , \xi_N $ are i.i.d.\,$\mathcal{N}(0,1)$ Gaussian random variables. Hence, $ \mathbb{E}[\{ \sum_{j = 1}^{N} \xi_j^2  \}^{2q}] \lesssim N^q$, it follows that
+where $ \xi_1, \dots , \xi_N $ are i.i.d.\,$\mathcal{N}(0,1)$-Gaussian random variables. Hence, $ \mathbb{E}[\{ \sum_{j = 1}^{N} \xi_j^2  \}^{2q}] \lesssim N^q$, and it follows that
 \begin{equation*}
   \left( \mathbb{E}^{\pi^N}[ i^N_{RWM}( \xi^N)^{2q} ] \right)^{1/(2q)} = \mathcal{O}(N^{-1}),
 \end{equation*}
@@ -1143,15 +1191,15 @@ The following lemma proves two facts concerning the convergence of the random va
 \end{lemma}
 
 \begin{proof}
-  We refer for a comprehensive proof in the case of MALA proposals to~\autocite[Lemma 4.5]{Pillai2012}. It is a straight forward calculation exploiting the Lipschitz continuity of the function~$f$ and the Gaussian distribution of~$Z^N_{\cdot} (x, \xi^N)$. The proof for RWM proposals is identical  by using the mean and variance of~$Z^N_{RWM} (x, \xi^N)$ calculated in Equation~(\ref{DLR: Gaussian mean and variance of Z^N RWM}). Note that if~$x \stackrel{D}{\sim} \pi_0$ , then $\tfrac{\|\mu^N(x)\|_{\mathcal{C}^N_s}^2}{N} \stackrel{D}{\sim} \frac{\rho_1^2 + \dots + \rho_N^2}{N}$ where $\rho_1 + \dots + \rho_N$ are i.i.d.\,Gaussian random variables $\mathcal{N}(0,1)$ so that 
+  For a comprehensive proof we refer to~\autocite[Lemma 4.5]{Pillai2012} in the case of MALA proposals. It is a straight forward calculation exploiting the Lipschitz continuity of the function~$f$ and the Gaussian distribution of~$Z^N_{\cdot} (x, \xi^N)$. The proof for RWM proposals is identical  by using the mean and variance of~$Z^N_{RWM} (x, \xi^N)$ calculated in Equation~(\ref{DLR: Gaussian mean and variance of Z^N RWM}). Note that if~$x \stackrel{D}{\sim} \pi_0$ , then $\tfrac{1}{N}\|\mu^N(x)\|_{\mathcal{C}^N_s}^2 \stackrel{D}{\sim} \frac{1}{N}(\rho_1^2 + \dots + \rho_N^2)$ where $\rho_1 , \dots , \rho_N$ are i.i.d.\,Gaussian random variables $\mathcal{N}(0,1)$ so that 
   \begin{equation*}
-\mathbb{E}^{\pi_0}[| \{\tfrac{\|\mu^N(x)\|_{\mathcal{C}^N_s}^2}{N}\}^{1/2} - 1 |]^p \to 0.
+  \mathbb{E}^{\pi_0}[| \{\tfrac{1}{N} \|\mu^N(x)\|_{\mathcal{C}^N_s}^2 \}^{1/2} - 1 |]^p \to 0.
   \end{equation*}
 
 \end{proof}
 
 
-As a consequence of this result, we can give a rigorous proof of the convergence of the local mean acceptance probabiities~$\alpha^N(x)$ to the asymptotic acceptance rate~$\alpha^{\cdot}(l)$ as stated in Equation~(\ref{DLR-asymptotic mean acceptance probability}).
+As a consequence of this result, we can give a rigorous proof of the convergence of the local mean acceptance probabilities~$\alpha^N(x)$ to the asymptotic acceptance rate~$\alpha^{\cdot}(l)$ as stated in Equation~(\ref{DLR-asymptotic mean acceptance probability}).
 
 \begin{cor}\autocite[Corollary 4.6]{Pillai2012}
   \label{DLR: Corollary acceptance rate convergence}
@@ -1175,7 +1223,7 @@ As a consequence of this result, we can give a rigorous proof of the convergence
 
 \end{proof}
 
-So far, the asymptotic acceptance rate~$\alpha^{RWM}(l) = \mathbb{E}[1 \wedge e^{Z_l^{RWM}}]$ for the RWM algorithm and $\alpha^{MALA}(l) = \mathbb{E}[1 \wedge e^{Z_l^{MALA}}]$ for the MALA algorithm are well-defined for the two Gaussian random variables $Z_l^{RWM} \stackrel{D}{\sim} \mathcal{N}(- l, 2l)$ and $ Z_l^{MALA} \stackrel{D}{\sim} \mathcal{N}(- \tfrac{l^3}{4}, \tfrac{l^3}{2})$. Moreover, the diffusion speed~$h^{\cdot}(l) := l \alpha^{\cdot}(l)$ is also well-defined and optimality statement concerning the tuning of the asymptotic acceptance rate holds provided we finish the proof of Theorem~\ref{DLR-THM main theorem}.
+So far, the asymptotic acceptance rate~$\alpha^{RWM}(l) = \mathbb{E}[1 \wedge e^{Z_l^{RWM}}]$ for the RWM algorithm and $\alpha^{MALA}(l) = \mathbb{E}[1 \wedge e^{Z_l^{MALA}}]$ for the MALA algorithm are well-defined for the two Gaussian random variables $Z_l^{RWM} \stackrel{D}{\sim} \mathcal{N}(- l, 2l)$ and $ Z_l^{MALA} \stackrel{D}{\sim} \mathcal{N}(- \tfrac{l^3}{4}, \tfrac{l^3}{2})$. Moreover, the diffusion speed~$h^{\cdot}(l) := l \alpha^{\cdot}(l)$ is also well-defined and the optimality statement concerning the tuning of the asymptotic acceptance rate as shown in Figure~\ref{fig:optimal acceptance probability} holds provided we finish the proof of Theorem~\ref{DLR-THM main theorem}.
 
 
 
@@ -1183,7 +1231,7 @@ So far, the asymptotic acceptance rate~$\alpha^{RWM}(l) = \mathbb{E}[1 \wedge e^
 \subsection{Drift Approximation}
 \label{sec:sub:DLR - Drift Approximation}
 
-As a next step, we have to verify the approximation of the drift as required in Proposition~\ref{DLR-Proof: Proposition General diffusion approximation}. The discrete drift~$d^N : \mathcal{H}^s \to \mathcal{H}^s$ of the drift-martingale decomposition as defined in Equation~(\ref{DLR-Proof: Definition drift function d^N}) is demanded to converge towards the drift function~$\mu : \mathcal{H}^s \to \mathcal{H}^s$ of the limit diffusion given in Equation~(\ref{DLR-Setting: Definition drift mu}). This is quantified in the following lemma.
+As a next step, we have to verify the approximation of the drift as required in Proposition~\ref{DLR-Proof: Proposition General diffusion approximation}. The discrete drift~$d^N : \mathcal{H}^s \to \mathcal{H}^s$ of the drift-martingale decomposition as defined in Equation~(\ref{DLR-Proof: Definition drift function d^N}) is required to converge towards the drift function~$\mu : \mathcal{H}^s \to \mathcal{H}^s$ of the limit diffusion given in Equation~(\ref{DLR-Setting: Definition drift mu}). This is quantified in the following lemma.
 
 \begin{lemma}\autocite[Lemma 4.7]{Pillai2012}
   \label{DLR: Lemma Dirft approximation}
@@ -1194,7 +1242,7 @@ As a next step, we have to verify the approximation of the drift as required in 
 \end{lemma}
 
 \begin{proof} 
- Again, we refer to~\autocite[Lemma 4.7]{Pillai2012} for the proof of the drift generated by the MALA proposals. There it is shown that the drift~$d^N(X)$ can be represented by the approximated drift~$\mu^N(x)$ plus an error term which vanishes for large~$N$. The main task to estimate the remaining error term ist to control the correlations between the Bernoulli random variables~$\gamma^N(x, \xi^N)$ and the noise term~$ (\mathcal{C}_s^N)^{1/2} \xi^N$. This is done by splitting up the quantity~$Q^N_{\cdot}(x, \xi^N)$ in a part with strong correlations to the noise term and an independent term.  An arising difficulty in the case of the RWM algorithm is that as the Random Walk proposals do not incorporate an approximation of the diffusion drift~$\mu^N$ as the MALA proposals do, we have to handle the terms more carefully to extract the right structure. 
+ Again, we refer to~\autocite[Lemma 4.7]{Pillai2012} for the proof of the drift generated by the MALA proposals. There it is shown that the drift~$d^N(X)$ can be represented by the approximated drift~$\mu^N(x)$ plus an error term which vanishes for large~$N$. The main task to estimate the remaining error term ist to control the correlations between the Bernoulli random variables~$\gamma^N(x, \xi^N)$ and the noise term~$ (\mathcal{C}_s^N)^{1/2} \xi^N$. This is done by splitting up the quantity~$Q^N_{\cdot}(x, \xi^N)$ in a part with strong correlations to the noise term and an independent term.  An arising difficulty in the case of the RWM algorithm is that the Random Walk proposals do not incorporate an approximation of the diffusion drift~$\mu^N$ as the MALA proposals do. Hence, we have to handle the terms more carefully to extract the right structure. 
  
  We have the following structure using the definition of~$d^N(x)$ and the general Metropolis-Hastings Markov chain with RWM proposals given in Equation~(\ref{DLR-MH chain from algorithm - general form}), 
  \begin{align*}
@@ -1218,14 +1266,14 @@ As a next step, we have to verify the approximation of the drift as required in 
      d^N(x) &  = (h(l) \Delta t)^{-1} \left( l \Delta t \mathbb{E}_x[\gamma^N(x, \xi^N)\mu^N(x)] +   \sqrt{2l\Delta t} \mathbb{E}_x[\gamma^N(x, \xi^N)(\mathcal{C}_s^N)^{1/2} \xi^N] \right) \\
       &  = l (h(l))^{-1}  \mathbb{E}_x[ \gamma^N(x, \xi^N)] \mu^N(x) +  \sqrt{2l}h(l)^{-1} (\Delta t)^{-1/2} \mathbb{E}_x[\gamma^N(x, \xi^N)(\mathcal{C}_s^N)^{1/2} \xi^N]  \\
       &  = \alpha(l)^{-1} \alpha^N(x) \mu^N(x) +   \sqrt{2l}h(l)^{-1} (\Delta t)^{-1/2} \mathbb{E}_x[\gamma^N(x, \xi^N)(\mathcal{C}_s^N)^{1/2} \xi^N] \\
-      &  =  ( \alpha^N(x) \alpha(l)^{-1} ) \mu^N(x) +   \sqrt{2l}h(l)^{-1} (\Delta t)^{-1/2} \mathbb{E}_x[ (1 \wedge e^{Q^N_{MALA}(x, \xi^N)}) (\mathcal{C}_s^N)^{1/2} \xi^N].
+      &  =  ( \alpha^N(x) \alpha(l)^{-1} ) \mu^N(x) +   \sqrt{2l}h(l)^{-1} (\Delta t)^{-1/2} \mathbb{E}_x[ (1 \wedge e^{Q^N_{MALA}(x, \xi^N)}) (\mathcal{C}_s^N)^{1/2} \xi^N],
    \end{split}
  \end{equation*}
- As mentioned above, the difficulty lies in the perturbation term
+ where we used the identity $\alpha(l) = l^{-1} h(l)$ as given in Equation~(\ref{DLR: Definition speed function}). As mentioned above, the difficulty lies in the perturbation term
  \begin{equation}
    \epsilon_{\cdot}^N (x) := \mathbb{E}_x[ (1 \wedge e^{Q^N_{\cdot}(x, \xi^N)}) (\mathcal{C}_s^N)^{1/2} \xi^N].
  \end{equation}
- The correlations between the Bernoulli random variables~$\gamma^N(x, \xi^N)=(1 \wedge e^{Q^N_{\cdot}(x, \xi^N)})$ and the noise term~$ (\mathcal{C}_s^N)^{1/2} \xi^N$ do not allow a straigt forward calculation of this expectation. Nevertheless, as quantified by Lemma~\ref{DLR: Lemma: Convergence of Z^N to Gaussian}, $\gamma^N(x, \xi^N)$ is asymptotically independent from the current position~$x$ and from~$ (\mathcal{C}_s^N)^{1/2} \xi^N$. Indeed, we can decompose the quantity~$Q^N_{\cdot}(x, \xi^N)$ as a sum of a term, independently from the component~$\xi_j$, and another remaining term of small magnitude. This will be in both cases be the key idea. But at this point we have to distinguish between the RWM algorithm and MALA algorithm. Whereas $\epsilon_{MALA}^N (x)$ is only a perturbation term which we can roughly estimate going to zero as the approximated drift~$\mu^N$ is already incorporated in the discrete drift~$d^N$, we have to extract the correct structure from $\epsilon_{RWM}^N (x)$ in the case of RWM proposals.
+ The correlations between the Bernoulli random variables~$\gamma^N(x, \xi^N)=(1 \wedge e^{Q^N_{\cdot}(x, \xi^N)})$ and the noise term~$ (\mathcal{C}_s^N)^{1/2} \xi^N$ do not allow a straight forward calculation of this expectation. Nevertheless, as quantified by Lemma~\ref{DLR: Lemma: Convergence of Z^N to Gaussian}, $\gamma^N(x, \xi^N)$ is asymptotically independent from the current position~$x$ and from~$ (\mathcal{C}_s^N)^{1/2} \xi^N$. Indeed, we can decompose the quantity~$Q^N_{\cdot}(x, \xi^N)$ as a sum of a term independent from the component~$\xi_j$, and another remaining term of small magnitude. This will be the key idea in both cases. At this point we have to distinguish between the RWM algorithm and MALA algorithm. Whereas $\epsilon_{MALA}^N (x)$ is only a perturbation term which we can roughly estimate going to zero as the approximated drift~$\mu^N$ is already incorporated in the discrete drift~$d^N$, we have to extract the correct structure from $\epsilon_{RWM}^N (x)$ in the case of RWM proposals.
  \newline
  
  In the case of the MALA algorithm, we follow the structure of~\autocite[Lemma 4.7]{Pillai2012}. To prove Lemma~\ref{DLR: Lemma Dirft approximation}, we have to analyze
@@ -1234,7 +1282,7 @@ As a next step, we have to verify the approximation of the drift as required in 
     \qquad & =  \mathbb{E}^{\pi^N}[ \|  ( \alpha^N(x) \alpha(l)^{-1} ) \mu^N(x) - \mu(x)+ \sqrt{2l}h(l)^{-1} (\Delta t)^{-1/2} \epsilon_{MALA}^N (x) \|_{s}^2 ] \\
     \qquad & = \mathbb{E}^{\pi^N}[ \|  ( \alpha^N(x) \alpha(l)^{-1} ) \mu^N(x) - \mu(x)\|_{s}^2]  + 2lh(l)^{-2} (\Delta t)^{-1} \mathbb{E}^{\pi^N}[ \| \epsilon_{MALA}^N (x) \|_{s}^2 ] \\
  \end{align*}
- Hence it suffices to prove
+ Hence, it suffices to prove
  \begin{align}
    \label{DLR-Lemma: approximation of the drift - MALA first term}
    \lim_{N \to \infty} \mathbb{E}^{\pi^N}[ \|  ( \alpha^N(x) \alpha(l)^{-1} ) \mu^N(x) - \mu(x)\|_{s}^2] & = 0, \\
@@ -1246,7 +1294,7 @@ As a next step, we have to verify the approximation of the drift as required in 
   & \left( \mathbb{E}^{\pi^N}[ \|  ( \alpha^N(x) \alpha(l)^{-1} ) \mu^N(x) - \mu(x)\|_{s}^2] \right)^2 \\
   & \qquad \lesssim \mathbb{E}[|\alpha^N(x) - \alpha(l)|^4] \cdot  \mathbb{E}^{\pi^N}[ \|  \mu^N(x) \|_{s}^4] +  \mathbb{E}^{\pi^N}[ \|  \mu^N(x) - \mu(x)\|_{s}^4],
  \end{align*}
- due to the triangle inequality and the Cauchy-Schwarz inequality. The first term is tending to zero according to Corollary~\ref{DLR: Corollary acceptance rate convergence} and the second term is finite as~$\mu^N : \mathcal{H}^s \to \mathcal{H}^s$ is Lipschitz continuous by Corollary~\ref{DLR-Setting: Corollary: drifts are Lipschitz} with an Lipschitz constant independent of~$N$ such that $\sup \{  \mathbb{E}^{\pi^N}[\| \mu^N(x) \|_s^4: N \in \mathbb{N} \} < \infty$. The last term also converges to zero as Lemma~\ref{DLR: Proof Lemma mu^N converges to mu} proves that the sequence of functions~$\{ \mu^N \}$ converges $\pi_0$-almost surely to~$\mu(x)$ in $\mathcal{H}^s$, and Lemma~\ref{DLR-Proof: Lemma Convergence of pi^N to pi} shows that $ \mathbb{E}^{\pi^N}[ \|  \mu^N(x) - \mu(x)\|_{s}^4] \lesssim  \mathbb{E}^{\pi_0}[ \|  \mu^N(x) - \mu(x)\|_{s}^4]$. Moreover both drift functions~$\mu^N$ and~$\mu$ are globally Lipschitz on~$\mathcal{H}^s$ so that $ \| \mu^N(x) - \mu(x) \|_s^4 \lesssim (1+\|x\|_s^4) $, which is $\pi_0$-integrable due to Fernique's theorem. Combining these three arguments with the dominated convergence theorem leads to the proof of Equation~(\ref{DLR-Lemma: approximation of the drift - MALA first term}). For more details see~\autocite[Lemma 4.7]{Pillai2012}.
+ due to the triangle inequality and the Cauchy-Schwarz inequality. The first term is tending to zero according to Corollary~\ref{DLR: Corollary acceptance rate convergence} and the second term is finite according to Corollary~\ref{DLR: Corollary mu^N to mu}. The last term also converges to zero as proven in Corollary~\ref{DLR: Corollary mu^N to mu}, too. Hence, we finish the proof of Equation~(\ref{DLR-Lemma: approximation of the drift - MALA first term}).
  
  To prove Equation~(\ref{DLR-Lemma: approximation of the drift - MALA second term}), it satisfies to show that each component of the perturbation term~$ (\epsilon_{MALA}^N (x))_j^2 = \langle \epsilon_{MALA}^N (x)), \phi_j \rangle_s^2 $ satisfies
  \begin{equation}
@@ -1257,7 +1305,7 @@ As a next step, we have to verify the approximation of the drift as required in 
  \begin{equation*}
    \mathbb{E}^{\pi^N}[\|\epsilon_{MALA}^N (x))\|_s^2] \lesssim N^{-1} \mathbb{E}^{\pi^N}[ \|x\|_s^2 ] + N^{-2/3} \text{Tr}_{\mathcal{H}^s}(\mathcal{C}_s) \lesssim N^{-2/3},
  \end{equation*}
- which gives the proof of Equation~(\ref{DLR-Lemma: approximation of the drift - MALA second term}) as $\Delta t = N^{1/3}$. To establish Equation~(\ref{DLR: Lemma drift approximation - MALA error term estimation}) for a fixed index~$j \in \mathbb{N}$, we introduce the decomposition of the quantity~$Q^N_{MALA}(x, \xi^N)$ in an independent term and a small remainder
+ which gives the proof of Equation~(\ref{DLR-Lemma: approximation of the drift - MALA second term}) as $(\Delta t)^{-1} = N^{1/3}$. To establish Equation~(\ref{DLR: Lemma drift approximation - MALA error term estimation}) for a fixed index~$j \in \mathbb{N}$, we introduce the decomposition of the quantity~$Q^N_{MALA}(x, \xi^N)$ in an independent term and a small remainder
  \begin{equation}
    \label{DLR : Lemma Drift approximation - Decomposition Q MALA}
    Q^N_{MALA}(x, \xi^N) = Q^N_j (x, \xi^N) + Q^N_{j, \bot}(x, \xi^N),
@@ -1273,40 +1321,40 @@ As a next step, we have to verify the approximation of the drift as required in 
   & \lesssim (\lambda_j j^s)^2  \mathbb{E}_x[|Q^N_{MALA} (x, \xi^N) - Q^N_{j, \bot}(x, \xi^N)|^2] \\
   & =  (\lambda_j j^s)^2  \mathbb{E}_x[Q^N_j (x, \xi^N)^2]
  \end{align*}
- Moreover, we can state by integrating now over~$x$ and using the definition of~$Q^N_j (x, \xi^N)$ that
+ Moreover, we can now state by integrating over~$x$ and using the definition of~$Q^N_j (x, \xi^N)$ that
  \begin{align*}
    (\lambda_j j^s)^2 & \mathbb{E}^{\pi^N}[Q^N_j (x, \xi^N)^2] \\
    & \; \lesssim  (\lambda_j j^s)^2 \{ N^{-1} (\lambda_j j^s)^{-2} \mathbb{E}^{\pi^N}[x_j^2\xi_j^2] + N^{-4/3} \mathbb{E}^{\pi^N}[\xi^4_j] + \mathbb{E}^{\pi^N}[  \textbf{e}^N_{MALA}(x, \xi^N)^2] \} \\
    & \; \lesssim N^{-1} \mathbb{E}^{\pi^N}[ x_j^2 \xi_j^2] +  (\lambda_j j^s)^2 (N^{-4/3} + N^{-2/3}) \\
    & \; \lesssim N^{-1} \mathbb{E}^{\pi^N}[x_j^2] +  (\lambda_j j^s)^2 N^{-2/3},
  \end{align*}
- where we applied Lemma~\ref{DLR: Lemma Gaussian approximation} to estimate $\mathbb{E}^{\pi^N}[  \textbf{e}^N_{MALA}(x, \xi^N)^2] \lesssim N^{-2/3}$. Using now Fubini-Tonelli and the independence of the bound of the term~$\mathbb{E}^{\pi^N}[Q^N_j (x, \xi^N)^2]$ of the Gaussian random variable~$\xi^N$, we can establish Equation~(\ref{DLR: Lemma drift approximation - MALA error term estimation}). This finishes the proof for the MALA algorithm.
+ where we applied Lemma~\ref{DLR: Lemma Gaussian approximation} to estimate $\mathbb{E}^{\pi^N}[  \textbf{e}^N_{MALA}(x, \xi^N)^2] \lesssim N^{-2/3}$. Using the independence of the bound of the term~$\mathbb{E}^{\pi^N}[Q^N_j (x, \xi^N)^2]$ of the Gaussian random variable~$\xi^N$, we can establish Equation~(\ref{DLR: Lemma drift approximation - MALA error term estimation}). This finishes the proof for the MALA algorithm.
  \newline
  
- In the case of the RWM algorithm the above made estimation concerning the pertubation term~$\epsilon_{\cdot}^N (x)$ can be done analogously. But it would be to rough. Hence these estimations have to be done more carefully. For this very technical estimate we will give the ideas but for further details we refer to~\autocite{Mattingly2010}. We have to show that 
+ In the case of the RWM algorithm the above estimation concerning the pertubation term~$\epsilon_{\cdot}^N (x)$ can be done analogously. But it would be to rough. Hence these estimations have to be done more carefully. For this very technical estimate we will give the ideas but for further details we refer to~\autocite{Mattingly2010}. We have to show that 
  \begin{equation}
    \label{DLR: Lemma Drift approximation - RWM estimate - goal}
    \lim_{N \to \infty} \mathbb{E}^{\pi^N}[ \|  \sqrt{2l}h(l)^{-1} (\Delta t)^{-1/2} \epsilon_{RWM}^N (x)  - \mu(x) \|_{s}^2 ] = 0.
  \end{equation}
- Since we use again the idea to cancel out the correlation of the noise term~$ (\mathcal{C}_s^N)^{1/2} \xi^N$ and the quantity~$ Q^N_{RWM}(x, \xi^N)$ by using a decompositon of~$ Q^N_{RWM}$ in an independent term and a remainder, we establish that each component satisfies
+ Since we again use the idea to cancel out the correlation of the noise term~$ (\mathcal{C}_s^N)^{1/2} \xi^N$ and the quantity~$ Q^N_{RWM}(x, \xi^N)$ by using a decomposition of~$ Q^N_{RWM}$ in an independent term and a remainder, we establish that each component satisfies
  \begin{equation}
    \label{DLR: Lemma Drift approximation - RWM component estimate - goal}
-    \mathbb{E}^{\pi^N}[ \langle \sqrt{2l}h(l)^{-1} N^{1/2} \epsilon_{RWM}^N (x)  - \mu^N(x) , \phi_j \rangle_s^2] \lesssim N^{-1/4}.
+    \mathbb{E}^{\pi^N}[ \langle \sqrt{2l}h(l)^{-1} N^{1/2} \epsilon_{RWM}^N (x)  - \mu^N(x) , \phi_j \rangle_s^2] \lesssim N^{-1/2}.
  \end{equation}
  Summation of Equation~(\ref{DLR: Lemma Drift approximation - RWM component estimate - goal}) over $j = 1, \dots, N$ leads to 
  \begin{equation}
   \label{DLR: Lemma Drift approximation - RWM estimate almost - goal}
-  \mathbb{E}^{\pi^N}[ \|  \sqrt{2l}h(l)^{-1} N^{1/2} \epsilon_{RWM}^N (x)  - \mu^N(x) \|_{s}^2 ] \lesssim  N^{-1/4}.
+  \mathbb{E}^{\pi^N}[ \|  \sqrt{2l}h(l)^{-1} N^{1/2} \epsilon_{RWM}^N (x)  - \mu^N(x) \|_{s}^2 ] \lesssim  N^{-1/2}.
  \end{equation}
  By using the triangle inequality, we obtain that
  \begin{align*}
   \mathbb{E}^{\pi^N} & [ \|  \sqrt{2l}h(l)^{-1} (\Delta t)^{-1/2} \epsilon_{RWM}^N (x)  - \mu(x) \|_{s}^2 ] \\
   & \quad \leq  \mathbb{E}^{\pi^N}  [ \|  \sqrt{2l}h(l)^{-1} (\Delta t)^{-1/2} \epsilon_{RWM}^N (x)  - \mu^N(x) \|_{s}^2 ] +  \mathbb{E}^{\pi^N}  [ \|  \mu^N (x)  - \mu(x) \|_{s}^2 ],
  \end{align*}
- where the last term converges to zero because of the same argumentation as for Equation~(\ref{DLR-Lemma: approximation of the drift - MALA first term}) of the MALA algorithm. Hence it suffics to prove Equation~(\ref{DLR: Lemma Drift approximation - RWM component estimate - goal}).
+ where the last term converges to zero as stated in Corollary~\ref{DLR: Corollary mu^N to mu}. Hence it suffics to prove Equation~(\ref{DLR: Lemma Drift approximation - RWM component estimate - goal}). For a simpler notation, recall that $\langle x, \phi_j \rangle_s =: x_j$.
 
 
- To prove Equation~(\ref{DLR: Lemma Drift approximation - RWM component estimate - goal}), we introduce the decomposition of the quantity~$ Q^N_{RWM}(x, \xi^N)$ in an term independent to the noise term~$ (\mathcal{C}_s^N)^{1/2} \xi^N$ and a remainder with strong correlations. Therefore, we introduce for any fixed index~$j \in \mathbb{N}$, 
+ To prove Equation~(\ref{DLR: Lemma Drift approximation - RWM component estimate - goal}), we introduce the decomposition of the quantity~$ Q^N_{RWM}(x, \xi^N)$ in a term independent of the noise term~$ (\mathcal{C}_s^N)^{1/2} \xi^N$ and a remainder with strong correlations. Therefore, we introduce for any fixed index~$j \in \mathbb{N}$, 
  \begin{equation}
    \label{DLR : Lemma Drift approximation - Decomposition Q RWM}
    \begin{split}
@@ -1316,22 +1364,28 @@ As a next step, we have to verify the approximation of the drift as required in 
      \end{cases}
    \end{split}
  \end{equation}
- where $(\mu^N(x))_j = \langle \mu^N(x), \phi_j \rangle_s$ represents the $j^{\text{th}}$ component of~$\mu^N(x)$ in the basis of~$\mathcal{H}^s$. Note that our definition of~$R^N_{j, \bot}(x, \xi^N)$ corresponds to the definition of~$R_j(x, \xi)$ given in~\autocite[Chapter 2.6]{Mattingly2010} regarding the fact that we changed the basis as mentioned in Remark~\ref{DLR-Remark Change of basis}. An important observation is that $R^N_{j, \bot}(x, \xi^N)$ and $\xi_j$ are independent. Thus, the expactation over~$\xi^N$ can be computed by first computing it over~$\xi_j$ and than over the remainding components of~$\xi^N$. In~\autocite[Lemma 5.7 - 11]{Mattingly2010} it is proven by using  the Gaussian structure of the quantity~$Q^N_{RWM}$ as shown in Section~\ref{sec:sub:DLR - Gaussian approximation} that
+ where $(\mu^N(x))_j = \langle \mu^N(x), \phi_j \rangle_s$ represents the $j$-th component of~$\mu^N(x)$ in the basis of~$\mathcal{H}^s$. Note that our definition of~$R^N_{j, \bot}(x, \xi^N)$ corresponds to the definition of~$R_j(x, \xi)$ given in~\autocite[Chapter 2.6]{Mattingly2010} regarding the fact that we changed the basis as mentioned in Remark~\ref{DLR-Remark Change of basis}. An important observation is that $R^N_{j, \bot}(x, \xi^N)$ and $\xi_j$ are independent. Thus, the expectation over~$\xi^N$ can be computed by first computing it over~$\xi_j$ and than over the remaining components of~$\xi^N$. In~\autocite[Lemma 5.5 - 11]{Mattingly2010} it is proven by using  the Gaussian structure of the quantity~$Q^N_{RWM}$ as shown in Section~\ref{sec:sub:DLR - Gaussian approximation} that
  \begin{equation}
-   \langle \epsilon_{RWM}^N (x), \phi_j \rangle_s = \sqrt{l/2} \alpha(l)  N^{-1/2} \langle \mu^N(x), \pi_j \rangle_s + r^N(x, \xi^N),
+    \sqrt{2l} h(l)^{-1} N^{1/2}  \epsilon_{RWM}^N (x)_j =  \mu^N_j(x) +  r^N_j(x, \xi^N),
  \end{equation}
- where $ \mathbb{E}^{\pi^N}[ \|  r^N(x, \xi^N)\|_s^2] \lesssim N^{-1/4}$. Therefore, we deduce
+ where $ |r^N_j(x, \xi^N)| = \mathcal{O}(N^{-1/4})$ and $ \mathbb{E}^{\pi^N}[ \|  r^N(x, \xi^N)\|_s^2] \lesssim N^{-1/2}$. 
+ \begin{rem}
+  As we slightly changed the notation, note that Equation~(5.27) in~\autocite{Mattingly2010} states that
+ \begin{equation*}
+   N \mathbb{E}_0^{\xi}[x_j^1 - x_j] = - l^2 \beta (P^N x + C \nabla \Psi(P^Nx))_j + r_j^N,
+ \end{equation*}
+ where $N \mathbb{E}_0^{\xi}[x_j^1 - x_j] \simeq \sqrt{2l} N^{1/2} \epsilon_{RWM}^N (x)_j$,  $(P^N x + C \nabla \Psi(P^Nx))_j \simeq \mu^N_j(x)$ and $l^2 \beta \simeq h(l)$.
+ \end{rem}
+ Therefore, we deduce by inserting this approximation result that
  \begin{align*}
-   \langle \sqrt{2l} & h(l)^{-1} N^{1/2} \epsilon_{RWM}^N (x) - \mu^N(x) , \phi_j \rangle_s^2 \\
-   & \quad = 2l h(l)^{-2} N \langle \epsilon_{RWM}^N (x), \phi_j \rangle_s^2 - 2 \sqrt{2l} h(l)^{-1} N^{1/2} \langle\epsilon_{RWM}^N (x), \phi_j \rangle_s \langle \mu^N (x), \phi_j \rangle_s \\
-   & \quad \qquad + \langle \mu^N (x), \phi_j \rangle_s^2 \\
-   & \quad \approx \frac{l^2}{h(l)^2} \alpha(l)^2 \langle \mu^N (x), \phi_j \rangle_s^2 + N^{-1} \langle r^N(x, \xi^N), \phi_j \rangle_s + \langle r^N(x, \xi^N), \phi_j \rangle_s^2 \\
-   & \quad \qquad - 2 \frac{l}{h(l)} \alpha(l) \langle \mu^N (x), \phi_j \rangle_s^2 - 2 N^{1/2} \langle r^N(x, \xi^N), \phi_j \rangle_s + \langle \mu^N (x), \phi_j \rangle_s^2 \\
-   & \quad \lesssim \langle r^N(x, \xi^N), \phi_j \rangle_s^2  - N^{1/2} \langle r^N(x, \xi^N), \phi_j \rangle_s.
+   & (\sqrt{2l}  h(l)^{-1} N^{1/2} \epsilon_{RWM}^N (x)_j - \mu^N_j(x) )^2 \\
+   & \quad = 2l h(l)^{-2} N \epsilon_{RWM}^N (x)_j^2 - 2 \cdot \sqrt{2l} h(l)^{-1} N^{1/2} \epsilon_{RWM}^N (x)_j \mu^N_j (x) +  \mu^N (x)_j^2 \\
+   & \quad =  \mu^N_j (x)^2 + 2 r^N_j(x, \xi^N)\mu^N_j (x) + r^N_j(x, \xi^N)^2 - 2 \mu^N_j (x)^2 - 2 r^N_j(x, \xi^N)\mu^N_j (x) +  \mu^N_j (x)^2 \\
+   & \quad = r^N_j(x, \xi^N)^2.
  \end{align*}
  Taking the expectation with respect to~$\pi^N$ leads to
  \begin{equation*}
-   \mathbb{E}^{\pi^N}[ \langle \sqrt{2l}  h(l)^{-1} N^{1/2} \epsilon_{RWM}^N (x) - \mu^N(x) , \phi_j \rangle_s^2 ] \lesssim \mathbb{E}^{\pi^N}[ \langle r^N(x, \xi^N), \phi_j \rangle_s^2] \lesssim N^{-1/4}.
+   \mathbb{E}^{\pi^N}[ (\sqrt{2l}  h(l)^{-1} N^{1/2} \epsilon_{RWM}^N (x)_j - \mu^N_j(x))^2 ] = \mathbb{E}^{\pi^N}[ r^N_j(x, \xi^N)^2] \lesssim N^{-1/2}.
  \end{equation*}
  This finishes the proof for the RWM algorithm and of Lemma~\ref{DLR: Lemma Dirft approximation}.
  
@@ -1350,7 +1404,7 @@ By the definition of the outer product on~$\mathcal{H}^s$, for any $x, u, v \in 
 \begin{equation*}
   \mathbb{E}[\langle \Gamma^{k,N}, u \rangle_s \langle  \Gamma^{k,N}, v \rangle_s| x^{k,N} = x] = \langle u, D^N(x) v \rangle_s.
 \end{equation*}
-This is exactly the defining property of a covariance operator of a Gaussian measure on~$\mathcal{H}^s$ with mean zero as introduced in Definition~\ref{DLR-Setting: Definition Gaussian measure}. The next lemma shows that for large~$N$ the discrete operator~$D^N(x)$ is a good approximation of~$\mathcal{C}_s$. Recall that the notation~$\mathbb{E}_x[f(x,\xi)]$ denotes expactation with respect to~$\xi$ with the variable~$x$ fixed. 
+This is exactly the defining property of a covariance operator of a Gaussian measure on~$\mathcal{H}^s$ with mean zero as introduced in Definition~\ref{DLR-Setting: Definition Gaussian measure}. The next lemma shows that for large~$N$ the discrete operator~$D^N(x)$ is a good approximation of~$\mathcal{C}_s$. Recall that the notation~$\mathbb{E}_x[f(x,\xi)]$ denotes expectation with respect to~$\xi$ where the variable~$x$ is fixed. 
 
 \begin{lemma}\autocite[Lemma 4.8]{Pillai2012}
   \label{DLR: Lemma Noise approximation}
@@ -1388,7 +1442,7 @@ This is exactly the defining property of a covariance operator of a Gaussian mea
       & \qquad -\frac{1}{\sqrt{2}} \alpha(l)^{-1/2} (l^{-1}\Delta t)^{1/2} \gamma^N(x, \xi^N) \mu^N(x) .
     \end{split}
   \end{equation}
-  Due to notational simplicity, we show first Equation~(\ref{DLR: Lemma Noise approximation trace statement}). Lemma~\ref{DLR: Lemma Dirft approximation} shows that $\lim_{N \to \infty} \mathbb{E}^{\pi^N}[ \|  d^N(x) - \mu(x) \|_{s} ] = 0$. As in the proof of Equation~(\ref{DLR-Lemma: approximation of the drift - MALA first term}) due to the globally Lipschitz continuity of~$\mu^N$ and $\mu$ on $\mathcal{H}^s$, we are able to switch between both drift functions as $ \lim_{N \to \infty} \mathbb{E}^{\pi^N}[ \|  \mu^N(x) - \mu(x)\|_{s}^2] = 0$. Hence, by the triangle inequality, the statement of Lemma~\ref{DLR: Lemma Dirft approximation} implies that
+  We only show the second statement given in Equation~(\ref{DLR: Lemma Noise approximation trace statement}), the other statement is proven equally but the notation is more complex. Lemma~\ref{DLR: Lemma Dirft approximation} shows that $\lim_{N \to \infty} \mathbb{E}^{\pi^N}[ \|  d^N(x) - \mu(x) \|_{s} ] = 0$. Due to Corollary~\ref{DLR: Corollary mu^N to mu}, we are able to switch between both drift functions as for $p\geq1$ we have $ \lim_{N \to \infty} \mathbb{E}^{\pi^N}[ \|  \mu^N(x) - \mu(x)\|_{s}^p] = 0$. Hence, by the triangle inequality, the statement of Lemma~\ref{DLR: Lemma Dirft approximation} implies that
   \begin{equation*}
     \lim_{N \to \infty} \mathbb{E}^{\pi^N}[ \|  \mu^N(x) - d^N(x)\|_{s}^4] = 0.
   \end{equation*} The triangle inequality and the Cauchy-Schwarz inequality show that
@@ -1396,12 +1450,12 @@ This is exactly the defining property of a covariance operator of a Gaussian mea
    ( \mathbb{E}^{\pi^N} &[  \| \gamma^N(x, \xi^N) \mu^N(x) - \alpha(l) d^N(x)  \|_s^2] )^2 \\
    & \quad \lesssim  \mathbb{E}^{\pi^N}[  \|\gamma^N(x, \xi^N) - \alpha(l)\|_s^4 ] \cdot  \mathbb{E}^{\pi^N}[ \| \mu^N(x)  \|_s^4 ]  +  \mathbb{E}^{\pi^N}[ \| \mu^N(x)  - \mu(x) \|_s^4 ].
   \end{align*}
-  The Bernoulli random variable~$\gamma^N(x, \xi^N)$ can be bounded by one as $|1 \wedge e^{Q^N(x, \xi^N)}| \leq 1$ and because of the Lipschitz continuity of~$\mu^N$, it follows that~$\sup \{ \mathbb{E}^{\pi^N}[\| \mu^N(x) \|_s^4] < \infty : N \in \mathbb{N} \}$. Therefore, the first two terms are finite and the last term converges to zero. We conclude that
+  The Bernoulli random variable~$\gamma^N(x, \xi^N)$ can be bounded by one as $|1 \wedge e^{Q^N(x, \xi^N)}| \leq 1$ and for $p \geq 1$ Corollary~\ref{DLR: Corollary mu^N to mu} shows that~$\sup \{ \mathbb{E}^{\pi^N}[\| \mu^N(x) \|_s^p] < \infty : N \in \mathbb{N} \}$. Therefore, the first two terms are finite and the last term converges to zero. We conclude that
   \begin{equation}
     \label{DLR: Lemma Noise approximation - Statement 1}
    \mathbb{E}^{\pi^N} [  \| \gamma^N(x, \xi^N) \mu^N(x) - \alpha(l) d^N(x)  \|_s^2] \lesssim 1,
   \end{equation}
-  which implies that the second term on the right-hand side of Equations~(\ref{DLR: Lemma Noise approximation - Gamma MALA}) and~(\ref{DLR: Lemma Noise approximation - Gamma RWM}) are of order~$\mathcal{O}(\sqrt{\Delta t})$. Similarly, we conclude for the additional term in the case of the RWM algorithm that
+  which implies that the second terms on the right-hand side of Equations~(\ref{DLR: Lemma Noise approximation - Gamma MALA}) and~(\ref{DLR: Lemma Noise approximation - Gamma RWM}) are of order~$\mathcal{O}(\sqrt{\Delta t})$. Similarly, we conclude for the additional term in the case of the RWM algorithm that
   \begin{equation}
      \label{DLR: Lemma Noise approximation - Statement 2 RWM}
    \mathbb{E}^{\pi^N} [  \| \gamma^N(x, \xi^N) \mu^N(x) \|_s^2 ] \lesssim 1,
@@ -1419,7 +1473,7 @@ This is exactly the defining property of a covariance operator of a Gaussian mea
     \label{DLR: Lemma Noise approximation - Statement 3}
     \lim_{N \to \infty}  \mathbb{E}^{\pi^N}[| \alpha(l)  \text{Tr}_{\mathcal{H}^s} (\mathcal{C}_s) - \mathbb{E}_x[ \| \gamma^N(x, \xi^N) (\mathcal{C}_s^N)^{1/2} \xi^N \|_s^2] |] = 0
   \end{equation}
-  in order to prove Equation~(\ref{DLR: Lemma Noise approximation trace statement}). Using the coordinate-representation in~$\mathcal{H}^s$ of the both quantities 
+  in order to prove Equation~(\ref{DLR: Lemma Noise approximation trace statement}). Using the coordinate-representation in~$\mathcal{H}^s$ of both quantities 
   \begin{align*}
     \text{Tr}_{\mathcal{H}^s} (\mathcal{C}_s) & = \sum_{j=1}^{\infty} (\lambda_j j^s)^2  \quad \text{ and }\\ 
     \mathbb{E}_x[ \| \gamma^N(x, \xi^N) (\mathcal{C}_s^N)^{1/2} \xi^N \|_s^2] & = \sum_{j=1}^{\infty} (\lambda_j j^s)^2 \mathbb{E}_x[(1 \wedge e^{Q^N(x, \xi^N)})\xi_j^2],
@@ -1434,14 +1488,14 @@ This is exactly the defining property of a covariance operator of a Gaussian mea
    \label{DLR: Lemma Noise approximation - Statement 5}
    \lim_{N \to \infty}  \mathbb{E}^{\pi^N}[|\mathbb{E}_x[(1 \wedge e^{Q^N(x, \xi^N)})\xi_j^2] - \alpha(l)|] = 0 \qquad \text{ for all } j \geq 1.
   \end{equation}
-  To finally prove Equation~(\ref{DLR: Lemma Noise approximation - Statement 5}), we apply the same decomposition of~$Q^N(x, \xi^N)$ as in Lemma~\ref{DLR: Lemma Dirft approximation} and deduce the result from Lemma~\ref{DLR: Lemma: Convergence of Z^N to Gaussian}. Recall the decomposition of the quantity~$Q^N(x, \xi^N)$ given in Equations~(\ref{DLR : Lemma Drift approximation - Decomposition Q MALA}) and~(\ref{DLR : Lemma Drift approximation - Decomposition Q RWM}) with $Q^N(x, \xi^N) = Q^N_j(x, \xi^N) + Q^N_{j, \bot}(x, \xi^N)$ where~$Q^N_{j, \bot}(x, \xi^N$ is independent from~$\xi_j$. Analogously, we have the decompositon for RWM proposals $Q^N(x, \xi^N) = R^N_j(x, \xi^N) + R^N_{j, \bot}(x, \xi^N)$. Since the function~$ f (z) =  1 \wedge e^{z}$ is Lipschitz continuous with Lipschitz constant equal to one, we can deduce that
+  To finally prove Equation~(\ref{DLR: Lemma Noise approximation - Statement 5}), we apply the same decomposition of~$Q^N(x, \xi^N)$ as in Lemma~\ref{DLR: Lemma Dirft approximation} and deduce the result from Lemma~\ref{DLR: Lemma: Convergence of Z^N to Gaussian}. Recall the decomposition of the quantity~$Q^N(x, \xi^N)$ given in Equations~(\ref{DLR : Lemma Drift approximation - Decomposition Q MALA}) and~(\ref{DLR : Lemma Drift approximation - Decomposition Q RWM}) with $Q^N(x, \xi^N) = Q^N_j(x, \xi^N) + Q^N_{j, \bot}(x, \xi^N)$ where~$Q^N_{j, \bot}(x, \xi^N$ is independent from~$\xi_j$. Analogously, we have the decomposition for RWM proposals $Q^N(x, \xi^N) = R^N_j(x, \xi^N) + R^N_{j, \bot}(x, \xi^N)$. Since the function~$ f (z) =  1 \wedge e^{z}$ is Lipschitz continuous with a Lipschitz constant equal to one, we can deduce that
   \begin{align*}
    \mathbb{E}_x[(1 & \wedge e^{Q^N(x, \xi^N)})\xi_j^2] \\
    & \quad = \mathbb{E}_x[(1 \wedge e^{Q^N_{j, \bot}(x, \xi^N)})\xi_j^2] + \mathbb{E}_x[\{ (1  \wedge e^{Q^N(x, \xi^N)}) - (1 \wedge e^{Q^N_{j, \bot}(x, \xi^N)}) \}\xi_j^2] \\
    & \quad = \mathbb{E}_x[(1 \wedge e^{Q^N_{j, \bot}(x, \xi^N)})\xi_j^2] + \mathcal{O}( \{ \mathbb{E}_x[|Q^N(x, \xi^N) -  Q^N_{j, \bot}(x, \xi^N) |^2] \}^{1/2} ) \\
    & \quad = \mathbb{E}_x[(1 \wedge e^{Q^N_{j, \bot}(x, \xi^N)})\xi_j^2] + \mathcal{O}( \{ \mathbb{E}_x[|Q^N_j(x, \xi^N) |^2] \}^{1/2} ).
   \end{align*}
-  The same calculation holds for the decomposition~$Q^N(x, \xi^N) = R^N_j(x, \xi^N) + R^N_{j, \bot}(x, \xi^N)$. According to the definitions of the remainder terms in Equations~(\ref{DLR : Lemma Drift approximation - Decomposition Q MALA}) and~(\ref{DLR : Lemma Drift approximation - Decomposition Q RWM}), the following error erstimates hold for all $x \in \mathcal{H}^s$
+  The same calculation holds for the decomposition~$Q^N(x, \xi^N) = R^N_j(x, \xi^N) + R^N_{j, \bot}(x, \xi^N)$. According to the definitions of the remainder terms in Equations~(\ref{DLR : Lemma Drift approximation - Decomposition Q MALA}) and~(\ref{DLR : Lemma Drift approximation - Decomposition Q RWM}), the following error estimates hold for all $x \in \mathcal{H}^s$
   \begin{align*}
     \mathbb{E}^{\pi^N}[Q^N_j(x, \xi^N)^2]  & \lesssim N^{-2/3},\\
     \mathbb{E}^{\pi^N}[R^N_j(x, \xi^N)^2]  & \lesssim N^{-1/4}.
@@ -1479,7 +1533,7 @@ This section proves that the process $ W^{N} $ defined in Equation~(\ref{DLR-Pro
 
 \begin{proposition}
  \label{Invariance principle}
- Let Assumption~\ref{DLR-Setting: Assumptions on C and Psi} hold. Let $ z^0 \stackrel{D}{\thicksim} \pi $ and $ W^{N}(t) $, the process defined in Equation~(\ref{DLR-Proof: Definition W^N}), and $ x^{0,N} \stackrel{D}{\thicksim} \pi^{N} $, the starting position of the Markov chain $ x^{N} $, defined in Equation~(\ref{DLR-MH chain from algorithm - general form}). Then
+ Let Assumption~\ref{DLR-Setting: Assumptions on C and Psi} hold. Let $ z^0 \stackrel{D}{\thicksim} \pi $,  $ W^{N}(t) $ be the process defined in Equation~(\ref{DLR-Proof: Definition W^N}), and $ x^{0,N} \stackrel{D}{\thicksim} \pi^{N} $, the starting position of the Markov chain $ x^{N} $, defined in Equation~(\ref{DLR-MH chain from algorithm - general form}). Then
  \begin{equation}
   (x^{0,N}, W^{N}) \Longrightarrow (z^0, \mathcal{W}),
  \end{equation}
@@ -1489,7 +1543,7 @@ This section proves that the process $ W^{N} $ defined in Equation~(\ref{DLR-Pro
 
 
 
-We will use the following result concerning triangular martingale increment arrays taken from~\autocite{Berger1986}. The result is similar to the classiscal results on triangular arrays of independent increments and is generally spoken a generalization of a martingale central limit theorem.
+We will use the following result concerning triangular martingale increment arrays taken from~\autocite{Berger1986}. The result is similar to the classical results on triangular arrays of independent increments and is generally spoken a generalization of a martingale central limit theorem.
 
 Let $ k_{N}: [0,T] \to \mathbb{Z}_{+} $ be a sequence of nondecreasing, right-continuous functions indexed by $ N $ with $ k_{N}(0) = 0 $ and  $k_{N} (T) \geq 1 $. Let $ \{ M^{k,N}, \mathcal{F}^{k,N}  \}_{0 \leq k \leq k_{N}(T)} $ be an $ \mathcal{H}^s $-valued martingale difference array. That is, for $ k = 1,\dots , k_{N}(T) $, we have
 $  \mathbb{E} \left[  M^{k,N} | \mathcal{F}^{k-1,N} \right] =  0 $,  $  \mathbb{E} \left[ \| M^{k,N} \|_{s}^{2} \; | \mathcal{F}^{k-1,N} \right] <  \infty $ almost surely
@@ -1509,7 +1563,7 @@ and $ \mathcal{F}^{k-1,N} \subset \mathcal{F}^{k,N} $.
   
 \end{proposition}
 
-The proof of Proposition~\ref{Martingale central limit theorem - Helping proposition} is omitted here. Generally speaking, it is a generalization of a standard martingale central limit theorem in the sense of Donsker's theorem. The three conditions are needed to control the Hilbert space valued martingale difference array but the general idea stays the same. The first two hypotheses of the above proposition ensure the weak convergence of finite-dimensional distributions of $ W^{N}(t) $ using the martingale central limit theorem in $ \mathbb{R}^N $. The last hypothesis, the conditional Lindeberg assumption, is needed to conclude the tightness of the famili $ \{ W^{N}(\cdot) \}  $.
+The proof of Proposition~\ref{Martingale central limit theorem - Helping proposition} is omitted here. Generally speaking, it is a generalization of a standard martingale central limit theorem in the sense of Donsker's theorem. The three conditions are needed to control the Hilbert space valued martingale difference array but the general idea stays the same. The first two hypotheses of the above proposition ensure the weak convergence of finite-dimensional distributions of $ W^{N}(t) $ using the martingale central limit theorem in $ \mathbb{R}^N $. The last hypothesis, the conditional Lindeberg assumption, is needed to conclude the tightness of the family $ \{ W^{N}(\cdot) \}  $.
 
 \begin{rem}
  As noted in~\autocite{ChenWhite1998}, the hypothesis in Equation~(\ref{MCLT - P2}) can be replaced by
@@ -1524,38 +1578,38 @@ The proof of Proposition~\ref{Martingale central limit theorem - Helping proposi
 
 \end{rem}
 
-\begin{proof}(of the invariance principle)
+\begin{proof}(of the invariance principle, Proposition~\ref{Invariance principle})
   
-  Applying Proposition~\ref{Martingale central limit theorem - Helping proposition}, we define the following quantities $ k_N(t) := \lfloor \frac{t}{\Delta t} \rfloor $, $ M^{k,N} := \sqrt{\Delta t} \Gamma^{k,N} $ and $ S := \mathcal{C}_s $. Moreover, $\{ \phi_j \}_{j \geq 1}$ is an orthonormal basis of~$\mathcal{H}^s$ and $\mathcal{F}^{k,N}$ is the natural filtration of the Markov chain~$ \{ x^{k,N} \} _{k \geq 1}$. For the sake of simplicity, we will write~$\mathbb{E}_k[\cdot]$ instead of~$\mathbb{E}[\cdot |\mathcal{F}^{k,N}]$.  The resulting definition of $ W^{N}(t) $ from Proposition~\ref{Martingale central limit theorem - Helping proposition} coincides with that given in Equation~(\ref{DLR-Proof: Definition W^N}) as we used a continuous, linear interpolation. The three conditions now reads as
+  Applying Proposition~\ref{Martingale central limit theorem - Helping proposition}, we define the following quantities $ k_N(t) := \lfloor \frac{t}{\Delta t} \rfloor $, $ M^{k,N} := \sqrt{\Delta t} \Gamma^{k,N} $ and $ S := \mathcal{C}_s $. Moreover, $\{ \phi_j \}_{j \geq 1}$ is an orthonormal basis of~$\mathcal{H}^s$ and $\mathcal{F}^{k,N}$ is the natural filtration of the Markov chain~$ \{ x^{k,N} \} _{k \geq 1}$. For the sake of simplicity, we will write~$\mathbb{E}_k[\cdot]$ instead of~$\mathbb{E}[\cdot |\mathcal{F}^{k,N}]$.  The resulting definition of $ W^{N}(t) $ from Proposition~\ref{Martingale central limit theorem - Helping proposition} coincides with that given in Equation~(\ref{DLR-Proof: Definition W^N}) as we used a continuous, linear interpolation. The three conditions now read as
     \begin{align}
-   \lim_{N \to \infty} \Delta t \sum_{k=1}^{k_{N}(T)} \mathbb{E}_k &\left[ \| \Gamma^{k,N} \|_{s}^{2}  \right] = T \; \text{Tr}_{\mathcal{H}^s}(\mathcal{C}_s), \label{DLR Martingale invariance principle - P1}\\
-   \lim_{N \to \infty} \Delta t \sum_{k=1}^{k_{N}(t)} \mathbb{E}_k &\left[ \langle  \Gamma^{k,N} , \phi_i \rangle_{s} \langle  \Gamma^{k,N} , \phi_j \rangle_{s}  \right] = t \langle  \phi_i , \mathcal{C}_s \phi_j \rangle_{s}, \label{DLR Martingale invariance principle  - P2}\\
-   \lim_{N \to \infty} \Delta t \sum_{k=1}^{k_{N}(T)} \mathbb{E}_k &\left[\| \Gamma^{k,N} , x \|_{s}^{2} \;  1_{\{ \| \Gamma^{k,N} \|_{s}^{2} \; | \geq \Delta t \varepsilon \}} \right] = 0, \label{DLR Martingale invariance principle  - P3}
+      \lim_{N \to \infty} \Delta t \sum_{k=1}^{k_{N}(T)} \mathbb{E}_{k-1} &\left[ \| \Gamma^{k,N} \|_{s}^{2}  \right] = T \; \text{Tr}_{\mathcal{H}^s}(\mathcal{C}_s), \label{DLR Martingale invariance principle - P1}\\
+      \lim_{N \to \infty} \Delta t \sum_{k=1}^{k_{N}(t)} \mathbb{E}_{k-1} &\left[ \langle  \Gamma^{k,N} , \phi_i \rangle_{s} \langle  \Gamma^{k,N} , \phi_j \rangle_{s}  \right] = t \langle  \phi_i , \mathcal{C}_s \phi_j \rangle_{s}, \label{DLR Martingale invariance principle  - P2}\\
+      \lim_{N \to \infty} \Delta t \sum_{k=1}^{k_{N}(T)} \mathbb{E}_{k-1} &\left[\| \Gamma^{k,N} , x \|_{s}^{2} \;  1_{\{ \| \Gamma^{k,N} \|_{s}^{2} \; | \geq \Delta t \varepsilon \}} \right] = 0, \label{DLR Martingale invariance principle  - P3}
   \end{align}
   where all limits hold in probability.  For the first condition given in Equation~(\ref{DLR Martingale invariance principle - P1}), it satisfies to show that
   \begin{equation*}
-    \lim_{N \to \infty} \mathbb{E}^{\pi^N} [| \{ \Delta t \sum_{k=1}^{\lfloor (\Delta t)^{-1} \rfloor} \mathbb{E}_k[\| \Gamma^{k,N} \|_s^2] \} - \text{Tr}_{\mathcal{H}^s}(\mathcal{C}_s) |  ] = 0,
+    \lim_{N \to \infty} \mathbb{E}^{\pi^N} [| \{ \Delta t \sum_{k=1}^{\lfloor (\Delta t)^{-1} \rfloor} \mathbb{E}_{k-1}[\| \Gamma^{k,N} \|_s^2] \} - \text{Tr}_{\mathcal{H}^s}(\mathcal{C}_s) |  ] = 0,
   \end{equation*}
   where
   \begin{equation*}
-    \mathbb{E}_k[\| \Gamma^{k,N} \|_s^2] = \mathbb{E}_k [ \sum_{j=1}^{N} \langle \phi_j, D^N(x^{k,N}\phi_j \rangle_s  ] = \mathbb{E}_k [ \text{Tr}_{\mathcal{H}^s} (D^N(x^{k,N})) ].
+    \mathbb{E}_{k-1}[\| \Gamma^{k,N} \|_s^2] = \mathbb{E}_{k-1} [ \sum_{j=1}^{N} \langle \phi_j, D^N(x^{k,N}\phi_j \rangle_s  ] = \mathbb{E}_{k-1} [ \text{Tr}_{\mathcal{H}^s} (D^N(x^{k,N})) ].
   \end{equation*}
   Indeed, by Markov's inequality, we have
   \begin{equation*}
     \lim_{N \to \infty} \pi^N \left( \left\{ x \in \mathcal{H}^s : \left| f(x, \xi^N)  \right| \geq \varepsilon \right\} \right) \leq \varepsilon^{-1} \lim_{N \to \infty} \mathbb{E}^{\pi^N} \left[ \left| f(x, \xi^N) \right| \right] = 0,
   \end{equation*}
-  where $f(x, \xi^N) := \left\{ \Delta t \sum_{k=1}^{\lfloor (\Delta t)^{-1} \rfloor} \mathbb{E}_k[\| \Gamma^{k,N} \|_s^2]  \right\} - \text{Tr}_{\mathcal{H}^s}(\mathcal{C}_s)$. Hence, Equation~(\ref{DLR Martingale invariance principle - P1}) holds in probability. Since the Metropolis-Hastings algorithm preserves stationarity and we assumed to start in stationarity, i.e.,\,$x^{0,N} \stackrel{D}{\sim} \pi^N$, it follows that~$x^{k,N}\stackrel{D}{\sim} \pi^N$ for any~$k \geq 0$. Hence, we conclude that, for all~$k \geq 0$, $\text{Tr}_{\mathcal{H}^s} (D^N(x^{k,N})) \stackrel{D}{\sim} \text{Tr}_{\mathcal{H}^s} (D^N(x))$ where $x \stackrel{D}{\sim} \pi^N$. Therefore, it follows that
+  where $f(x, \xi^N) := \left\{ \Delta t \sum_{k=1}^{\lfloor (\Delta t)^{-1} \rfloor} \mathbb{E}_{k-1}[\| \Gamma^{k,N} \|_s^2]  \right\} - \text{Tr}_{\mathcal{H}^s}(\mathcal{C}_s)$. Hence, Equation~(\ref{DLR Martingale invariance principle - P1}) holds in probability. Since the Metropolis-Hastings algorithm preserves stationarity and we assumed it to start in stationarity, i.e.,\,$x^{0,N} \stackrel{D}{\sim} \pi^N$, it follows that~$x^{k,N}\stackrel{D}{\sim} \pi^N$ for any~$k \geq 0$. Hence, we conclude that, for all~$k \geq 0$, $\text{Tr}_{\mathcal{H}^s} (D^N(x^{k,N})) \stackrel{D}{\sim} \text{Tr}_{\mathcal{H}^s} (D^N(x))$ where $x \stackrel{D}{\sim} \pi^N$. Therefore, it follows that
   \begin{align*}
-    \mathbb{E}^{\pi^N} [ | \{ \Delta t \sum_{k=1}^{\lfloor (\Delta t)^{-1} \rfloor} \mathbb{E}_k[\| \Gamma^{k,N} \|_s^2]  \} - \text{Tr}_{\mathcal{H}^s}(\mathcal{C}_s) | ] & \lesssim \mathbb{E}^{\pi^N} \left[ \left|  \mathbb{E}_k[\text{Tr}_{\mathcal{H}^s} (D^N(x))] - \text{Tr}_{\mathcal{H}^s}(\mathcal{C}_s) \right| \right] \\
+    \mathbb{E}^{\pi^N} [ | \{ \Delta t \sum_{k=1}^{\lfloor (\Delta t)^{-1} \rfloor} \mathbb{E}_{k-1}[\| \Gamma^{k,N} \|_s^2]  \} - \text{Tr}_{\mathcal{H}^s}(\mathcal{C}_s) | ] & \lesssim \mathbb{E}^{\pi^N} \left[ \left|  \mathbb{E}_{k-1}[\text{Tr}_{\mathcal{H}^s} (D^N(x^{k,N}))] - \text{Tr}_{\mathcal{H}^s}(\mathcal{C}_s) \right| \right] \\
    &  \lesssim \mathbb{E}^{\pi^N} \left[ \left| \text{Tr}_{\mathcal{H}^s} (D^N(x)) - \text{Tr}_{\mathcal{H}^s}(\mathcal{C}_s) \right| \right]  \to 0,
   \end{align*}
   where the last limit follows from Lemma~\ref{DLR: Lemma Noise approximation}. This establishes the first condition. To show the second condition given in Equation~(\ref{DLR Martingale invariance principle  - P2}), it is again enough to prove that
   \begin{equation*}
-   \lim_{N \to \infty} \mathbb{E}^{\pi^N} [| \{ \Delta t \sum_{k=1}^{\lfloor (\Delta t)^{-1} \rfloor} \mathbb{E}_k[\langle \Gamma^{k,N}, \phi_i \rangle_s \langle \Gamma^{k,N}, \phi_j \rangle_s ] \} - \langle \phi_i , \mathcal{C}_s \phi_j \rangle_s |  ] = 0,
+    \lim_{N \to \infty} \mathbb{E}^{\pi^N} [| \{ \Delta t \sum_{k=1}^{\lfloor (\Delta t)^{-1} \rfloor} \mathbb{E}_{k-1}[\langle \Gamma^{k,N}, \phi_i \rangle_s \langle \Gamma^{k,N}, \phi_j \rangle_s ] \} - \langle \phi_i , \mathcal{C}_s \phi_j \rangle_s |  ] = 0,
   \end{equation*}
-  where $\mathbb{E}_k[\langle \Gamma^{k,N}, \phi_i \rangle_s \langle \Gamma^{k,N}, \phi_j \rangle_s ] = \phi_i, D^N(x^{k,N}) \phi_j \rangle_s$. Since the chain~$\{x^{k,N}\}_{k \geq 0}$ is stationary in the sense that~$x^{k,N}\stackrel{D}{\sim} \pi^N$ for any~$k \geq 0$. We complete the proof for the second condtion as before by using Lemma~\ref{DLR: Lemma Noise approximation}. To prove the third and last condition as defined in Equation~(\ref{DLR Martingale invariance principle  - P3}) we use again the stationarity~$x^{k,N}\stackrel{D}{\sim} \pi^N$ for any~$k \geq 0$ so that
+  where $\mathbb{E}_{k-1}[\langle \Gamma^{k,N}, \phi_i \rangle_s \langle \Gamma^{k,N}, \phi_j \rangle_s ] = \langle \phi_i, D^N(x^{k,N}) \phi_j \rangle_s$. Since the chain~$\{x^{k,N}\}_{k \geq 0}$ is stationary in the sense that~$x^{k,N}\stackrel{D}{\sim} \pi^N$ for any~$k \geq 0$. We complete the proof for the second condtion as before by using Lemma~\ref{DLR: Lemma Noise approximation}. To prove the third and last condition as defined in Equation~(\ref{DLR Martingale invariance principle  - P3}) we use again the stationarity~$x^{k,N}\stackrel{D}{\sim} \pi^N$ for any~$k \geq 0$ so that
   \begin{equation*}
-    \mathbb{E}^{\pi^N} [ | \Delta t \sum_{k=1}^{\lfloor (\Delta t)^{-1} \rfloor} \mathbb{E}_k[ \| \Gamma^{k,N}\|_s^2 1_{\{ \| \Gamma^{k,N} \|_{s}^{2} \; | \geq \Delta t \varepsilon \}} ] | ]  \leq \mathbb{E}^{\pi^N} [\| \Gamma^{0,N}\|_s^2 1_{\{ \| \Gamma^{0,N} \|_{s}^{2} \; | \geq \Delta t \varepsilon \}}]
+    \mathbb{E}^{\pi^N} [ | \Delta t \sum_{k=1}^{\lfloor (\Delta t)^{-1} \rfloor} \mathbb{E}_{k-1}[ \| \Gamma^{k,N}\|_s^2 1_{\{ \| \Gamma^{k,N} \|_{s}^{2} \; | \geq \Delta t \varepsilon \}} ] | ]  \leq \mathbb{E}^{\pi^N} [\| \Gamma^{0,N}\|_s^2 1_{\{ \| \Gamma^{0,N} \|_{s}^{2} \; | \geq \Delta t \varepsilon \}}]
   \end{equation*}
   By the representation of~$\Gamma^{k,N}$ given in Equations~(\ref{DLR: Lemma Noise approximation - Gamma MALA}) and~(\ref{DLR: Lemma Noise approximation - Gamma RWM}) we have
   \begin{equation}
@@ -1570,7 +1624,7 @@ The proof of Proposition~\ref{Martingale central limit theorem - Helping proposi
   \begin{equation*}
     \lim_{N \to \infty} \mathbb{E}^{\pi^N} [\| \Gamma^{0,N}\|_s^2 1_{\{ \| \Gamma^{0,N} \|_{s}^{2} \; | \geq \Delta t \varepsilon \}}] = 0.
   \end{equation*}
-  Thus all three conditions of Proposition~\ref{Martingale central limit theorem - Helping proposition} are satisfied. Thus, we have shown that $W^N(t)$ converges weakly in $C([0,T]; \mathcal{H}^s)$ to a $\mathcal{H}^s$-valued $\mathcal{C}_s$-Wiener process $\mathcal{W}(t)$. It rests to show that the sequence~$\{ (x^{0,N}, W^N(t))\}_{N \geq 1}$ converges weakly to~$(z^0, \mathcal{W}(t))$ in~$\mathcal{H}^s \times C([0,T]; \mathcal{H}^s)$ where $z^0 \stackrel{D}{\sim} \pi$ and $z^0$ is independent of the limiting noise~$\mathcal{W}$. For showing this, it is enough to prove that for any~$R \in \mathbb{N}$, the pair~$(x^{0,N}, P^R W^N(t))$ converges weakly to~$(z^0, Z_R)$ for every~$t > 0$, where ~$Z_R$ is a Gaussian random variable on the finite dimensional space~$X^R \subset \mathcal{H}^s$ with mean zero, covariance~$t P^R \mathcal{C}_sP^R$ and independent of~$z^0$. Using the characterization via characteristic functions it is enough to show that for any~$h \in \mathcal{H}^s, u \in X^R, R \in \mathbb{N}$ and $t>0$,
+  Thus all three conditions of Proposition~\ref{Martingale central limit theorem - Helping proposition} are satisfied. Thus, we have shown that $W^N(t)$ converges weakly in $C([0,T]; \mathcal{H}^s)$ to a $\mathcal{H}^s$-valued $\mathcal{C}_s$-Wiener process $\mathcal{W}(t)$. It remains to show that the sequence~$\{ (x^{0,N}, W^N(t))\}_{N \geq 1}$ converges weakly to~$(z^0, \mathcal{W}(t))$ in~$\mathcal{H}^s \times C([0,T]; \mathcal{H}^s)$ where $z^0 \stackrel{D}{\sim} \pi$ and $z^0$ is independent of the limiting noise~$\mathcal{W}$. To show this, it is enough to prove that for any~$R \in \mathbb{N}$, the pair~$(x^{0,N}, P^R W^N(t))$ converges weakly to~$(z^0, Z_R)$ for every~$t > 0$, where ~$Z_R$ is a Gaussian random variable on the finite dimensional space~$X^R \subset \mathcal{H}^s$ with mean zero, covariance~$t P^R \mathcal{C}_sP^R$ and is independent of~$z^0$. Using the characterization via characteristic functions it is enough to show that for any~$h \in \mathcal{H}^s, u \in X^R, R \in \mathbb{N}$ and $t>0$,
   \begin{equation}
     \begin{split}
       \lim_{N \to \infty} \mathbb{E}^{\pi^N} & [ \exp \{ i \langle y, x^{0,N} \rangle_s + i \Delta t \sum_{k=1}^{\lfloor t (\Delta t)^{-1}  \rfloor} \langle u , P^R \Gamma^{k,N} \rangle_s \} ] \\
@@ -1578,18 +1632,19 @@ The proof of Proposition~\ref{Martingale central limit theorem - Helping proposi
     \end{split}
   \end{equation}
   We will prove this convergence as a consequence of the following lemma taken from~\autocite[Lemma 4.3]{Mattingly2010} and note that here and until the end of the proof of Proposition~\ref{Invariance principle}: $i = \sqrt{-1}$.
+  
   \begin{lemma}\autocite[Lemma 4.3]{Mattingly2010}
     \label{DLR: Lemma Martingale invariance principle Helping Lemma}
     Let $ x^{0,N}\stackrel{D}{\sim} \pi^N$ and let $ \{ M^{k,N}, \mathcal{F}^{k,N}  \}_{k \geq 1} $ be an $ \mathcal{H}^s $-valued stationary martingale sequence. This means that we have
 $  \mathbb{E} \left[  M^{k,N} | \mathcal{F}^{k-1,N} \right] =  0 $,  $  \mathbb{E} \left[ \| M^{k,N} \|_{s}^{2} \; | \mathcal{F}^{k-1,N} \right] <  \infty $ almost surely
-with $ \mathcal{F}^{k-1,N} \subset \mathcal{F}^{k,N} $ and $M^{k,N} \stackrel{D}{\sim} \pi^N $. Assume that there exists a stationary sequence~$\{ U^{k,N} \}_{k \geq 1}$ such that forl all~$k \geq 1$ and any~$u \in X^R$
+with $ \mathcal{F}^{k-1,N} \subset \mathcal{F}^{k,N} $ and $M^{k,N} \stackrel{D}{\sim} \pi^N $. Assume that there exists a stationary sequence~$\{ U^{k,N} \}_{k \geq 1}$ such that for all~$k \geq 1$ and any~$u \in X^R$
 \begin{align}
   \label{DLR: Lemma Invariance principle convergence condition 1}
   \mathbb{E}[ \langle u, P^R M^{k,N} \rangle_s^2 | \mathcal{F}^{k-1,N}] & = \langle u, P^R \mathcal{C}_s u \rangle_s + U^{k,N} \text{ and } \lim_{N \to \infty} \mathbb{E}^{\pi^N}[|U^{1,N}|] = 0,\\
   \label{DLR: Lemma Invariance principle convergence condition 2}
    \mathbb{E}[ \| M^{k,N} \|_s^3  |\mathcal{F}^{k-1,N}] & \leq M \quad \text{ for a constant } M < \infty.
 \end{align}
-Then for any y~$h \in \mathcal{H}^s, u \in X^R, R \in \mathbb{N}$ and $t>0$,
+Then for any~$y \in \mathcal{H}^s, u \in X^R, R \in \mathbb{N}$ and $t>0$,
   \begin{equation}
     \label{DLR: Lemma Invariance principle result}
     \begin{split}
@@ -1599,7 +1654,7 @@ Then for any y~$h \in \mathcal{H}^s, u \in X^R, R \in \mathbb{N}$ and $t>0$,
   \end{equation}
 
   \end{lemma}
-  The proof is a straight forward calculation by using recursively a Taylor's expansion argument for the characteristic function given in Eqaution~(\ref{DLR: Lemma Invariance principle result}) and exploiting the stationarity and both given bounds in Equations~(\ref{DLR: Lemma Invariance principle convergence condition 1}) and~(\ref{DLR: Lemma Invariance principle convergence condition 2}) for estimating the error bounds in the Taylor expansion. For further details, we refer to~\autocite[Lemma 4.3]{Mattingly2010}.
+  The proof is a straight forward calculation by using recursively a Taylor's expansion argument for the characteristic function given in Equation~(\ref{DLR: Lemma Invariance principle result}) and exploiting the stationarity and both given bounds in Equations~(\ref{DLR: Lemma Invariance principle convergence condition 1}) and~(\ref{DLR: Lemma Invariance principle convergence condition 2}) for estimating the error bounds in the Taylor expansion. For further details, we refer to~\autocite[Lemma 4.3]{Mattingly2010}.
   
   To verify the first condition of Lemma~\ref{DLR: Lemma Martingale invariance principle Helping Lemma}, we set $M^{k,N} = \Gamma^{k,N} $ and $ \mathcal{F}^{k,N} $ is the natural filtration of the Markov chain~$ \{ x^{k,N} \} _{k \geq 1}$. Notice that from Lemma~\ref{DLR: Lemma Noise approximation} we obtain that for~$k \geq 1$ and $y \in \mathcal{H}^s$ and $P^R :\mathcal{H}^s \to X^R \subset \mathcal{H}^s$ the ortogonal projection as defined in Equation~(\ref{DLR: Finite dimensional approximation - definition projection})
   \begin{align*}
@@ -1610,7 +1665,7 @@ Then for any y~$h \in \mathcal{H}^s, u \in X^R, R \in \mathbb{N}$ and $t>0$,
   \begin{align*}
     |U^{k,N}| & := | \langle P^R y, P^R D^N(x^{k,N}) P^R y \rangle_s  - \langle P^R y, P^R \mathcal{C}_s P^R y \rangle_s  |\\
     & \leq |\langle y,  D^N(x^{k,N}) y \rangle_s  - \langle  y,  \mathcal{C}_s y \rangle_s |\\
-    & \leq |\langle y,  D^N(x^{0,N}) y \rangle_s  - \langle  y,  \mathcal{C}_s y \rangle_s |
+    & \stackrel{D}{\sim} |\langle y,  D^N(x^{0,N}) y \rangle_s  - \langle  y,  \mathcal{C}_s y \rangle_s |
   \end{align*}
   Exploiting Corollary~\ref{DLR: Corollary Noise approximation}, we deduce that $ \lim_{N \to \infty}\mathbb{E}^{\pi^N}[|U^{k,N}|]=0 $. The second condition of Lemma~\ref{DLR: Lemma Martingale invariance principle Helping Lemma} is easily verified since the $ \xi^{k,N} $ are independently $\mathcal{N}(0,1)$-distributed and we have that
   \begin{equation*}
